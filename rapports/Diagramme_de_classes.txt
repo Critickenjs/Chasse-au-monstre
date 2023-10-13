@@ -1,4 +1,4 @@
-﻿@startuml
+@startuml
 'https://plantuml.com/class-diagram
 
 interface IStrategy <<interface>> {
@@ -62,8 +62,6 @@ MonsterHunterModel --o "1" IHunterStrategy : - hunter
 MonsterHunterModel --o "1" IMonsterStrategy : - monster
 
 class MonsterHunterController {
-  + shoot(Coordinate): CellInfo
-  + moveMonster(Coordinate): CellInfo
   + playStep(): void
 }
 
