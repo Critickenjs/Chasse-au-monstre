@@ -1,0 +1,78 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+interface IStrategy <<interface>> {
+  + play() : ICoordinate
+  + update(ICellEvent) : void
+}
+
+interface IMonsterStrategy <<interface>> extends IStrategy {
+  + initialize(nbRows: Integer, nbCols: Integer)
+}
+
+interface IHunterStrategy <<interface>> extends IStrategy {
+  + initialize(boolean[][])
+}
+
+interface ICoordinate <<interface>> {
+  + getRow(): Integer
+  + getCol(): Integer
+}
+
+interface ICellEvent <<interface>> {
+  state : CellInfo
+  + getState(): CellInfo
+  + getTurn(): Integer
+  + getCoord(): ICoordinate
+}
+
+class CellEvent implements ICellEvent {
+  - turn: Integer
+  - coord: Coordinate
+}
+
+class Coordinate implements ICoordinate {
+  - row: Integer
+  - col: Integer
+}
+
+class Monster implements IMonsterStrategy
+{
+    - exit: ICoordinate
+    - entry: ICoordinate
+    - coord : ICoordinate
+    - visited : boolean[][]
+}
+
+class Hunter implements IHunterStrategy
+{
+  - shootLocations : boolean[][]
+}
+
+enum CellInfo {
+   EXIT, WALL, MONSTER, HUNTER, ENTER, EMPTY
+}
+
+class MonsterHunterModel
+{
+  - step: Integer
+}
+
+MonsterHunterModel --o "1" IHunterStrategy : - hunter
+MonsterHunterModel --o "1" IMonsterStrategy : - monster
+
+class MonsterHunterController {
+  + shoot(Coordinate): CellInfo
+  + moveMonster(Coordinate): CellInfo
+  + playStep(): void
+}
+
+MonsterHunterController --o "1" MonsterHunterModel : - model
+
+class MonsterHunterVue {
+  + initializeLabyrinth(): void
+}
+
+MonsterHunterVue --o "1" MonsterHunterController : - controller
+
+@enduml
