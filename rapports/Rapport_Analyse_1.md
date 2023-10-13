@@ -35,3 +35,82 @@ Ensuite, une fois un évènement encleché depuis la vue, la responsabilité est
 Donc le modèle sera la partie de l'architecture qui stockera les données donc l'état interne du labyrinthe et aussi celui qui gère toute la logique métier concernant ces données.
 
 Ensuite, comme nous avions mentionné précedemment, la conception minimale imposée se base sur Strategy. C'est un patron qui permet, parmi un ensemble de classes implémentant la même interface de les rendre interchangeables afin de choisir la stratégie adéquate selon la situation. Cela est possible grâce au polymorphisme. Par exemple, la méthode pour jouer son tour n'aura pas le même comportement suivant le rôle. On choisit la "Stratégie" adéquate donc la manière dont le joueur (soit chasseur soit monstre) va interagir avec le labyrinthe.
+
+## Partie II : Description de l'implémentation pour les fonctionnalités principales
+
+Voici les principales méthodes du logiciel:
+- [MonsterHunterController.generateLabyrinth() : void](#generateLabyrinth)
+- [MonsterHunterPartieVue.listen() : void](#listen)
+- [MonsterHunterMenuVue.listen() : void](#listen)
+- [MonsterHunterController.playStep() : void](#playStep)
+- [MonsterHunterModel.initialize(Integer, Integer) : void](#initialize)
+- [MonsterHunterModel.initialize(boolean[][]) : void](#initialize)
+- [MonsterHunterModel.play() : ICoordinate](#play)
+- [MonsterHunterModel.update(ICellEvent) : void](#update)
+
+## generateLabyrinth
+
+Pour commencer, la méthode generateLabyrinth va génerer (comme son nom l'indique) le labyrinthe sur JavaFX. Le labyrinthe sera généré aléatoirement mais il faut évidemment faire en sorte qu'il y a un chemin entre l'entrée et la sortie. Il faut aussi au préalable initialiser l'état du chasseur et monstre, via ces méthodes:
+- [MonsterHunterModel.initialize(Integer, Integer) : void](#initialize-monster)
+- [MonsterHunterModel.initialize(boolean[][]) : void](#initialize-hunter)
+
+Pseudo-code:
+```
+Procédure generateLabyrinth Alors
+    Initialiser Modele <- Récuperer le modèle depuis le contrôleur
+    Initialiser Labyrinthe <- Modele.getLabyrinth()
+    Appliquer l'algorithme de Prim pour la génération de labyrinthe
+    Déclarer posX, posY
+    Affecter une des coordonnées possibles suivant Labyrinthe à posX, posY
+    MonsterHunterModel.initialize(posX, posY)
+    MonsterHunterModel.initialize(Tableau 2D de booléen)
+    Affecter le résultat de l'algorithme à Labyrinthe
+Fin Procédure
+```
+
+## listen
+
+Les méthodes listen des 2 vues (MonsterHunterPartieVue, MonsterHunterMenuVue) permettent d'écouter sur un ensemble d'évènements que l'utilisateur pourrait enclencher.
+
+Pseudo-code (pour MonsterHunterMenuVue):
+> MonsterHunterVue c'est la vue qui affiche le menu dans lequel les 2 joueurs devront se décider pour être soit chasseur ou monstre avec leur nom respectif
+```
+Procédure listen Alors
+    Écouter sur la TextProperty (JavaFX) afin d'être notifié de chaque changement 
+    de valeur dans les 2 champs, utiles pour inscrire le nom des 2 joueurs
+
+    Écouter l'évènement des clicks de souris sur un bouton 'valider' pour passer à la vue suivante (MonsterHunterPartieVue)
+Fin Procédure
+```
+
+Pseudo-code (pour MonsterHunterPartieVue):
+```
+Procédure listen Alors
+    Si c'est au tour du chasseur Alors
+        Écouter l'évènement des clicks de souris pour une cellule du labyrinthe
+    Sinon
+        Écouter sur l'évènement d'une touche directionnelle du clavier pour se déplacer dans la grille du labyrinthe
+Fin Procédure
+```
+
+## playStep
+
+La méthode playStep tire bénéfice du patron Strategy pour décider de quel comportement choisir en fonction du rôle du joueur, il sera invoqué suite à un évènement.
+
+```
+# Les paramètres x et y proviennent des coordonnées capturées de l'évènement JavaFX
+Procédure playStep(Integer x, Integer y) Alors
+    Initialiser Modele <- Récuperer le modèle depuis le contrôleur
+    Initialiser Labyrinthe <- Modele.getLabyrinth()
+
+    Déclarer un objet strategy de type IStrategy
+    Si c'est le tour du Chasseur Alors
+        strategy = Modele.getChasseur()
+    Sinon
+        strategy = Modele.getMonstre()
+    
+    Initialiser coord de type ICoordinate <- strategy.play()
+    Initialiser cellInfo = Labyrinthe[coord.getRow()][coord.getCol()]
+    strategy.update(Instancier CellEvent avec cellInfo, Modele.getStep(), coord)
+Fin Procédure
+```
