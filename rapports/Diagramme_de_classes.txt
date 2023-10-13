@@ -28,7 +28,7 @@ interface ICellEvent <<interface>> {
 
 class CellEvent implements ICellEvent {
   - turn: Integer
-  - coord: Coordinate
+  - coord: ICoordinate
 }
 
 class Coordinate implements ICoordinate {
@@ -55,6 +55,7 @@ enum CellInfo {
 
 class MonsterHunterModel
 {
+  - labyrinth : CellInfo[]
   - step: Integer
 }
 
@@ -62,15 +63,22 @@ MonsterHunterModel --o "1" IHunterStrategy : - hunter
 MonsterHunterModel --o "1" IMonsterStrategy : - monster
 
 class MonsterHunterController {
+  + generateLabyrinth(): void
   + playStep(): void
 }
 
 MonsterHunterController --o "1" MonsterHunterModel : - model
 
-class MonsterHunterVue {
-  + initializeLabyrinth(): void
+class MonsterHunterPartieVue {
+  - listen() : void
 }
 
-MonsterHunterVue --o "1" MonsterHunterController : - controller
+MonsterHunterPartieVue --o "1" MonsterHunterController : - controller
+
+class MonsterHunterMenuVue {
+  - listen() : void
+}
+
+MonsterHunterMenuVue --o "1" MonsterHunterController : - controller
 
 @enduml
