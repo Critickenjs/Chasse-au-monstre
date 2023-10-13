@@ -114,3 +114,44 @@ Procédure playStep(Integer x, Integer y) Alors
     strategy.update(Instancier CellEvent avec cellInfo, Modele.getStep(), coord)
 Fin Procédure
 ```
+
+## initialize
+
+Les méthodes initialize implémentées par les classes Monster et Hunter, permettent d'initialiser l'état initial du monstre et chasseur respectivement (ex: la position initiale du monstre)
+
+```
+Procédure initialize(Integer nbRows, Integer nbCols) Alors
+    coord.setRow(nbRows)
+    coord.setCols(nbCols)
+Fin Procédure
+```
+
+```
+Procédure initialize(boolean[][] locations) Alors
+    shootLocations = locations
+Fin Procédure
+```
+
+## play
+
+La méthode play c'est la méthode qui marque la position du monstre ou le tir du chasseur suite à l'évènement du chasseur, monstre et renvoie ainsi les coordonnées.
+
+Par exemple: la classe Monstre
+```
+Fonction play() Renvoie ICoordinate Alors
+    Récupère les coordonnées et les assigne dans coord
+    Renvoie les coordonnées de type ICoordinate
+Fin Procédure
+```
+
+## update
+
+La méthode update va modifier l'état du chasseur et du monstre
+
+Par exemple: la classe Monstre
+```
+Procédure update(ICellEvent event) Alors
+    Initialiser coord <- event.getCoord()
+    visited[coord.getRow()][coord.getCol()] = true
+Fin Procédure
+```
