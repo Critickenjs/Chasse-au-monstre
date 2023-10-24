@@ -20,7 +20,6 @@ interface ICoordinate <<interface>> {
 }
 
 interface ICellEvent <<interface>> {
-  state : CellInfo
   + getState(): CellInfo
   + getTurn(): Integer
   + getCoord(): ICoordinate
