@@ -1,4 +1,4 @@
-package test.java.ChasseAuMonstre;
+package chasseaumonstre;
 
 public class Test {
     
