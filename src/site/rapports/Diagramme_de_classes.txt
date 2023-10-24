@@ -28,8 +28,10 @@ interface ICellEvent <<interface>> {
 
 class CellEvent implements ICellEvent {
   - turn: Integer
-  - coord: ICoordinate
 }
+
+CellEvent --o "1" CellInfo : - state
+CellEvent --o "1" ICoordinate : - coord
 
 class Coordinate implements ICoordinate {
   - row: Integer
