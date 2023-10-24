@@ -2,8 +2,8 @@ package chasseaumonstre;
 
 public interface ICoordinate {
 
-    int getRow();
+    Integer getRow();
 
-    int getCol();
+    Integer getCol();
 
 }
