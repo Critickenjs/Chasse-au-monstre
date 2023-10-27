@@ -1,10 +1,11 @@
 package chasseaumonstre.strategy.hunter;
 
+import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
+
 public class Hunter implements IHunterStrategy {
     private boolean[][] shootLocations;
     private String name;
 
-    @Override
     public void initialize(boolean[][] locations) {
         this.shootLocations = locations;
     }

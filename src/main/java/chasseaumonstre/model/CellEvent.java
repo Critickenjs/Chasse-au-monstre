@@ -1,5 +1,7 @@
 package chasseaumonstre.model;
 
+import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
+
 public class CellEvent implements ICellEvent {
     private CellInfo state;
     private Integer turn;
@@ -15,11 +17,11 @@ public class CellEvent implements ICellEvent {
         return this.state;
     }
 
-    public Integer getTurn() {
+    public int getTurn() {
         return this.turn;
     }
 
-    public Coordinate getCoordinate() {
+    public Coordinate getCoord() {
         return this.coord;
     }
 }

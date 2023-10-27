@@ -1,12 +1,14 @@
 package chasseaumonstre.strategy.monster;
 
-import chasseaumonstre.model.CellEvent;
 import chasseaumonstre.model.Coordinate;
+import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
+import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
+import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
 public class Monster implements IMonsterStrategy {
-    private Coordinate exit;
-    private Coordinate entry;
-    private Coordinate coord;
+    private ICoordinate exit;
+    private ICoordinate entry;
+    private ICoordinate coord;
     private boolean[][] visited;
 
     public Monster() {
@@ -16,16 +18,16 @@ public class Monster implements IMonsterStrategy {
         this.visited = null;
     }
 
-    public Monster(Integer nbRows, Integer nbCols) {
+    public Monster(boolean[][] locations) {
         this();
-        initialize(nbRows, nbCols);
+        initialize(locations);
     }
 
-    public void initialize(Integer nbRows, Integer nbCols) {
-        this.visited = new boolean[nbRows][nbCols];
+    public void initialize(boolean[][] locations) {
+        this.visited = locations;
     }
 
-    public Coordinate getExit() {
+    public ICoordinate getExit() {
         return exit;
     }
 
@@ -34,11 +36,11 @@ public class Monster implements IMonsterStrategy {
         setExit(new Coordinate(row, col));
     }
 
-    private void setExit(Coordinate exit) {
+    private void setExit(ICoordinate exit) {
         this.exit = exit;
     }
 
-    public Coordinate getEntry() {
+    public ICoordinate getEntry() {
         return entry;
     }
 
@@ -47,15 +49,15 @@ public class Monster implements IMonsterStrategy {
         setEntry(new Coordinate(row, col));
     }
 
-    private void setEntry(Coordinate entry) {
+    private void setEntry(ICoordinate entry) {
         this.entry = entry;
     }
 
-    public Coordinate getCoord() {
+    public ICoordinate getCoord() {
         return coord;
     }
 
-    private void setCoord(Coordinate coord) {
+    private void setCoord(ICoordinate coord) {
         this.coord = coord;
     }
 
@@ -78,7 +80,7 @@ public class Monster implements IMonsterStrategy {
         visited[row][col] = true;
     }
 
-    public void setVisited(Coordinate coord) {
+    public void setVisited(ICoordinate coord) {
         setVisited(coord.getRow(), coord.getCol());
     }
 
@@ -93,17 +95,18 @@ public class Monster implements IMonsterStrategy {
         return null;
     }
 
-    public void update(CellEvent event) {
+    public void update(ICellEvent event) {
         switch (event.getState()) {
             case MONSTER:
-                setCoord(event.getCoordinate());
+                setCoord(event.getCoord());
             case EXIT:
-                setExit(event.getCoordinate());
-            case ENTER:
-                setEntry(event.getCoordinate());
+                setExit(event.getCoord());
+            case WALL:
+                setEntry(event.getCoord());
+                break;
             default:
+                setVisited(event.getCoord());
                 break;
         }
-        setVisited(event.getCoordinate());
     }
 }

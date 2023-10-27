@@ -1,5 +1,7 @@
 package chasseaumonstre.model;
 
+import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
+
 public class Coordinate implements ICoordinate{
     private Integer row;
     private Integer col;
@@ -9,11 +11,11 @@ public class Coordinate implements ICoordinate{
         this.col = col;
     }
 
-    public Integer getRow() {
+    public int getRow() {
         return this.row;
     }
 
-    public Integer getCol() {
+    public int getCol() {
         return this.col;
     }
 }
