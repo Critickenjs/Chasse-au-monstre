@@ -1,5 +1,7 @@
 package chasseaumonstre.strategy.monster;
 
-public interface IMonsterStrategy {
+import chasseaumonstre.strategy.IStrategy;
+
+public interface IMonsterStrategy extends IStrategy {
     public void initialize(Integer nbRows, Integer nbCols);
 }

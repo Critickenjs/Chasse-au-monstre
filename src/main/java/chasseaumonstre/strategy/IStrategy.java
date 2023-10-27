@@ -1,9 +1,9 @@
 package chasseaumonstre.strategy;
 
-import chasseaumonstre.model.ICellEvent;
-import chasseaumonstre.model.ICoordinate;
+import chasseaumonstre.model.CellEvent;
+import chasseaumonstre.model.Coordinate;
 
 public interface IStrategy {
-    public ICoordinate play();
-    public void update(ICellEvent event);
+    public Coordinate play();
+    public void update(CellEvent event);
 }
