@@ -1,4 +1,4 @@
-package chasseaumonstre;
+package chasseaumonstre.model;
 
 public enum CellInfo {
     EXIT,

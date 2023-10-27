@@ -1,4 +1,4 @@
-package chasseaumonstre;
+package chasseaumonstre.model;
 
 public class Coordinate implements ICoordinate{
     private Integer row;

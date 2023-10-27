@@ -1,4 +1,4 @@
-package chasseaumonstre;
+package chasseaumonstre.model;
 
 public class CellEvent implements ICellEvent {
     private CellInfo state;
