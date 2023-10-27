@@ -12,8 +12,7 @@ public class MonsterHunterController {
     public MonsterHunterController() {
         model = new MonsterHunterModel();
         partieVue = new MonsterHunterPartieVue(this);
-        menuVue = new MonsterHunterMenuVue(this);
-        isHuntersTurn = true; 
+        menuVue = new MonsterHunterMenuVue(this); 
     }
     
 }
