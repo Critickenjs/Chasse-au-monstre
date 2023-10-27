@@ -7,11 +7,11 @@ interface IStrategy <<interface>> {
 }
 
 interface IMonsterStrategy <<interface>> extends IStrategy {
-  + initialize(nbRows: Integer, nbCols: Integer)
+  + initialize(nbRows: Integer, nbCols: Integer) : void
 }
 
 interface IHunterStrategy <<interface>> extends IStrategy {
-  + initialize(boolean[][])
+  + initialize(boolean[][]) : void
 }
 
 interface ICoordinate <<interface>> {

@@ -1,5 +1,7 @@
 package chasseaumonstre.strategy.hunter;
 
-public interface IHunterStrategy {
+import chasseaumonstre.strategy.IStrategy;
+
+public interface IHunterStrategy extends IStrategy {
     public void initialize(boolean[][] locations);
 }
