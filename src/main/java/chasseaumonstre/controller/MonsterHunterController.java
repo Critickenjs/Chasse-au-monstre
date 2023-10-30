@@ -13,5 +13,7 @@ public class MonsterHunterController {
         this.model = model;
         this.partieView = partieView;
         this.menuView = menuView;
+
+        partieView.setController(this);
     }
 }
