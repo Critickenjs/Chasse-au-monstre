@@ -6,13 +6,12 @@ import chasseaumonstre.views.MonsterHunterPartieVue;
 
 public class MonsterHunterController {
     private MonsterHunterModel model;
-    private MonsterHunterPartieVue partieVue;
-    private MonsterHunterMenuVue menuVue;
+    private MonsterHunterPartieVue partieView;
+    private MonsterHunterMenuVue menuView;
 
-    public MonsterHunterController() {
-        model = new MonsterHunterModel();
-        partieVue = new MonsterHunterPartieVue(this);
-        menuVue = new MonsterHunterMenuVue(this); 
+    public MonsterHunterController(MonsterHunterModel model, MonsterHunterMenuVue menuView, MonsterHunterPartieVue partieView) {
+        this.model = model;
+        this.partieView = partieView;
+        this.menuView = menuView;
     }
-    
 }
