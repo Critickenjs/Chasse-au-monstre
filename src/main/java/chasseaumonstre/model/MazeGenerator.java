@@ -6,12 +6,29 @@ import java.util.List;
 import java.util.Random;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 
+/*
+ * MazeGenerator génère un labyrinthe aléatoirement, validé par MazeValidator
+ * 
+ * @see CellInfo
+ * @see MazeValidator
+ * @author Anas Ouhdda
+ * @author Atilla Tas
+ * @author Karim Aoulad-Tayab
+ * @author Selim Hamza
+ * @author Yliess El Atifi
+ */
 public class MazeGenerator {
     private final int width;
     private final int height;
     private final int[][] maze;
     private final Random random;
 
+    /*
+     * Constructeur de MazeGenerator
+     * 
+     * @param width la largeur du labyrinthe
+     * @param height la hauteur du labyrinthe
+     */
     public MazeGenerator(int width, int height) {
         this.width = width;
         this.height = height;
@@ -23,6 +40,17 @@ public class MazeGenerator {
         return this.maze;
     }
 
+    /*
+     * Génère un labyrinthe aléatoirement (tableau d'entiers) avec une entrée et une sortie
+     * 0 : chemin
+     * 1 : mur
+     * 2 : monstre (entrée)
+     * 3 : chasseur
+     * 4 : sortie
+     * 
+     * 
+     * @return le labyrinthe généré
+     */
     public void generate() {
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
@@ -67,6 +95,11 @@ public class MazeGenerator {
         }
     }
 
+    /*
+     * Convertit le labyrinthe en tableau de CellInfo
+     * 
+     * @return le labyrinthe converti
+     */
     public CellInfo[][] toCellInfo() {
         CellInfo[][] labyrinth = new CellInfo[width][height];
         for (int y = 0; y < height; y++) {

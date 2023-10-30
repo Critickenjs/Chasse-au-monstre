@@ -1,11 +1,28 @@
 package chasseaumonstre.model;
 
+/*
+ * MazeValidator valide un labyrinthe généré, s'il contient bien un chemin entre l'entrée et la sortie
+ * 
+ * @see MazeGenerator
+ * @author Anas Ouhdda
+ * @author Atilla Tas
+ * @author Karim Aoulad-Tayab
+ * @author Selim Hamza
+ * @author Yliess El Atifi
+ */
 public class MazeValidator {
     private final int width;
     private final int height;
     private final int[][] maze;
     private final boolean[][] visited;
 
+    /*
+     * Constructeur de MazeValidator
+     * 
+     * @param width la largeur du labyrinthe
+     * @param height la hauteur du labyrinthe
+     * @param maze le labyrinthe généré
+     */
     public MazeValidator(int width, int height, int[][] maze) {
         this.width = width;
         this.height = height;
@@ -26,6 +43,11 @@ public class MazeValidator {
         return -1;
     }
 
+    /*
+     * Vérifie si le labyrinthe contient un chemin entre l'entrée et la sortie
+     * 
+     * @return true si le labyrinthe contient un chemin entre l'entrée et la sortie, false sinon
+     */
     public boolean isValid() {
         this.initializeVisited();
         int entranceX = this.getEntrance();
