@@ -1,17 +1,17 @@
 package chasseaumonstre.model;
 
-import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
+import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;;
 
 public class MonsterHunterModel {
-    private ICellEvent.CellInfo[] labyrinth;
+    private CellInfo[][] labyrinth;
     private Integer step;
 
-    public MonsterHunterModel(ICellEvent.CellInfo[] labyrinth, Integer step) {
+    public MonsterHunterModel(CellInfo[][] labyrinth) {
         this.labyrinth = labyrinth;
-        this.step = step;
+        this.step = 0;
     }
 
-    public ICellEvent.CellInfo[] getLabyrinth() {
+    public CellInfo[][] getLabyrinth() {
         return this.labyrinth;
     }
 
