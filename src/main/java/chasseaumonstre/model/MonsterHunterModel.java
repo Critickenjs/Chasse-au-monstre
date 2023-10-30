@@ -6,8 +6,7 @@ public class MonsterHunterModel {
     private CellInfo[][] maze;
     private Integer step;
 
-    public MonsterHunterModel(CellInfo[][] maze, int width, int heigth) {
-        this.maze = maze;
+    public MonsterHunterModel(int width, int heigth) {
         this.step = 0;
         this.initializeMaze(width, heigth);
     }
