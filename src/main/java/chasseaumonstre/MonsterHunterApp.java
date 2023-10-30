@@ -9,8 +9,8 @@ import javafx.stage.Stage;
 public class MonsterHunterApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        MonsterHunterModel model = new MonsterHunterModel(null, 21, 17);
-        MonsterHunterPartieVue view = new MonsterHunterPartieVue();
+        MonsterHunterModel model = new MonsterHunterModel(21, 17);
+        MonsterHunterPartieVue view = new MonsterHunterPartieVue(model);
         MonsterHunterController controller = new MonsterHunterController(model, null, view);
 
         view.start(primaryStage);
