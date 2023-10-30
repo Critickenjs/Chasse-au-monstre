@@ -2,7 +2,7 @@ package chasseaumonstre.model;
 
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
-public class Coordinate implements ICoordinate{
+public class Coordinate implements ICoordinate {
     private Integer row;
     private Integer col;
 

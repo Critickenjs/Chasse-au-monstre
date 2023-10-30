@@ -1,6 +1,6 @@
 package chasseaumonstre.model;
 
-import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;;
+import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 
 public class MonsterHunterModel {
     private CellInfo[][] maze;
@@ -9,20 +9,22 @@ public class MonsterHunterModel {
     public MonsterHunterModel(CellInfo[][] maze, int width, int heigth) {
         this.maze = maze;
         this.step = 0;
-
-        initializeMaze(width, heigth);
+        this.initializeMaze(width, heigth);
     }
 
     private void initializeMaze(int width, int heigth) {
         MazeGenerator mazeGenerator = new MazeGenerator(width, heigth);
-        int [][] tmpMaze = mazeGenerator.generateMazeWithEntranceAndExit();
+        mazeGenerator.generate();
+        int [][] tmpMaze = mazeGenerator.getMaze();
+
         MazeValidator mazeValidator = new MazeValidator(width, heigth, tmpMaze);
 
-        while (!mazeValidator.isPathValid()) {
-            tmpMaze = mazeGenerator.generateMazeWithEntranceAndExit();
+        while (!mazeValidator.isValid()) {
+            mazeGenerator.generate();
+            tmpMaze = mazeGenerator.getMaze();
         }
 
-        maze = mazeGenerator.toLabyrinth();
+        this.maze = mazeGenerator.toCellInfo();
     }
 
     public CellInfo[][] getMaze() {

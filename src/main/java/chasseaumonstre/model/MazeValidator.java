@@ -13,38 +13,33 @@ public class MazeValidator {
         this.visited = new boolean[width][height];
     }
 
-    public boolean isPathValid() {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+    private void initializeVisited() {
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
                 visited[x][y] = false;
-            }
-        }
+    }
 
-        int entranceX = -1;
-        for (int x = 0; x < width; x++) {
-            if (maze[x][0] == 0) {
-                entranceX = x;
-                break;
-            }
-        }
+    private int getEntrance() {
+        for(int i = 0; i < this.width; i++)
+            if (maze[i][0] == 0)
+                return i;
+        return -1;
+    }
 
-        if (entranceX == -1) {
-            return false;
-        }
-
-        return dfs(entranceX, 0);
+    public boolean isValid() {
+        this.initializeVisited();
+        int entranceX = this.getEntrance();
+        return entranceX == -1 ? false : dfs(entranceX, 0);
     }
 
     private boolean dfs(int x, int y) {
-        if (x < 0 || x >= width || y < 0 || y >= height || maze[x][y] == 1 || visited[x][y]) {
+        if (x < 0 || x >= width || y < 0 || y >= height || maze[x][y] == 1 || visited[x][y])
             return false;
-        }
-
+        
         visited[x][y] = true;
 
-        if (y == height - 1) {
+        if (y == height - 1)
             return true;
-        }
 
         return dfs(x - 1, y) || dfs(x + 1, y) || dfs(x, y - 1) || dfs(x, y + 1);
     }
