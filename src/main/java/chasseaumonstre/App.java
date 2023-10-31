@@ -1,8 +1,8 @@
 package chasseaumonstre;
 
-import chasseaumonstre.controller.MonsterHunterMenuController;
+import chasseaumonstre.controller.MHMenuController;
 import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.MonsterHunterMenuVue;
+import chasseaumonstre.views.MHMenuView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -10,7 +10,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         MonsterHunterModel model = new MonsterHunterModel(21, 17);
-        new MonsterHunterMenuVue(stage, new MonsterHunterMenuController(stage, model));
+        new MHMenuView(stage, new MHMenuController(stage, model));
     }
 
     public static void main(String[] args) {

@@ -4,17 +4,17 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import chasseaumonstre.controller.MonsterHunterMenuController;
+import chasseaumonstre.controller.MHMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class MonsterHunterMenuVue {
+public class MHMenuView {
     private static final String FXML_LOCATION = System.getProperty("user.dir") + File.separator + "maquette" + File.separator;
     private Stage stage;
-    private MonsterHunterMenuController controller;
+    private MHMenuController controller;
 
-    public MonsterHunterMenuVue(Stage stage, MonsterHunterMenuController controller) {
+    public MHMenuView(Stage stage, MHMenuController controller) {
         // Fenêtre
         this.stage = stage;
         this.controller = controller;
@@ -27,7 +27,7 @@ public class MonsterHunterMenuVue {
     private void render() {
         try {
             
-            FXMLLoader loader = new FXMLLoader(new URL("file", "", MonsterHunterMenuVue.FXML_LOCATION + "main.fxml"));
+            FXMLLoader loader = new FXMLLoader(new URL("file", "", MHMenuView.FXML_LOCATION + "main.fxml"));
             loader.setController(this.controller);
             Scene scene = new Scene(loader.load(), 1080, 600); 
             this.stage.setTitle("Chasse au Monstre");

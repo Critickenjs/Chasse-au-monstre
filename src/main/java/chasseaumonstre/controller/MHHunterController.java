@@ -3,7 +3,7 @@ package chasseaumonstre.controller;
 import java.io.File;
 
 import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.MonsterHunterPartieVue;
+import chasseaumonstre.views.MHHunterView;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -11,14 +11,14 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-public class MonsterHunterController {
+public class MHHunterController {
     private Stage stage;
     private MonsterHunterModel model;
-    private MonsterHunterPartieVue partieView;
+    private MHHunterView partieView;
     private final String SOUND = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator + "sound.mp3";
     
 
-    public MonsterHunterController(Stage stage, MonsterHunterModel model) {
+    public MHHunterController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
         this.model = model;
     }
@@ -27,7 +27,7 @@ public class MonsterHunterController {
         return this.model;
     }
 
-    public void setVue(MonsterHunterPartieVue partieView) {
+    public void setVue(MHHunterView partieView) {
         this.partieView = partieView;
     }
 

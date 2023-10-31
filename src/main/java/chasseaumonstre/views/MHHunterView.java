@@ -1,18 +1,18 @@
 package chasseaumonstre.views;
 
-import chasseaumonstre.controller.MonsterHunterController;
+import chasseaumonstre.controller.MHHunterController;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class MonsterHunterPartieVue {
+public class MHHunterView {
     private Stage stage;
-    private MonsterHunterController controller;
+    private MHHunterController controller;
     private GridPane maze;
 
-    public MonsterHunterPartieVue(Stage stage, MonsterHunterController controller) {
+    public MHHunterView(Stage stage, MHHunterController controller) {
         // Fenêtre
         this.stage = stage;
         this.controller = controller;

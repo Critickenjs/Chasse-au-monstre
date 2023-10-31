@@ -5,10 +5,10 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.MonsterHunterMenuVue;
-import chasseaumonstre.views.MonsterHunterPartieVue;
+import chasseaumonstre.views.MHMenuView;
+import chasseaumonstre.views.MHHunterView;
 
-public class MonsterHunterMenuController  {
+public class MHMenuController  {
     
     @FXML
     private Button jvjBtn;
@@ -21,9 +21,9 @@ public class MonsterHunterMenuController  {
 
     private Stage stage;
     private MonsterHunterModel model;
-    private MonsterHunterMenuVue menuView;
+    private MHMenuView menuView;
 
-    public MonsterHunterMenuController(Stage stage, MonsterHunterModel model) {
+    public MHMenuController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
         this.model = model;
 
@@ -34,7 +34,7 @@ public class MonsterHunterMenuController  {
         return this.model;
     }
 
-    public void setVue(MonsterHunterMenuVue menuView) {
+    public void setVue(MHMenuView menuView) {
         this.menuView = menuView;
     }
 
@@ -44,8 +44,8 @@ public class MonsterHunterMenuController  {
     @FXML
     private void onPVP() {
         jvjBtn.setOnMouseClicked(e -> {
-            MonsterHunterController controller = new MonsterHunterController(stage, model);
-            MonsterHunterPartieVue partieView = new MonsterHunterPartieVue(stage, controller);
+            MHHunterController controller = new MHHunterController(stage, model);
+            MHHunterView partieView = new MHHunterView(stage, controller);
         });
     }
 
