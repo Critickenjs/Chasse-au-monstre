@@ -54,7 +54,7 @@ public class MonsterHunterModel {
 
         while (!mazeValidator.isValid()) {
             mazeGenerator.generate();
-            tmpMaze = mazeGenerator.getMaze();
+            mazeValidator.setMaze(mazeGenerator.getMaze());
         }
 
         this.maze = mazeGenerator.toCellInfo();
