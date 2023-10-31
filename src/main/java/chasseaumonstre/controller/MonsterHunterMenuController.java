@@ -1,35 +1,33 @@
 package chasseaumonstre.controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import java.net.URL;
-import java.util.ResourceBundle;
+import javafx.stage.Stage;
 
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.MonsterHunterMenuVue;
+import chasseaumonstre.views.MonsterHunterPartieVue;
 
 public class MonsterHunterMenuController  {
     
     @FXML
-    private Button jvjButton;
+    private Button jvjBtn;
     @FXML
-    private Button cviButton;
+    private Button cviBtn;
     @FXML
-    private Button mviButton;
+    private Button mviBtn;
     @FXML
-    private Button iviButton;
+    private Button iviBtn;
 
+    private Stage stage;
     private MonsterHunterModel model;
     private MonsterHunterMenuVue menuView;
 
-    public MonsterHunterMenuController(MonsterHunterModel model) {
+    public MonsterHunterMenuController(Stage stage, MonsterHunterModel model) {
+        this.stage = stage;
         this.model = model;
+
+        this.jvjBtn = new Button();
     }
 
     public MonsterHunterModel getModel() {
@@ -45,7 +43,12 @@ public class MonsterHunterMenuController  {
 
     @FXML
     private void onPVP() {
-        System.out.println("test");
+        jvjBtn.setOnMouseClicked(e -> {
+            MonsterHunterController controller = new MonsterHunterController(stage, model);
+            MonsterHunterPartieVue partieView = new MonsterHunterPartieVue(stage, controller);
+            
+            partieView.render();
+        });
     }
 
     @FXML
