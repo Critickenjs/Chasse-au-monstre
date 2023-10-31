@@ -15,7 +15,7 @@ public class MonsterHunterController {
     private Stage stage;
     private MonsterHunterModel model;
     private MonsterHunterPartieVue partieView;
-    private String musicFile = "C:\\Users\\ylies\\Desktop\\saé\\J3_SAE3A\\src\\main\\resources\\audio\\Gun shoot - Sound effect.mp3";
+    private final String SOUND = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator + "sound.mp3";
     
 
     public MonsterHunterController(Stage stage, MonsterHunterModel model) {
@@ -48,9 +48,9 @@ public class MonsterHunterController {
                 break;
         }
     }
-    public void playSound(String musicFile, double volume) {
+    public void playSound(String SOUND, double volume) {
     try {
-        Media sound = new Media(new File(musicFile).toURI().toString());
+        Media sound = new Media(new File(SOUND).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
 
         mediaPlayer.setVolume(volume); // Ajustez le volume ici 
@@ -62,13 +62,13 @@ public class MonsterHunterController {
 }
 
     private void pathAlert(int cellX, int cellY) {
-        playSound(musicFile,0.5 );
+        playSound(SOUND,0.1 );
         showAlert("You shot a path cell. Keep searching!\nCoordinates: (" + cellX + ", " + cellY + ").");
         
     }
 
     private void wallAlert(int cellX, int cellY) {
-        playSound(musicFile,0.5 );
+        playSound(SOUND,0.1 );
         showAlert("You shot a wall. Keep searching!");
     }
 

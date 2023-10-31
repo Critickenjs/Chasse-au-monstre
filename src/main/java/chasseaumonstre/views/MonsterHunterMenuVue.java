@@ -28,7 +28,6 @@ public class MonsterHunterMenuVue {
         try {
             
             FXMLLoader loader = new FXMLLoader(new URL("file", "", MonsterHunterMenuVue.FXML_LOCATION + "main.fxml"));
-            System.out.println(loader.toString());
             loader.setController(this.controller);
             Scene scene = new Scene(loader.load(), 1080, 600); 
             this.stage.setTitle("Chasse au Monstre");
