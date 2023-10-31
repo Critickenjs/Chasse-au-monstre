@@ -63,14 +63,14 @@ public class MHHunterController {
     }
 
     private void pathAlert(int cellX, int cellY) {
-        playSound(SOUND, 0.1);
+        playSound(SOUND, 0.05);
         showAlert("You shot a path cell. Keep searching!\nCoordinates: (" + cellX + ", " + cellY + ").");
 
     }
 
     private void wallAlert(int cellX, int cellY) {
-        playSound(SOUND, 0.1);
-        showAlert("You shot a wall. Keep searching!");
+        playSound(SOUND, 0.05);
+        showAlert("You shot a wall. Keep searching!\\nCoordinates: (" + cellX + ", " + cellY + ").");
     }
 
     private void showAlert(String message) {
