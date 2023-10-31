@@ -45,7 +45,7 @@ public class MonsterHunterMenuController  {
 
     @FXML
     private void onPVP() {
-        // Code à exécuter lorsque l'utilisateur survole le bouton jvjButton
+        System.out.println("test");
     }
 
     @FXML
