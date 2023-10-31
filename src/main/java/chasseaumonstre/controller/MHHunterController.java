@@ -15,7 +15,7 @@ public class MHHunterController {
     private Stage stage;
     private MonsterHunterModel model;
     private MHHunterView partieView;
-    private final String SOUND = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator + "sound.mp3";
+    private final String SOUND = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator + "gun-shot.mp3";
     
 
     public MHHunterController(Stage stage, MonsterHunterModel model) {
