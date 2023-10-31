@@ -26,7 +26,7 @@ public class MonsterHunterPartieVue {
     public void render() {
         this.stage.setTitle("Chasse au Monstre");
         this.draw();
-        this.stage.setScene(new Scene(this.maze, 1050, 900));
+        this.stage.setScene(new Scene(this.maze, 1050, 850));
         this.stage.show();
     }
 
