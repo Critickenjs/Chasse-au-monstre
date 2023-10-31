@@ -10,7 +10,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MHMenuView {
-    private static final String FXML_LOCATION = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + File.separator + "resources" + File.separator + "maquette" + File.separator ;
+    private static final String FXML_LOCATION = System.getProperty("user.dir") + File.separator + "src" + File.separator
+            + "main" + File.separator + "resources" + File.separator + "maquette" + File.separator;
     private Stage stage;
     private MHMenuController controller;
 
@@ -24,14 +25,14 @@ public class MHMenuView {
 
     private void render() {
         try {
-            
+
             FXMLLoader loader = new FXMLLoader(new URL("file", "", MHMenuView.FXML_LOCATION + "main.fxml"));
             loader.setController(this.controller);
-            Scene scene = new Scene(loader.load(), 1080, 600); 
+            Scene scene = new Scene(loader.load(), 1080, 600);
             this.stage.setTitle("Chasse au Monstre");
             this.stage.setScene(scene);
             this.stage.show();
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println(e);
         }
     }
