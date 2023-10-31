@@ -46,8 +46,6 @@ public class MonsterHunterMenuController  {
         jvjBtn.setOnMouseClicked(e -> {
             MonsterHunterController controller = new MonsterHunterController(stage, model);
             MonsterHunterPartieVue partieView = new MonsterHunterPartieVue(stage, controller);
-            
-
         });
     }
 
