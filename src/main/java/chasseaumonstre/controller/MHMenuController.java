@@ -43,16 +43,15 @@ public class MHMenuController  {
 
     @FXML
     private void onHunterVAi() {
-        // Code à exécuter lorsque l'utilisateur survole le bouton cviButton
+        
     }
 
     @FXML
     private void onMonsterVAi() {
-        // Code à exécuter lorsque l'utilisateur survole le bouton mviButton
+        
     }
 
     @FXML
     private void onAiVAi() {
-        // Code à exécuter lorsque l'utilisateur survole le bouton iviButton
     }
 }
