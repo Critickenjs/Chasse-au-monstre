@@ -1,11 +1,10 @@
-package chasseaumonstre.controller;
+    package chasseaumonstre.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.MHMenuView;
 import chasseaumonstre.views.MHHunterView;
 
 public class MHMenuController  {
@@ -21,12 +20,10 @@ public class MHMenuController  {
 
     private Stage stage;
     private MonsterHunterModel model;
-    private MHMenuView menuView;
 
     public MHMenuController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
         this.model = model;
-
         this.jvjBtn = new Button();
     }
 
@@ -34,18 +31,13 @@ public class MHMenuController  {
         return this.model;
     }
 
-    public void setVue(MHMenuView menuView) {
-        this.menuView = menuView;
-    }
-
-   
     // Vous pouvez ajouter des méthodes pour gérer les événements ici, par exemple :
 
     @FXML
     private void onPVP() {
         jvjBtn.setOnMouseClicked(e -> {
             MHHunterController controller = new MHHunterController(stage, model);
-            MHHunterView partieView = new MHHunterView(stage, controller);
+            new MHHunterView(stage, controller);
         });
     }
 

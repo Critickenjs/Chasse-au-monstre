@@ -18,8 +18,6 @@ public class MHMenuView {
         // Fenêtre
         this.stage = stage;
         this.controller = controller;
-        // Connecter la Vue au Controller
-        this.controller.setVue(this);
         // Affichage de la Vue
         this.render();
     }
