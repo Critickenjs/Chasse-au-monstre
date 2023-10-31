@@ -15,8 +15,9 @@ public class MHHunterController {
     private Stage stage;
     private MonsterHunterModel model;
     private MHHunterView partieView;
-    private final String SOUND = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator + "gun-shot.mp3";
-    
+    private final String SOUND = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
+            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
+            + "gun-shot.mp3";
 
     public MHHunterController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
@@ -30,7 +31,6 @@ public class MHHunterController {
     public void setVue(MHHunterView partieView) {
         this.partieView = partieView;
     }
-
 
     public void handleShot(int shotX, int shotY) {
         CellInfo cellValue = model.getMaze()[shotX][shotY];
@@ -48,27 +48,28 @@ public class MHHunterController {
                 break;
         }
     }
+
     public void playSound(String SOUND, double volume) {
-    try {
-        Media sound = new Media(new File(SOUND).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        try {
+            Media sound = new Media(new File(SOUND).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
 
-        mediaPlayer.setVolume(volume); // Ajustez le volume ici 
+            mediaPlayer.setVolume(volume); // Ajustez le volume ici
 
-        mediaPlayer.play();
-    } catch (Exception e) {
-        e.printStackTrace();
+            mediaPlayer.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
 
     private void pathAlert(int cellX, int cellY) {
-        playSound(SOUND,0.1 );
+        playSound(SOUND, 0.1);
         showAlert("You shot a path cell. Keep searching!\nCoordinates: (" + cellX + ", " + cellY + ").");
-        
+
     }
 
     private void wallAlert(int cellX, int cellY) {
-        playSound(SOUND,0.1 );
+        playSound(SOUND, 0.1);
         showAlert("You shot a wall. Keep searching!");
     }
 
