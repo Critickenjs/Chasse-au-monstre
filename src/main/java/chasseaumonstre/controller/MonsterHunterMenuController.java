@@ -17,12 +17,6 @@ import chasseaumonstre.views.MonsterHunterMenuVue;
 public class MonsterHunterMenuController  {
     
     @FXML
-    private ImageView imageView;
-    @FXML
-    private Pane titrePane;
-    @FXML
-    private Text titreText;
-    @FXML
     private Button jvjButton;
     @FXML
     private Button cviButton;
