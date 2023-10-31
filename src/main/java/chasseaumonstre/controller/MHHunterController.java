@@ -12,12 +12,16 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public class MHHunterController {
+    private final String GUN_SHOT_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+            + "main"
+            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
+            + "gun-shot.mp3";
+
+    private final double VOLUME = 0.05;
+
     private Stage stage;
     private MonsterHunterModel model;
     private MHHunterView partieView;
-    private final String SOUND = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
-            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
-            + "gun-shot.mp3";
 
     public MHHunterController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
@@ -63,13 +67,13 @@ public class MHHunterController {
     }
 
     private void pathAlert(int cellX, int cellY) {
-        playSound(SOUND, 0.05);
+        playSound(GUN_SHOT_SOUND_PATH, VOLUME);
         showAlert("You shot a path cell. Keep searching!\nCoordinates: (" + cellX + ", " + cellY + ").");
 
     }
 
     private void wallAlert(int cellX, int cellY) {
-        playSound(SOUND, 0.05);
+        playSound(GUN_SHOT_SOUND_PATH, VOLUME);
         showAlert("You shot a wall. Keep searching!\\nCoordinates: (" + cellX + ", " + cellY + ").");
     }
 
