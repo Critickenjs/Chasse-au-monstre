@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MHMenuView {
-    private static final String FXML_LOCATION = System.getProperty("user.dir") + File.separator + "maquette" + File.separator;
+    private static final String FXML_LOCATION = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + File.separator + "resources" + File.separator + "maquette" + File.separator ;
     private Stage stage;
     private MHMenuController controller;
 
