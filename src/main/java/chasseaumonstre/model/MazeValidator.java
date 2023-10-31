@@ -13,7 +13,7 @@ package chasseaumonstre.model;
 public class MazeValidator {
     private final int width;
     private final int height;
-    private final int[][] maze;
+    private int[][] maze;
     private final boolean[][] visited;
 
     /*
@@ -28,6 +28,14 @@ public class MazeValidator {
         this.height = height;
         this.maze = maze;
         this.visited = new boolean[width][height];
+    }
+
+    public void setMaze(int[][] maze) {
+        this.maze = maze;
+    }
+
+    public int[][] getMaze() {
+        return this.maze;
     }
 
     private void initializeVisited() {

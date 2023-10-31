@@ -12,7 +12,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         MonsterHunterModel model = new MonsterHunterModel(21, 17);
-        new MonsterHunterMenuVue(stage, new MonsterHunterMenuController(model));
+        new MonsterHunterPartieVue(stage, new MonsterHunterController(model));
     }
 
     public static void main(String[] args) {
