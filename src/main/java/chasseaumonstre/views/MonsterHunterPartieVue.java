@@ -33,11 +33,18 @@ public class MonsterHunterPartieVue {
     private void draw() {
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();
-        Rectangle cell;
+
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < heigth; y++) {
-                cell = new Rectangle(50, 50);
+                Rectangle cell = new Rectangle(50, 50);
                 cell.setStroke(Color.BLACK);
+
+                cell.setOnMouseClicked(e -> {
+                    int cellX = GridPane.getColumnIndex(cell);
+                    int cellY = GridPane.getRowIndex(cell);
+                    controller.handleShot(cellX, cellY);
+                });
+
                 switch (this.controller.getModel().getMaze()[x][y]) {
                     case WALL:
                         cell.setFill(Color.BLACK);
