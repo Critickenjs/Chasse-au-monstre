@@ -1,67 +1,60 @@
 package chasseaumonstre.views;
 
 import chasseaumonstre.controller.MonsterHunterController;
-import chasseaumonstre.model.MonsterHunterModel;
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class MonsterHunterPartieVue extends Application {
-    private MonsterHunterModel model;
+public class MonsterHunterPartieVue {
+    private Stage stage;
     private MonsterHunterController controller;
-    GridPane mazeGrid;
+    private GridPane maze;
 
-    public MonsterHunterPartieVue(MonsterHunterModel model) {
-        this.model = model;
-    }
-
-    public void setController(MonsterHunterController controller) {
+    public MonsterHunterPartieVue(Stage stage, MonsterHunterController controller) {
+        // Fenêtre
+        this.stage = stage;
         this.controller = controller;
+        this.maze = new GridPane();
+        // Connecter la Vue au Controller
+        this.controller.setVue(this);
+        // Affichage de la Vue
+        this.render();
     }
 
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Monster Hunter Game");
-
-        mazeGrid = new GridPane();
-        drawMaze();
-
-        Scene scene = new Scene(mazeGrid, 1050, 850);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    private void render() {
+        this.stage.setTitle("Chasse au Monstre");
+        this.draw();
+        this.stage.setScene(new Scene(this.maze, 1050, 850));
+        this.stage.show();
     }
 
-    private void drawMaze() {
-        int width = model.getMaze().length;
-        int heigth = model.getMaze()[0].length;
-
+    private void draw() {
+        int width = this.controller.getModel().getWidth();
+        int heigth = this.controller.getModel().getHeight();
+        Rectangle cell;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < heigth; y++) {
-                Rectangle cell = new Rectangle(50, 50);
+                cell = new Rectangle(50, 50);
                 cell.setStroke(Color.BLACK);
-
-                switch (model.getMaze()[x][y]) {
+                switch (this.controller.getModel().getMaze()[x][y]) {
                     case WALL:
                         cell.setFill(Color.BLACK);
                         break;
-
                     case EMPTY:
                         cell.setFill(Color.WHITE);
                         break;
                     default:
                         break;
                 }
-
-                mazeGrid.add(cell, x, y);
+                this.maze.add(cell, x, y);
             }
         }
     }
 
-    public void updateMaze() {
-        mazeGrid.getChildren().clear();
-        drawMaze();
+    public void update() {
+        this.maze.getChildren().clear();
+        this.draw();
     }
 }

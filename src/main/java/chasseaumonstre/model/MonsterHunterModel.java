@@ -14,6 +14,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 public class MonsterHunterModel {
     private CellInfo[][] maze;
     private Integer step;
+    private int width, height;
 
     /*
      * Constructeur de MonsterHunterModel
@@ -22,11 +23,21 @@ public class MonsterHunterModel {
      * @param width la largeur du labyrinthe
      * @param heigth la hauteur du labyrinthe
      */
-    public MonsterHunterModel(int width, int heigth) {
+    public MonsterHunterModel(int width, int height) {
         this.step = 0;
-        this.initializeMaze(width, heigth);
+        this.width = width;
+        this.height = height;
+        this.initializeMaze(width, height);
     }
 
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+    
     /*
      * Génère un labyrinthe aléatoirement validé par MazeValidator
      * 
