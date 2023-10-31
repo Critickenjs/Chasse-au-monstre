@@ -47,7 +47,7 @@ public class MonsterHunterMenuController  {
             MonsterHunterController controller = new MonsterHunterController(stage, model);
             MonsterHunterPartieVue partieView = new MonsterHunterPartieVue(stage, controller);
             
-            partieView.render();
+
         });
     }
 
