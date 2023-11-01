@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import chasseaumonstre.model.MonsterHunterModel;
+import chasseaumonstre.views.JVJView;
 import chasseaumonstre.views.MHHunterView;
 
 public class MHMenuController  {
@@ -39,8 +40,8 @@ public class MHMenuController  {
     @FXML
     private void onPVP() {
         jvjBtn.setOnMouseClicked(e -> {
-            MHHunterController controller = new MHHunterController(stage, model);
-            new MHHunterView(stage, controller);
+            JVJController controller = new JVJController(stage, model);
+            new JVJView(stage, controller);
         });
     }
 

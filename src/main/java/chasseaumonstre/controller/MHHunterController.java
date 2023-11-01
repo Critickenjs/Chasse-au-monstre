@@ -19,12 +19,10 @@ public class MHHunterController {
 
     private final double VOLUME = 0.05;
 
-    private Stage stage;
     private MonsterHunterModel model;
     private MHHunterView partieView;
 
     public MHHunterController(Stage stage, MonsterHunterModel model) {
-        this.stage = stage;
         this.model = model;
     }
 
