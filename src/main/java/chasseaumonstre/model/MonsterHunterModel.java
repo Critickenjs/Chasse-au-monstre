@@ -15,6 +15,7 @@ public class MonsterHunterModel {
     private CellInfo[][] maze;
     private Integer step;
     private int width, height;
+    private String monsterName, hunterName;
 
     /*
      * Constructeur de MonsterHunterModel
@@ -28,6 +29,22 @@ public class MonsterHunterModel {
         this.width = width;
         this.height = height;
         this.initializeMaze(width, height);
+    }
+
+    public String getMonsterName() {
+        return monsterName;
+    }
+
+    public void setMonsterName(String monsterName) {
+        this.monsterName = monsterName;
+    }
+
+    public String getHunterName() {
+        return hunterName;
+    }
+
+    public void setHunterName(String hunterName) {
+        this.hunterName = hunterName;
     }
 
     public int getWidth() {
