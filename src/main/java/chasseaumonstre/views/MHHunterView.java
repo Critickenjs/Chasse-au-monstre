@@ -46,10 +46,19 @@ public class MHHunterView {
                     controller.handleShot(cellX, cellY);
                 });
 
-                cell.setFill(Color.WHITE);
+                if(isOnBorder(x, y, width-1, heigth-1)) {
+                    cell.setFill(Color.BLACK);
+                } else {
+                    cell.setFill(Color.WHITE);
+                }
+
                 this.maze.add(cell, x, y);
             }
         }
+    }
+
+    public boolean isOnBorder(int x, int y, int width, int heigth) {
+        return x == 0 || x == width || y == 0 || y == heigth;
     }
 
     public void update() {
