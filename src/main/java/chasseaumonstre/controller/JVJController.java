@@ -20,6 +20,7 @@ public class JVJController {
 
     private Stage stage;
     private MonsterHunterModel model;
+    private MHHunterView hunterView;
 
     public JVJController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
@@ -37,6 +38,8 @@ public class JVJController {
         
 
         MHHunterController controller = new MHHunterController(stage, model);
-        new MHHunterView(stage, controller);
+        this.hunterView = new MHHunterView(stage, controller);
+        this.hunterView.render();
+
     }
 }
