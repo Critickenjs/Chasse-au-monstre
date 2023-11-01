@@ -3,9 +3,10 @@ package chasseaumonstre.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.JVJView;
 import chasseaumonstre.views.MHHunterView;
 
 public class JVJController {
@@ -35,5 +36,12 @@ public class JVJController {
         this.hunterView = new MHHunterView(stage, new MHHunterController(stage, model));
         this.hunterView.render();
 
+    }
+
+    @FXML
+    private void startGame(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            startGame();
+        }
     }
 }
