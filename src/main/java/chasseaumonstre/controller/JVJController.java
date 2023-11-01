@@ -30,18 +30,9 @@ public class JVJController {
 
     @FXML
     private void startGame() {
-    
         model.setHunterName(j1.getText());
         model.setMonsterName(j2.getText());
         this.hunterView = new MHHunterView(stage, new MHHunterController(stage, model));
         this.hunterView.render();
-
-    }
-
-    @FXML
-    private void startGame(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            startGame();
-        }
     }
 }
