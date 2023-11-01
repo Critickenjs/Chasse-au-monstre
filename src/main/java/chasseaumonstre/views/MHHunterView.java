@@ -19,10 +19,11 @@ public class MHHunterView {
         this.maze = new GridPane();
         // Connecter la Vue au Controller
         this.controller.setVue(this);
-        // Affichage de la Vue
-        this.render();
     }
 
+    /*
+     * Afficher la vue du Chasseur dans le stage
+     */
     public void render() {
         this.stage.setTitle("Chasse au Monstre");
         this.draw();

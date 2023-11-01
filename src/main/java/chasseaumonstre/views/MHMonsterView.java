@@ -19,10 +19,11 @@ public class MHMonsterView {
         this.maze = new GridPane();
         // Connecter la Vue au Controller
         this.controller.setVue(this);
-        // Affichage de la Vue
-        this.render();
     }
 
+    /*
+     * Afficher la vue du Monstre dans le stage
+     */
     public void render() {
         this.stage.setTitle("Chasse au Monstre - Tour du monstre");
         this.draw();
