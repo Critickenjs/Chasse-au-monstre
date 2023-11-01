@@ -12,7 +12,7 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="1080.0">
          <image>
-            <Image url="@../img/main-menu-background.jpg" />
+            <Image url="https://www.premiere.fr/sites/default/files/styles/scale_crop_border_1280x720/public/2020-02/m.jpg" />
          </image>
       </ImageView>
       <Pane prefHeight="200.0" prefWidth="200.0">
