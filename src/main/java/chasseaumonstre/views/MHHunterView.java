@@ -63,10 +63,22 @@ public class MHHunterView {
                 cell.setOnMouseClicked(e -> {
                     int cellX = GridPane.getColumnIndex(cell);
                     int cellY = GridPane.getRowIndex(cell);
-                    if (! controller.handleShot(cellX, cellY)) {
-                        cell.setFill(Color.web("#de1b1b3c"));
-                    } else {
-                        cell.setFill(Color.web("#1bde243c"));
+                    
+                    switch (controller.handleShot(cellX, cellY)) {
+                        case WALL:
+                            cell.setFill(Color.web("#a8a8a8"));
+                            break;
+
+                        case EMPTY:
+                            cell.setFill(Color.web("#de1b1b3c"));
+                            break;
+
+                        case MONSTER:
+                            cell.setFill(Color.web("#1bde243c"));
+                            break;
+                    
+                        default:
+                            break;
                     }
                 });
 

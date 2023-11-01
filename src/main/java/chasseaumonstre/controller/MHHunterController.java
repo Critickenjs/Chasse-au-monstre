@@ -59,9 +59,8 @@ public class MHHunterController {
         this.maze = maze;
     }
 
-    public boolean handleShot(int shotX, int shotY) {
+    public CellInfo handleShot(int shotX, int shotY) {
         CellInfo cellValue = model.getMaze()[shotX][shotY];
-        boolean hit = false;
 
         switch (cellValue) {
             case EMPTY:
@@ -73,14 +72,13 @@ public class MHHunterController {
                 break;
 
             case MONSTER:
-                hit = true;
                 break;
 
             default:
                 break;
         }
 
-        return hit;
+        return cellValue;
     }
 
     private void pathAlert(int cellX, int cellY) {
