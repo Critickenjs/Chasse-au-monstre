@@ -60,7 +60,6 @@ public class MHMenuController  {
         // Chargez l'image depuis l'URL et affectez-la à l'ImageView
         Image image = new Image("https://www.premiere.fr/sites/default/files/styles/scale_crop_border_1280x720/public/2020-02/m.jpg");
         imageView.setImage(image);
-        this.stage.getIcons().add(new Image("https://4.bp.blogspot.com/-boWx8QCf9bA/UYrk_pyI0aI/AAAAAAAAAoo/936FQO4QlNQ/s1600/dj.png"));
 
     }
 }
