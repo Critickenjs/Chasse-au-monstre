@@ -6,6 +6,9 @@ import javafx.scene.media.MediaPlayer;
 
 public class UtilsController {
 
+    public static final String FXML_LOCATION = System.getProperty("user.dir") + File.separator + "src" + File.separator
+            + "main" + File.separator + "resources" + File.separator + "maquette" + File.separator;
+
     /*
      * Joue un son
      * 

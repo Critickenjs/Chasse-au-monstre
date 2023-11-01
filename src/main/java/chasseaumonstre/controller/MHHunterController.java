@@ -4,15 +4,13 @@ import java.io.File;
 
 import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
+import chasseaumonstre.views.MHMonsterView;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MHHunterController {
@@ -30,7 +28,7 @@ public class MHHunterController {
     private GridPane maze;
 
     @FXML
-    private Label charcterName;
+    private Label characterName;
 
     @FXML
     private Label alertHeader;
@@ -41,10 +39,17 @@ public class MHHunterController {
     @FXML
     private Button skipTurn;
 
+    private Stage stage;
+
     private MonsterHunterModel model;
 
     public MHHunterController(Stage stage, MonsterHunterModel model) {
+        this.stage = stage;
         this.model = model;
+    }
+
+    public void initialize() {
+        this.characterName.setText("Le Chasseur \n" + this.model.getHunterName());
     }
 
     public MonsterHunterModel getModel() {
@@ -54,7 +59,6 @@ public class MHHunterController {
     public VBox getContentV() {
         return contentV;
     }
-
     public void setMaze(GridPane maze) {
         this.maze = maze;
     }
@@ -79,6 +83,11 @@ public class MHHunterController {
         }
 
         return cellValue;
+    }
+
+    @FXML
+    public void onSkipTurn() {
+        new MHMonsterView(this.stage, new MHMonsterController(this.stage, this.model)).render();
     }
 
     private void pathAlert(int cellX, int cellY) {
