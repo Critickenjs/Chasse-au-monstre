@@ -6,11 +6,9 @@ import java.net.URL;
 
 import chasseaumonstre.controller.MHHunterController;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -21,15 +19,12 @@ public class MHHunterView {
     private Stage stage;
     private MHHunterController controller;
     private GridPane maze;
-    
 
     public MHHunterView(Stage stage, MHHunterController controller) {
         // Fenêtre
         this.stage = stage;
         this.controller = controller;
         this.maze = new GridPane();
-        // Connecter la Vue au Controller
-        this.controller.setVue(this);
     }
 
     /*
@@ -38,28 +33,25 @@ public class MHHunterView {
     public void render() {
         try {
             FXMLLoader loader = new FXMLLoader(new URL("file", "", FXML_LOCATION + "gameView.fxml"));
-            this.draw();
-            loader.getNamespace().put("maze", maze);
             loader.setController(this.controller);
-            Scene scene = new Scene(loader.load(), 1300, 850);
+            Parent root = loader.load();
+
+            this.draw();
+            controller.getContentV().getChildren().add(maze);
+
+            Scene scene = new Scene(root, 1300, 850);
+
             stage.setTitle("Chasse au Monstre");
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             System.out.println(e);
         }
-        /*this.stage.setTitle("Chasse au Monstre");
-        this.draw();
-        VBox container = new VBox();
-        container.setAlignment(Pos.CENTER);
-        Label hunterName = new Label(this.controller.getModel().getHunterName() + "'s Maze");
-        hunterName.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-        container.getChildren().addAll(hunterName, this.maze);
-        this.stage.setScene(new Scene(container, this.maze.getWidth(), 900));
-        this.stage.show();*/
     }
 
     private void draw() {
+        maze.getChildren().clear();
+
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();
 
@@ -74,7 +66,7 @@ public class MHHunterView {
                     controller.handleShot(cellX, cellY);
                 });
 
-                if(isOnBorder(x, y, width-1, heigth-1)) {
+                if (isOnBorder(x, y, width - 1, heigth - 1)) {
                     cell.setFill(Color.BLACK);
                 } else {
                     cell.setFill(Color.WHITE);
