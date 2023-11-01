@@ -3,7 +3,7 @@ package chasseaumonstre.controller;
 import java.io.File;
 
 import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.MHHunterView;
+import chasseaumonstre.views.MHMonsterView;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -17,7 +17,7 @@ public class MHMonsterController {
 
     private Stage stage;
     private MonsterHunterModel model;
-    private MHHunterView partieView;
+    private MHMonsterView partieView;
 
     public MHMonsterController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
@@ -28,7 +28,7 @@ public class MHMonsterController {
         return this.model;
     }
 
-    public void setVue(MHHunterView partieView) {
+    public void setVue(MHMonsterView partieView) {
         this.partieView = partieView;
     }
 
