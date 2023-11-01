@@ -1,8 +1,11 @@
 package chasseaumonstre.views;
 
 import chasseaumonstre.controller.MHHunterController;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -27,7 +30,12 @@ public class MHHunterView {
     public void render() {
         this.stage.setTitle("Chasse au Monstre");
         this.draw();
-        this.stage.setScene(new Scene(this.maze, 1050, 850));
+        VBox container = new VBox();
+        container.setAlignment(Pos.CENTER);
+        Label hunterName = new Label(this.controller.getModel().getHunterName() + "'s Maze");
+        hunterName.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        container.getChildren().addAll(hunterName, this.maze);
+        this.stage.setScene(new Scene(container, this.maze.getWidth(), 900));
         this.stage.show();
     }
 
