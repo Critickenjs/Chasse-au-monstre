@@ -4,12 +4,14 @@ import java.io.File;
 
 import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.MHHunterView;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MHHunterController {
@@ -20,8 +22,22 @@ public class MHHunterController {
 
     private final double VOLUME = 0.05;
 
+    @FXML
+    private VBox contentV;
+
+    @FXML
+    private GridPane maze;
+
+    @FXML
+    private Label charcterName;
+
+    @FXML
+    private Label alertBox;
+
+    @FXML
+    private Button skipTurn;
+
     private MonsterHunterModel model;
-    private MHHunterView partieView;
 
     public MHHunterController(Stage stage, MonsterHunterModel model) {
         this.model = model;
@@ -31,8 +47,12 @@ public class MHHunterController {
         return this.model;
     }
 
-    public void setVue(MHHunterView partieView) {
-        this.partieView = partieView;
+    public VBox getContentV() {
+        return contentV;
+    }
+
+    public void setMaze(GridPane maze) {
+        this.maze = maze;
     }
 
     public void handleShot(int shotX, int shotY) {
