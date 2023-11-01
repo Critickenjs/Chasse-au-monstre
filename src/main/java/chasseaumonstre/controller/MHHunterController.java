@@ -2,6 +2,7 @@ package chasseaumonstre.controller;
 
 import java.io.File;
 
+import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.MHHunterView;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
@@ -51,27 +52,14 @@ public class MHHunterController {
         }
     }
 
-    public void playSound(String SOUND, double volume) {
-        try {
-            Media sound = new Media(new File(SOUND).toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(sound);
-
-            mediaPlayer.setVolume(volume); // Ajustez le volume ici
-
-            mediaPlayer.play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void pathAlert(int cellX, int cellY) {
-        playSound(GUN_SHOT_SOUND_PATH, VOLUME);
+        UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
         showAlert("You shot a path cell. Keep searching!\nCoordinates: (" + cellX + ", " + cellY + ").");
 
     }
 
     private void wallAlert(int cellX, int cellY) {
-        playSound(GUN_SHOT_SOUND_PATH, VOLUME);
+        UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
         showAlert("You shot a wall. Keep searching!\nCoordinates: (" + cellX + ", " + cellY + ").");
     }
 

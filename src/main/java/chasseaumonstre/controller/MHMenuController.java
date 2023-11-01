@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.JVJView;
-import chasseaumonstre.views.MHHunterView;
 
 public class MHMenuController  {
     @FXML
