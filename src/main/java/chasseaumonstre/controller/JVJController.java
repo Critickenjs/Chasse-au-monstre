@@ -29,7 +29,6 @@ public class JVJController {
     }
 
     private void startGame() {
-    
         model.setHunterName(j1.getText());
         model.setMonsterName(j2.getText());
         this.hunterView = new MHHunterView(stage, new MHHunterController(stage, model));

@@ -28,11 +28,11 @@
             </Text>
             <HBox layoutX="329.0" layoutY="208.0" spacing="20">
                <Label text="Nom du chasseur :" textFill="#f2efef" />
-               <TextField fx:id="j1" onKeyReleased="#startGame" prefHeight="30.0" prefWidth="200.0" />
+               <TextField fx:id="j1" prefHeight="30.0" prefWidth="200.0" />
             </HBox>
             <HBox layoutX="331.0" layoutY="270.0" spacing="20">
                <Label text="Nom du monstre :" textFill="WHITE" />
-               <TextField fx:id="j2" onKeyReleased="#startGame" prefHeight="30.0" prefWidth="200.0" />
+               <TextField fx:id="j2" prefHeight="30.0" prefWidth="200.0" />
             </HBox>
             <Button layoutX="402.0" layoutY="345.0" mnemonicParsing="false" onMouseClicked="#startGameButton" prefHeight="30.0" prefWidth="221.0" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: 2e2e2e; -fx-border-radius: 3%;" textFill="WHITE" text="Commencer la partie">
                <font>
