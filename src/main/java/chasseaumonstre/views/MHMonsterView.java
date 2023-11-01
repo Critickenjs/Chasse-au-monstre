@@ -1,7 +1,13 @@
 package chasseaumonstre.views;
 
+import java.io.IOException;
+import java.net.URL;
+
 import chasseaumonstre.controller.MHMonsterController;
+import chasseaumonstre.controller.utils.UtilsController;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -28,15 +34,22 @@ public class MHMonsterView {
      * Afficher la vue du Monstre dans le stage
      */
     public void render() {
-        this.stage.setTitle("Chasse au Monstre - Tour du monstre");
-        this.draw();
-        VBox container = new VBox();
-        container.setAlignment(Pos.CENTER);
-        Label hunterName = new Label(this.controller.getModel().getMonsterName() + "'s Maze");
-        hunterName.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-        container.getChildren().addAll(hunterName, this.maze);
-        this.stage.setScene(new Scene(container, this.maze.getWidth(), 900));
-        this.stage.show();
+        try {
+            FXMLLoader loader = new FXMLLoader(new URL("file", "", UtilsController.FXML_LOCATION + "gameView.fxml"));
+            loader.setController(this.controller);
+            Parent root = loader.load();
+
+            this.draw();
+            controller.getContentV().getChildren().add(maze);
+
+            Scene scene = new Scene(root, 1300, 900);
+
+            stage.setTitle("Tour du monstre");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
 
     private void draw() {
@@ -65,7 +78,12 @@ public class MHMonsterView {
                         break;
                 }
 
-                cell.setFill(Color.WHITE);
+                if (MHHunterView.isOnBorder(x, y, width - 1, heigth - 1)) {
+                    cell.setFill(Color.BLACK);
+                } else {
+                    cell.setFill(Color.WHITE);
+                }
+
                 this.maze.add(cell, x, y);
             }
         }
