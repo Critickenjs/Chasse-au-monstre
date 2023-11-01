@@ -63,7 +63,11 @@ public class MHHunterView {
                 cell.setOnMouseClicked(e -> {
                     int cellX = GridPane.getColumnIndex(cell);
                     int cellY = GridPane.getRowIndex(cell);
-                    controller.handleShot(cellX, cellY);
+                    if (! controller.handleShot(cellX, cellY)) {
+                        cell.setFill(Color.web("#de1b1b3c"));
+                    } else {
+                        cell.setFill(Color.web("#1bde243c"));
+                    }
                 });
 
                 if (isOnBorder(x, y, width - 1, heigth - 1)) {

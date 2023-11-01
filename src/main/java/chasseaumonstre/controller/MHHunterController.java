@@ -59,8 +59,9 @@ public class MHHunterController {
         this.maze = maze;
     }
 
-    public void handleShot(int shotX, int shotY) {
+    public boolean handleShot(int shotX, int shotY) {
         CellInfo cellValue = model.getMaze()[shotX][shotY];
+        boolean hit = false;
 
         switch (cellValue) {
             case EMPTY:
@@ -71,20 +72,28 @@ public class MHHunterController {
                 wallAlert(shotX, shotY);
                 break;
 
+            case MONSTER:
+                hit = true;
+                break;
+
             default:
                 break;
         }
+
+        return hit;
     }
 
     private void pathAlert(int cellX, int cellY) {
         UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
         this.alertHeader.setText("You shot a path cell.\n Keep searching!");
         this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
+        alertHeader.setStyle("-fx-text-fill: red;");
     }
 
     private void wallAlert(int cellX, int cellY) {
         UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
         this.alertHeader.setText("You shot a wall.\n Keep searching!");
         this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
+        alertHeader.setStyle("-fx-text-fill: red;");
     }
 }
