@@ -1,6 +1,6 @@
 package chasseaumonstre.views;
 
-import chasseaumonstre.controller.MHHunterController;
+import chasseaumonstre.controller.MHMonsterController;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 public class MHMonsterView {
     private Stage stage;
-    private MHHunterController controller;
+    private MHMonsterController controller;
     private GridPane maze;
 
     public MHMonsterView(Stage stage, MHMonsterController controller) {
@@ -24,6 +24,10 @@ public class MHMonsterView {
     }
 
     public void render() {
+        this.stage.setTitle("Chasse au Monstre - Tour du monstre");
+        this.draw();
+        this.stage.setScene(new Scene(this.maze, 1050, 850));
+        this.stage.show();
     }
 
     private void draw() {
@@ -38,7 +42,7 @@ public class MHMonsterView {
                 cell.setOnMouseClicked(e -> {
                     int cellX = GridPane.getColumnIndex(cell);
                     int cellY = GridPane.getRowIndex(cell);
-                    controller.handleShot(cellX, cellY);
+                    controller.handleMove(cellX, cellY);
                 });
 
                 cell.setFill(Color.WHITE);
