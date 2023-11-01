@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MHHunterController {
@@ -32,7 +33,10 @@ public class MHHunterController {
     private Label charcterName;
 
     @FXML
-    private Label alertBox;
+    private Label alertHeader;
+
+    @FXML
+    private Label alertBody;
 
     @FXML
     private Button skipTurn;
@@ -74,21 +78,13 @@ public class MHHunterController {
 
     private void pathAlert(int cellX, int cellY) {
         UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
-        showAlert("You shot a path cell. Keep searching!\nCoordinates: (" + cellX + ", " + cellY + ").");
-
+        this.alertHeader.setText("You shot a path cell.\n Keep searching!");
+        this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
     }
 
     private void wallAlert(int cellX, int cellY) {
         UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
-        showAlert("You shot a wall. Keep searching!\nCoordinates: (" + cellX + ", " + cellY + ").");
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-
-        alert.setTitle("Shot Result");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        this.alertHeader.setText("You shot a wall.\n Keep searching!");
+        this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
     }
 }
