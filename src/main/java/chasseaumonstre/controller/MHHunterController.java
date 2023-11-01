@@ -74,7 +74,7 @@ public class MHHunterController {
 
     private void wallAlert(int cellX, int cellY) {
         playSound(GUN_SHOT_SOUND_PATH, VOLUME);
-        showAlert("You shot a wall. Keep searching!\\nCoordinates: (" + cellX + ", " + cellY + ").");
+        showAlert("You shot a wall. Keep searching!\nCoordinates: (" + cellX + ", " + cellY + ").");
     }
 
     private void showAlert(String message) {

@@ -45,16 +45,7 @@ public class MHHunterView {
                     controller.handleShot(cellX, cellY);
                 });
 
-                switch (this.controller.getModel().getMaze()[x][y]) {
-                    case WALL:
-                        cell.setFill(Color.BLACK);
-                        break;
-                    case EMPTY:
-                        cell.setFill(Color.WHITE);
-                        break;
-                    default:
-                        break;
-                }
+                cell.setFill(Color.WHITE);
                 this.maze.add(cell, x, y);
             }
         }
