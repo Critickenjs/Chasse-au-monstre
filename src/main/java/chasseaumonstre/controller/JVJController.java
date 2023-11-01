@@ -29,16 +29,10 @@ public class JVJController {
 
     @FXML
     private void startGame() {
-
-        String chasseurName = j1.getText();
-        String monstreName = j2.getText();
-
-        model.setHunterName(chasseurName);
-        model.setMonsterName(monstreName);
-        
-
-        MHHunterController controller = new MHHunterController(stage, model);
-        this.hunterView = new MHHunterView(stage, controller);
+    
+        model.setHunterName(j1.getText());
+        model.setMonsterName(j2.getText());
+        this.hunterView = new MHHunterView(stage, new MHHunterController(stage, model));
         this.hunterView.render();
 
     }

@@ -35,7 +35,6 @@ public class MHMenuController  {
         return this.model;
     }
 
-    // Vous pouvez ajouter des méthodes pour gérer les événements ici, par exemple :
 
     @FXML
     private void onPVP() {
