@@ -6,8 +6,12 @@ import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.MHHunterView;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class MHHunterController {
@@ -17,6 +21,18 @@ public class MHHunterController {
             + "gun-shot.mp3";
 
     private final double VOLUME = 0.05;
+
+    @FXML
+    private GridPane maze;
+
+    @FXML
+    private Label charcterName;
+
+    @FXML
+    private Label alertBox;
+
+    @FXML
+    private Button skipTurn;
 
     private MonsterHunterModel model;
     private MHHunterView partieView;
