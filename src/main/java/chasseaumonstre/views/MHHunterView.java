@@ -39,7 +39,7 @@ public class MHHunterView {
             this.draw();
             controller.getContentV().getChildren().add(maze);
 
-            Scene scene = new Scene(root, 1300, 850);
+            Scene scene = new Scene(root, 1300, 900);
 
             stage.setTitle("Chasse au Monstre");
             stage.setScene(scene);
