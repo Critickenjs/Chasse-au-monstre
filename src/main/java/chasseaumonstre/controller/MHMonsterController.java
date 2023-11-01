@@ -1,5 +1,6 @@
 package chasseaumonstre.controller;
 
+import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.MHHunterView;
 import chasseaumonstre.views.MHMonsterView;
@@ -40,6 +41,7 @@ public class MHMonsterController {
     public MHMonsterController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
         this.model = model;
+        this.maze = new GridPane();
     }
 
     public void initialize() {
@@ -65,24 +67,33 @@ public class MHMonsterController {
 
     public void handleMove(int shotX, int shotY) {
         CellInfo cellValue = model.getMaze()[shotX][shotY];
-        
-        // TODO
+        switch (cellValue) {
+            case EMPTY:
+                pathAlert(shotX, shotY);
+                break;
+
+            case WALL:
+                wallAlert(shotX, shotY);
+                break;
+
+            default:
+                break;
+        }
     }
 
     private void pathAlert(int cellX, int cellY) {
-        // TODO
+        this.alertHeader.setText("You walk on a empty case.\n Keep walking!");
+        this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
+        alertHeader.setStyle("-fx-text-fill: blue;");
     }
 
-    private void wallAlert(int cellX, int cellY) {
-        // TODO
+     private void wallAlert(int cellX, int cellY) {
+        this.alertHeader.setText("you can't walk on a wall.\n Keep searching!");
+        this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
+        alertHeader.setStyle("-fx-text-fill: red;");
     }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-
-        alert.setTitle("Move information");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+ 
 }
+    
+

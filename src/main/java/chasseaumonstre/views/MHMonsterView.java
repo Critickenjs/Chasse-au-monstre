@@ -53,6 +53,7 @@ public class MHMonsterView {
     }
 
     private void draw() {
+
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();
 
@@ -85,6 +86,7 @@ public class MHMonsterView {
                 }
 
                 this.maze.add(cell, x, y);
+                System.out.println(this.maze.toString());
             }
         }
     }
