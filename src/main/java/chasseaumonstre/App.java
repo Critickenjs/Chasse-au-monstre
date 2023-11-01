@@ -11,6 +11,8 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         MonsterHunterModel model = new MonsterHunterModel(21, 17);
         new MHMenuView(stage, new MHMenuController(stage, model));
+
+        stage.setResizable(false);
     }
 
     public static void main(String[] args) {
