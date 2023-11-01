@@ -28,7 +28,6 @@ public class JVJController {
         this.model = model;
     }
 
-    @FXML
     private void startGame() {
     
         model.setHunterName(j1.getText());
@@ -36,6 +35,11 @@ public class JVJController {
         this.hunterView = new MHHunterView(stage, new MHHunterController(stage, model));
         this.hunterView.render();
 
+    }
+
+    @FXML
+    private void startGameButton() {
+        startGame();
     }
 
     @FXML
