@@ -60,7 +60,7 @@ public class MHHunterController {
     private ScrollPane alertHistory;
 
     @FXML
-    private VBox contentHistory;
+    private VBox contentAlerts;
 
     private Alert winAlert;
     private boolean shot;
@@ -191,10 +191,10 @@ public class MHHunterController {
     }
 
     public void showHistory() {
-        contentHistory.getChildren().clear();
+        contentAlerts.getChildren().clear();
 
         for (Label action : alerts) {
-            contentHistory.getChildren().addAll(action, new Separator());
+            contentAlerts.getChildren().addAll(action, new Separator());
         }
     }
 }
