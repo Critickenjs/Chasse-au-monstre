@@ -1,5 +1,7 @@
 package chasseaumonstre.model;
 
+import chasseaumonstre.strategy.hunter.Hunter;
+import chasseaumonstre.strategy.monster.Monster;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 
 /*
@@ -16,6 +18,8 @@ public class MonsterHunterModel {
     private Integer step;
     private int width, height;
     private String monsterName, hunterName;
+    private Monster monster;
+    private Hunter hunter;
 
     /*
      * Constructeur de MonsterHunterModel
@@ -28,6 +32,10 @@ public class MonsterHunterModel {
         this.step = 0;
         this.width = width;
         this.height = height;
+        this.monster = new Monster();
+        this.hunter = new Hunter();
+        this.monster.initialize(new boolean[width][height]);
+        this.hunter.initialize(new boolean[width][height]);
         this.initializeMaze(width, height);
     }
 
@@ -55,6 +63,14 @@ public class MonsterHunterModel {
         return this.height;
     }
     
+    public Monster getMonster() {
+        return monster;
+    }
+
+    public Hunter getHunter() {
+        return hunter;
+    }
+
     /*
      * Génère un labyrinthe aléatoirement validé par MazeValidator
      * 

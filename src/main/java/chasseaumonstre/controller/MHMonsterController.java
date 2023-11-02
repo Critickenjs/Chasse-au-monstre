@@ -37,25 +37,26 @@ public class MHMonsterController {
     private Stage stage;
     private MonsterHunterModel model;
     private MHMonsterView partieView;
-
+    private MHHunterView hunterView;
+    
     public MHMonsterController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
         this.model = model;
         this.maze = new GridPane();
     }
-
+    
     public void initialize() {
         this.characterName.setText("Le Monstre \n" + this.model.getMonsterName());
     }
-
+    
     public MonsterHunterModel getModel() {
         return this.model;
     }
-
+    
     public VBox getContentV() {
         return this.contentV;
     }
-
+    
     public void setVue(MHMonsterView partieView) {
         this.partieView = partieView;
     }
@@ -63,39 +64,44 @@ public class MHMonsterController {
     @FXML
     public void onSkipTurn() {
         this.model.nextStep();
-        new MHHunterView(this.stage, new MHHunterController(this.stage, this.model)).render();
+        this.hunterView.render();
     }
-
-    public CellInfo handleMove(int shotX, int shotY) {
-        CellInfo cellValue = model.getMaze()[shotX][shotY];
+    
+    public CellInfo handleMove(int moveX, int moveY) {
+        model.getMonster().setVisited(moveX, moveY);
+        CellInfo cellValue = model.getMaze()[moveX][moveY];
         switch (cellValue) {
             case EMPTY:
-                pathAlert(shotX, shotY);
-                break;
-
+            pathAlert(moveX, moveY);
+            break;
+            
             case WALL:
-                wallAlert(shotX, shotY);
-                break;
-
+            wallAlert(moveX, moveY);
+            break;
+            
             default:
-                break;
+            break;
         }
         return cellValue;
     }
-
+    
+    public void setHunterView(MHHunterView hunterView) {
+        this.hunterView = hunterView;
+    }
+    
     private void pathAlert(int cellX, int cellY) {
         this.alertHeader.setText("You walk on a empty case.\n Keep walking!");
         this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
         alertHeader.setStyle("-fx-text-fill: blue;");
     }
-
-     private void wallAlert(int cellX, int cellY) {
+    
+    private void wallAlert(int cellX, int cellY) {
         this.alertHeader.setText("you can't walk on a wall.\n Keep searching!");
         this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
         alertHeader.setStyle("-fx-text-fill: red;");
     }
-
- 
-}
     
+    
+}
+
 

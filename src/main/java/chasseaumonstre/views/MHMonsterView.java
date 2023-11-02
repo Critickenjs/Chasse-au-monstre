@@ -64,32 +64,40 @@ public class MHMonsterView {
                 cell.setStroke(Color.BLACK);
 
                 cell.setOnMouseClicked(e -> {
-                    int cellX = GridPane.getColumnIndex(cell);
-                    int cellY = GridPane.getRowIndex(cell);
-                    CellInfo type = controller.handleMove(cellX, cellY);
+                int cellX = GridPane.getColumnIndex(cell);
+                int cellY = GridPane.getRowIndex(cell);
+                CellInfo type = controller.handleMove(cellX, cellY);
 
-                    if (type == CellInfo.WALL) {
+                if (type == CellInfo.WALL) {
+                    cell.setFill(Color.web("#a8a8a8"));
+                } else {
+                    cell.setFill(Color.web("#1bde243c"));
+                }
+                });
+
+                if (this.controller.getModel().getMonster().isVisited(x, y)) {
+                    if (this.controller.getModel().getMaze()[x][y] == CellInfo.WALL) {
                         cell.setFill(Color.web("#a8a8a8"));
                     } else {
                         cell.setFill(Color.web("#1bde243c"));
                     }
-                });
-
-                switch (this.controller.getModel().getMaze()[x][y]) {
-                    case WALL:
-                        cell.setFill(Color.BLACK);
-                        break;
-                    case EMPTY:
-                        cell.setFill(Color.WHITE);
-                        break;
-                    case EXIT:
-                        cell.setFill(Color.GREEN);
-                        break;
-                    case MONSTER:
-                        cell.setFill(Color.BLUE);
-                        break;
-                    default:
-                        break;
+                } else {
+                    switch (this.controller.getModel().getMaze()[x][y]) {
+                        case WALL:
+                            cell.setFill(Color.BLACK);
+                            break;
+                        case EMPTY:
+                            cell.setFill(Color.WHITE);
+                            break;
+                        case EXIT:
+                            cell.setFill(Color.GREEN);
+                            break;
+                        case MONSTER:
+                            cell.setFill(Color.BLUE);
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
                 this.maze.add(cell, x, y);

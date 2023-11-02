@@ -6,6 +6,7 @@ import java.net.URL;
 
 import chasseaumonstre.controller.MHHunterController;
 import chasseaumonstre.controller.utils.UtilsController;
+import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -82,11 +83,20 @@ public class MHHunterView {
                     }
                 });
 
-                if (MHHunterView.isOnBorder(x, y, width - 1, heigth - 1)) {
-                    cell.setFill(Color.BLACK);
+                if (this.controller.getModel().getHunter().hasShot(x, y)) {
+                    if (this.controller.getModel().getMaze()[x][y] == CellInfo.WALL) {
+                        cell.setFill(Color.web("#a8a8a8"));
+                    } else {
+                        cell.setFill(Color.web("#de1b1b3c"));
+                    }
                 } else {
-                    cell.setFill(Color.WHITE);
+                    if (MHHunterView.isOnBorder(x, y, width - 1, heigth - 1)) {
+                    cell.setFill(Color.BLACK);
+                    } else {
+                        cell.setFill(Color.WHITE);
+                    }
                 }
+                
 
                 this.maze.add(cell, x, y);
             }

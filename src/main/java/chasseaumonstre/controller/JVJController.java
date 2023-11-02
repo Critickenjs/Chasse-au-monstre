@@ -8,6 +8,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.MHHunterView;
+import chasseaumonstre.views.MHMonsterView;
 
 public class JVJController {
     
@@ -22,6 +23,7 @@ public class JVJController {
     private Stage stage;
     private MonsterHunterModel model;
     private MHHunterView hunterView;
+    private MHMonsterView monsterView;
 
     public JVJController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
@@ -31,7 +33,12 @@ public class JVJController {
     private void startGame() {
         model.setHunterName(j1.getText());
         model.setMonsterName(j2.getText());
-        this.hunterView = new MHHunterView(stage, new MHHunterController(stage, model));
+        MHMonsterController mc = new MHMonsterController(stage, model);
+        this.monsterView = new MHMonsterView(stage, mc);
+        MHHunterController hc = new MHHunterController(stage, model);
+        this.hunterView = new MHHunterView(stage, hc);
+        mc.setHunterView(hunterView);
+        hc.setMonsterView(monsterView);
         this.hunterView.render();
 
     }

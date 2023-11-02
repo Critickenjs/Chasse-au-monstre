@@ -1,5 +1,7 @@
 package chasseaumonstre.strategy.hunter;
 
+import java.util.Arrays;
+
 import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
@@ -47,6 +49,14 @@ public class Hunter implements IHunterStrategy {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean hasShot(int x, int y) {
+        return this.shootLocations[x][y];
+    }
+
+    public void shoot(int x, int y) {
+        this.shootLocations[x][y] = true;
     }
 
     /*
