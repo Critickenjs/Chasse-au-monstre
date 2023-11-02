@@ -21,7 +21,13 @@ public class MHMonsterController {
             + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
             + "steps.wav";
 
+    private final String WRONG_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+            + "main"
+            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
+            + "error.mp3";
+
     private final double VOLUME = 100;
+    private final double LOW_VOLUME = 0.05;
 
     @FXML
     private VBox contentV;
@@ -85,7 +91,8 @@ public class MHMonsterController {
                 if (model.getMonster().isVisited(moveX, moveY)) {
                     visitedAlert(moveX, moveY);
                     break;
-                }UtilsController.playSound(STEPS_SOUND_PATH, VOLUME);
+                }
+                UtilsController.playSound(STEPS_SOUND_PATH, VOLUME);
                 moved = true;
                 ICoordinate coord = model.getMonster().getCoord();
                 model.getMaze()[coord.getRow()][coord.getCol()] = CellInfo.EMPTY;
@@ -94,11 +101,13 @@ public class MHMonsterController {
                 pathAlert(moveX, moveY);
                 partieView.update();
             } else {
+                UtilsController.playSound(WRONG_SOUND_PATH, LOW_VOLUME);
                 farAlert(moveX, moveY);
             }
             break;
             
             case WALL:
+            UtilsController.playSound(WRONG_SOUND_PATH, LOW_VOLUME);
             wallAlert(moveX, moveY);
             break;
             

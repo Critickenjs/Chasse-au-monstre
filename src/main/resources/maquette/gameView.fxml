@@ -49,7 +49,10 @@
             </VBox>
             <VBox alignment="BOTTOM_CENTER" prefHeight="548.0" prefWidth="272.0" spacing="30.0">
                <children>
-                  <Button fx:id="skipTurn" mnemonicParsing="false" onMousePressed="#onSkipTurn" prefHeight="40.0" prefWidth="118.0" text="Passer le tour" textAlignment="CENTER">
+                  <Button fx:id="skipTurn" mnemonicParsing="false" onMousePressed="#onSkipTurn" prefHeight="40.0" prefWidth="118.0" text="Passer le tour" textAlignment="CENTER" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
                      <VBox.margin>
                         <Insets />
                      </VBox.margin></Button>
