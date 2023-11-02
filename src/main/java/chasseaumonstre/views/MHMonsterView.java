@@ -77,7 +77,11 @@ public class MHMonsterView {
 
                 switch (this.controller.getModel().getMaze()[x][y]) {
                     case WALL:
-                        cell.setFill(Color.BLACK);
+                        if (this.controller.getModel().getStep() == 0) {
+                            cell.setFill(Color.BLACK);
+                        } else {
+                            cell.setFill(Color.WHITE);
+                        }
                         break;
                     case EMPTY:
                         cell.setFill(Color.WHITE);
@@ -85,14 +89,11 @@ public class MHMonsterView {
                     case EXIT:
                         cell.setFill(Color.GREEN);
                         break;
+                    case MONSTER:
+                        cell.setFill(Color.BLUE);
+                        break;
                     default:
                         break;
-                }
-
-                if (MHHunterView.isOnBorder(x, y, width - 1, heigth - 1)) {
-                    cell.setFill(Color.BLACK);
-                } else {
-                    cell.setFill(Color.WHITE);
                 }
 
                 this.maze.add(cell, x, y);

@@ -62,6 +62,7 @@ public class MHMonsterController {
 
     @FXML
     public void onSkipTurn() {
+        this.model.nextStep();
         new MHHunterView(this.stage, new MHHunterController(this.stage, this.model)).render();
     }
 

@@ -84,4 +84,8 @@ public class MonsterHunterModel {
     public Integer getStep() {
         return this.step;
     }
+
+    public void nextStep() {
+        this.step++;
+    }
 }
