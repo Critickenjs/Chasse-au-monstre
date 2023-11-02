@@ -126,6 +126,14 @@ public class Monster implements IMonsterStrategy {
         visited[row][col] = true;
     }
 
+    public boolean estAdjacente(int x1, int y1) {
+        int diffX = Math.abs(x1- this.coord.getRow());
+        int diffY = Math.abs(y1 -this.coord.getCol());
+
+        
+        return (diffX == 1 && diffY == 0) || (diffX == 0 && diffY == 1);
+    }
+
     /*
      * Définit que le monstre a déjà visité une cellule
      * 
@@ -141,6 +149,7 @@ public class Monster implements IMonsterStrategy {
             throw new ArrayIndexOutOfBoundsException("Row " + row + "/" + visited.length + " or column " + col + "/" + visited[0].length);
         }
     }
+
 
     /*
      * Joue un tour du monstre
