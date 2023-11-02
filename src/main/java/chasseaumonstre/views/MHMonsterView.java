@@ -42,6 +42,7 @@ public class MHMonsterView {
 
             this.draw();
             this.controller.getContentV().getChildren().add(maze);
+            this.controller.showHistory();
 
             Scene scene = new Scene(root, 1300, 900);
 
