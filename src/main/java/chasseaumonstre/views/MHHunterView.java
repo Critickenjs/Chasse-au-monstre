@@ -10,8 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MHHunterView {
@@ -56,16 +58,18 @@ public class MHHunterView {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < heigth; y++) {
+                StackPane stack = new StackPane();
                 Rectangle cell = new Rectangle(50, 50);
                 cell.setStroke(Color.BLACK);
+                Text text = new Text();
 
                 cell.setOnMouseClicked(e -> {
                     if (this.controller.hasShot()) {
                         return;
                     }
-                    int cellX = GridPane.getColumnIndex(cell);
-                    int cellY = GridPane.getRowIndex(cell);
-
+                    int cellX = GridPane.getColumnIndex(stack);
+                    int cellY = GridPane.getRowIndex(stack);
+                    
                     switch (controller.handleShot(cellX, cellY)) {
                         case WALL:
                             cell.setFill(Color.web("#a8a8a8"));
@@ -73,6 +77,11 @@ public class MHHunterView {
 
                         case EMPTY:
                             cell.setFill(Color.web("#de1b1b3c"));
+                            if (this.controller.getModel().getMonster().isVisited(cellX, cellY)) {
+                                    text.setText("" + this.controller.getModel().getMonster().getVisitedTurn(cellX,cellY));
+                                    this.controller.getModel().getHunter().setVisited(cellX,cellY);
+                                    this.controller.getModel().getHunter().setVisitedTurn(this.controller.getModel().getMonster().getVisitedTurn(cellX,cellY),cellX,cellY);
+                                }
                             break;
 
                         case MONSTER:
@@ -89,6 +98,9 @@ public class MHHunterView {
                         cell.setFill(Color.web("#a8a8a8"));
                     } else {
                         cell.setFill(Color.web("#de1b1b3c"));
+                        if (this.controller.getModel().getHunter().isVisited(x, y) && (this.controller.getModel().getHunter().getVisitedTurn(x,y)> 0)) {
+                                    text.setText("" + this.controller.getModel().getHunter().getVisitedTurn(x,y));
+                                }
                     }
                 } else {
                     if (MHHunterView.isOnBorder(x, y, width - 1, heigth - 1)) {
@@ -97,6 +109,7 @@ public class MHHunterView {
                         cell.setFill(Color.WHITE);
                     }
                 }
+                
 
                 this.maze.add(cell, x, y);
             }

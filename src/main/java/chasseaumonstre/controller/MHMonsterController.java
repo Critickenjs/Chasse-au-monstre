@@ -1,5 +1,8 @@
 package chasseaumonstre.controller;
 
+import java.io.File;
+
+import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.MHHunterView;
 import chasseaumonstre.views.MHMonsterView;
@@ -13,6 +16,18 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MHMonsterController {
+    private final String STEPS_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+            + "main"
+            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
+            + "steps.wav";
+
+    private final String WRONG_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+            + "main"
+            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
+            + "error.mp3";
+
+    private final double VOLUME = 100;
+    private final double LOW_VOLUME = 0.05;
 
     @FXML
     private VBox contentV;
@@ -77,6 +92,7 @@ public class MHMonsterController {
                     visitedAlert(moveX, moveY);
                     break;
                 }
+                UtilsController.playSound(STEPS_SOUND_PATH, VOLUME);
                 moved = true;
                 ICoordinate coord = model.getMonster().getCoord();
                 model.getMaze()[coord.getRow()][coord.getCol()] = CellInfo.EMPTY;
@@ -85,11 +101,13 @@ public class MHMonsterController {
                 pathAlert(moveX, moveY);
                 partieView.update();
             } else {
+                UtilsController.playSound(WRONG_SOUND_PATH, LOW_VOLUME);
                 farAlert(moveX, moveY);
             }
             break;
             
             case WALL:
+            UtilsController.playSound(WRONG_SOUND_PATH, LOW_VOLUME);
             wallAlert(moveX, moveY);
             break;
             
