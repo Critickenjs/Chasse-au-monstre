@@ -95,12 +95,6 @@ public class MazeGenerator {
         }
     }
     
-    private int getEntrance() {
-        for(int i = 0; i < this.width; i++)
-            if (maze[i][0] == 0)
-                return i;
-        return -1;
-    }
 
     /*
      * Convertit le labyrinthe en tableau de CellInfo
