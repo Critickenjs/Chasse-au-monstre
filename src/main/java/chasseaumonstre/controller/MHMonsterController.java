@@ -1,9 +1,11 @@
 package chasseaumonstre.controller;
 
 import chasseaumonstre.controller.utils.UtilsController;
+import chasseaumonstre.model.Coordinate;
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.MHHunterView;
 import chasseaumonstre.views.MHMonsterView;
+import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
@@ -17,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class MHMonsterController {
@@ -76,12 +79,25 @@ public class MHMonsterController {
     }
     
     public CellInfo handleMove(int moveX, int moveY) {
-        model.getMonster().setVisited(moveX, moveY);
-        moved = true;
         CellInfo cellValue = model.getMaze()[moveX][moveY];
         switch (cellValue) {
             case EMPTY:
-            pathAlert(moveX, moveY);
+            if (model.getMonster().estAdjacente(moveX, moveY)) {
+                if (model.getMonster().isVisited(moveX, moveY)) {
+                    visitedAlert(moveX, moveY);
+                    break;
+                }
+                model.getMonster().setVisited(moveX, moveY);
+                moved = true;
+                ICoordinate coord = model.getMonster().getCoord();
+                model.getMaze()[coord.getRow()][coord.getCol()] = CellInfo.EMPTY;
+                model.getMonster().setCoord(moveX, moveY);
+                model.getMaze()[moveX][moveY] = CellInfo.MONSTER;
+                pathAlert(moveX, moveY);
+                partieView.update();
+            } else {
+                farAlert(moveX, moveY);
+            }
             break;
             
             case WALL:
@@ -114,7 +130,17 @@ public class MHMonsterController {
         alertHeader.setStyle("-fx-text-fill: red;");
     }
     
-    
+    private void visitedAlert(int cellX, int cellY) {
+        this.alertHeader.setText("You already walked on this case.\n Keep searching!");
+        this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
+        alertHeader.setStyle("-fx-text-fill: orange;");
+    }
+
+    private void farAlert(int cellX, int cellY) {
+        this.alertHeader.setText("You are too far from this case.\n Keep searching!");
+        this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
+        alertHeader.setStyle("-fx-text-fill: orange;");
+    }
 }
 
 

@@ -94,13 +94,13 @@ public class MazeGenerator {
             }
         }
     }
-    private int getEntrance() {
+    public int getEntrance() { // TODO : à modifier parce que c'est pas opti du tout
         for(int i = 0; i < this.width; i++)
             if (maze[i][0] == 0)
                 return i;
         return -1;
     }
-    private int getExit() {
+    public int getExit() { // TODO : à modifier parce que c'est pas opti du tout
         for(int i = 0; i < this.width; i++)
             if (maze[i][height - 1] == 0)
                 return i;

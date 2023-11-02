@@ -37,7 +37,7 @@ public class MHHunterView {
             Parent root = loader.load();
             
 
-            this.draw();
+            this.update();
             controller.getContentV().getChildren().add(maze);
 
             Scene scene = new Scene(root, 1300, 900);
@@ -51,7 +51,6 @@ public class MHHunterView {
     }
 
     private void draw() {
-        maze.getChildren().clear();
 
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();

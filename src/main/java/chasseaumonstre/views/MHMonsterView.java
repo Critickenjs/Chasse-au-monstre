@@ -2,9 +2,12 @@ package chasseaumonstre.views;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 
 import chasseaumonstre.controller.MHMonsterController;
 import chasseaumonstre.controller.utils.UtilsController;
+import chasseaumonstre.model.Coordinate;
+import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -56,10 +59,9 @@ public class MHMonsterView {
     }
 
     private void draw() {
-
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();
-
+        this.maze.getChildren().clear(); // TODO remplacer par update
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < heigth; y++) {
                 Rectangle cell = new Rectangle(50, 50);
@@ -71,43 +73,38 @@ public class MHMonsterView {
                     }
                     int cellX = GridPane.getColumnIndex(cell);
                     int cellY = GridPane.getRowIndex(cell);
-                    CellInfo type = controller.handleMove(cellX, cellY);
-
-                    if (type == CellInfo.WALL) {
-                        cell.setFill(Color.BLACK);
-                    } else {
-                        cell.setFill(Color.web("#1bde243c"));
-                    }
+                    controller.handleMove(cellX, cellY);
                 });
 
-                if (this.controller.getModel().getMonster().isVisited(x, y)) {
-                    if (this.controller.getModel().getMaze()[x][y] == CellInfo.WALL) {
+                
+                switch (this.controller.getModel().getMaze()[x][y]) {
+                    case WALL:
                         cell.setFill(Color.BLACK);
-                    } else {
-                        cell.setFill(Color.web("#1bde243c"));
-                    }
-                } else {
-                    switch (this.controller.getModel().getMaze()[x][y]) {
-                        case WALL:
-                            cell.setFill(Color.BLACK);
-                            break;
-                        case EMPTY:
+                        break;
+                    case EMPTY:
+                        if (this.controller.getModel().getMonster().isVisited(x, y)) 
+                            cell.setFill(Color.web("#1bde243c"));
+                        else 
                             cell.setFill(Color.WHITE);
-                            break;
-                        case EXIT:
-                            cell.setFill(Color.GREEN);
-                            break;
-                        case MONSTER:
-                            cell.setFill(new ImagePattern(new Image("https://media.tenor.com/dPsOXgYjb30AAAAi/pixel-pixelart.gif")));
-                            break;
-                        default:
-                            break;
-                    }
+                        break;
+                    case EXIT:
+                        cell.setFill(Color.GREEN);
+                        break;
+                    case MONSTER:
+                        cell.setFill(Color.web("#1bde243c"));
+                        cell.setFill(new ImagePattern(new Image("https://media.tenor.com/dPsOXgYjb30AAAAi/pixel-pixelart.gif")));
+                        break;
+                    default:
+                        break;
                 }
 
                 this.maze.add(cell, x, y);
             }
         }
+    }
+
+    public Rectangle getCell(int x, int y) {
+        return (Rectangle) this.maze.getChildren().get(x * this.controller.getModel().getWidth() + y);
     }
 
     public void update() {

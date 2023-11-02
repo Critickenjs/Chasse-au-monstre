@@ -20,6 +20,7 @@ public class MonsterHunterModel {
     private String monsterName, hunterName;
     private Monster monster;
     private Hunter hunter;
+    private Coordinate entrance, exit;
 
     /*
      * Constructeur de MonsterHunterModel
@@ -89,6 +90,9 @@ public class MonsterHunterModel {
             mazeGenerator.generate();
             mazeValidator.setMaze(mazeGenerator.getMaze());
         }
+        entrance = new Coordinate(mazeGenerator.getEntrance(), 0);
+        exit = new Coordinate(mazeGenerator.getExit(), heigth - 1);
+        monster.setCoord(entrance.getRow(), entrance.getCol());
 
         this.maze = mazeGenerator.toCellInfo();
     }
@@ -99,6 +103,14 @@ public class MonsterHunterModel {
 
     public Integer getStep() {
         return this.step;
+    }
+
+    public Coordinate getEntrance() {
+        return entrance;
+    }
+
+    public Coordinate getExit() {
+        return exit;
     }
 
     public void nextStep() {
