@@ -1,8 +1,6 @@
 package chasseaumonstre.controller;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import chasseaumonstre.App;
 import chasseaumonstre.controller.utils.UtilsController;
@@ -11,18 +9,12 @@ import chasseaumonstre.views.MHMonsterView;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class MHHunterController {
+public class MHHunterController extends MHPlayerController {
     private final String GUN_SHOT_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
             + "main"
             + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
@@ -38,45 +30,11 @@ public class MHHunterController {
 
     private final double VOLUME = 0.05;
 
-    @FXML
-    private VBox contentV;
-
-    @FXML
-    private GridPane maze;
-
-    @FXML
-    private Label characterName;
-
-    @FXML
-    private Label alertHeader;
-
-    @FXML
-    private Label alertBody;
-
-    @FXML
-    private Button skipTurn;
-
-    @FXML
-    private ScrollPane alertHistory;
-
-    @FXML
-    private VBox contentAlerts;
-
-    private Alert winAlert;
     private boolean shot;
-
-    private MonsterHunterModel model;
-    private Stage stage;
     private MHMonsterView monsterView;
 
-    private List<Label> alerts;
-
     public MHHunterController(Stage stage, MonsterHunterModel model) {
-        this.model = model;
-        this.stage = stage;
-
-        this.winAlert = new Alert(AlertType.INFORMATION);
-        this.alerts = new ArrayList<>();
+        super(stage, model);
     }
 
     public void initialize() {
@@ -94,6 +52,12 @@ public class MHHunterController {
 
     public void setMaze(GridPane maze) {
         this.maze = maze;
+    }
+
+    @FXML
+    public void onSkipTurn() {
+        shot = false;
+        this.monsterView.render();
     }
 
     public CellInfo handleShot(int shotX, int shotY) {
@@ -126,12 +90,6 @@ public class MHHunterController {
         return cellValue;
     }
 
-    @FXML
-    public void onSkipTurn() {
-        shot = false;
-        this.monsterView.render();
-    }
-
     public boolean hasShot() {
         return shot;
     }
@@ -140,14 +98,14 @@ public class MHHunterController {
         this.monsterView = monsterView;
     }
 
-    private void pathAlert(int cellX, int cellY) {
+    protected void pathAlert(int cellX, int cellY) {
         UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
         this.alertHeader.setText("You shot a path cell.\n Keep searching!");
         this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.RED);
     }
 
-    private void wallAlert(int cellX, int cellY) {
+    protected void wallAlert(int cellX, int cellY) {
         UtilsController.playSound(METAL_SOUND_PATH, VOLUME);
         this.alertHeader.setText("You shot a wall.\n Keep searching!");
         this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
@@ -161,7 +119,7 @@ public class MHHunterController {
         this.alertHeader.setTextFill(Color.GREEN);
     }
     
-    private void winAlert() {
+    protected void winAlert() {
         UtilsController.playSound(MONSTERKILL_SOUND_PATH, VOLUME);
         this.winAlert.setTitle("HUNTER Victory");
         this.winAlert.setHeaderText(null);
@@ -171,7 +129,7 @@ public class MHHunterController {
         alertOnClose();
     }
 
-    private void alertOnClose() {
+    protected void alertOnClose() {
         System.out.println("alert closed");
         Platform.runLater(() -> {
             try {
@@ -182,20 +140,5 @@ public class MHHunterController {
                 System.out.println(e.getMessage());
             }
         });
-    }
-
-    private void updateHistory() {
-        Label action = new Label("Turn : " + model.getTurn() + "\n" + alertHeader.getText() + "\n" + alertBody.getText());
-        alerts.add(action);
-
-        showHistory();
-    }
-
-    public void showHistory() {
-        contentAlerts.getChildren().clear();
-
-        for (Label action : alerts) {
-            contentAlerts.getChildren().addAll(action, new Separator());
-        }
     }
 }
