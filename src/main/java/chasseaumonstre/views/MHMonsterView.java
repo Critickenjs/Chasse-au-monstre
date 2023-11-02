@@ -69,7 +69,7 @@ public class MHMonsterView {
                 CellInfo type = controller.handleMove(cellX, cellY);
 
                 if (type == CellInfo.WALL) {
-                    cell.setFill(Color.web("#a8a8a8"));
+                    cell.setFill(Color.BLACK);
                 } else {
                     cell.setFill(Color.web("#1bde243c"));
                 }
@@ -77,7 +77,7 @@ public class MHMonsterView {
 
                 if (this.controller.getModel().getMonster().isVisited(x, y)) {
                     if (this.controller.getModel().getMaze()[x][y] == CellInfo.WALL) {
-                        cell.setFill(Color.web("#a8a8a8"));
+                        cell.setFill(Color.BLACK);
                     } else {
                         cell.setFill(Color.web("#1bde243c"));
                     }
