@@ -110,8 +110,8 @@ public class MHHunterView {
                     }
                 }
                 
-
-                this.maze.add(cell, x, y);
+                stack.getChildren().addAll(cell,text);
+                this.maze.add(stack, x, y);
             }
         }
     }
