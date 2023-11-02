@@ -20,20 +20,21 @@
       </ImageView>
       <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Text fill="WHITE" layoutX="231.0" layoutY="143.0" stroke="#3c3c3c" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="4.0" text="CHASSE AU MONSTRE">
-               <font>
-                  <Font name="Constantia Bold" size="54.0" />
-               </font>
-               CHASSE AU MONSTRE
+           <Text fill="WHITE" layoutX="231.0" layoutY="143.0" stroke="#3c3c3c" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="4.0" text="CHASSE AU MONSTRE">
+            <font>
+               <Font name="Constantia Bold" size="54.0" />
+            </font>
             </Text>
-            <HBox layoutX="329.0" layoutY="208.0" spacing="20">
-               <Label text="Nom du chasseur :" textFill="#f2efef" />
-               <TextField fx:id="j1" onKeyReleased="#startGame" prefHeight="30.0" prefWidth="200.0" />
-            </HBox>
-            <HBox layoutX="331.0" layoutY="270.0" spacing="20">
-               <Label text="Nom du monstre :" textFill="WHITE" />
-               <TextField fx:id="j2" onKeyReleased="#startGame" prefHeight="30.0" prefWidth="200.0" />
-            </HBox>
+    
+      <HBox layoutX="329.0" layoutY="208.0" spacing="20">
+        <Label text="Nom du chasseur :" textFill="white" style="-fx-font-family: 'Constantia Bold'; -fx-font-size: 15; -fx-stroke: #3c3c3c; -fx-stroke-line-cap: ROUND; -fx-stroke-type: OUTSIDE; -fx-stroke-width: 15;" />
+        <TextField fx:id="j1" onKeyReleased="#startGame" prefHeight="30.0" prefWidth="200.0" />
+      </HBox>
+    
+      <HBox layoutX="331.0" layoutY="270.0" spacing="20">
+      <Label text="Nom du monstre :" textFill="white" style="-fx-stroke: #3c3c3c; -fx-stroke-line-cap: ROUND; -fx-stroke-type: OUTSIDE; -fx-stroke-width: 4.0; -fx-font-family: 'Constantia Bold'; -fx-font-size: 15;" />
+        <TextField fx:id="j2" onKeyReleased="#startGame" prefHeight="30.0" prefWidth="200.0" />
+      </HBox>
             <Button fx:id="startGameButton" layoutX="402.0" layoutY="345.0" mnemonicParsing="false" onAction="#startGameButton"  prefHeight="30.0" prefWidth="221.0" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;" text="Commencer la partie" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
