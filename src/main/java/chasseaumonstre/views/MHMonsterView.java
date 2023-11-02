@@ -104,7 +104,6 @@ public class MHMonsterView {
                 }
 
                 this.maze.add(cell, x, y);
-                System.out.println(this.maze.toString());
             }
         }
     }
