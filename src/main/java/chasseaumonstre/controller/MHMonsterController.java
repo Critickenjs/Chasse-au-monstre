@@ -1,8 +1,6 @@
 package chasseaumonstre.controller;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import chasseaumonstre.App;
 import chasseaumonstre.controller.utils.UtilsController;
@@ -13,19 +11,13 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class MHMonsterController {
+public class MHMonsterController extends MHPlayerController {
     private final String STEPS_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
             + "main"
             + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
@@ -39,48 +31,12 @@ public class MHMonsterController {
     private final double VOLUME = 100;
     private final double LOW_VOLUME = 0.05;
 
-    @FXML
-    private VBox contentV;
-
-    @FXML
-    private GridPane maze;
-
-    @FXML
-    private Label characterName;
-
-    @FXML
-    private Label alertHeader;
-
-    @FXML
-    private Label alertBody;
-
-    @FXML
-    private Button skipTurn;
-
-    @FXML
-    private ScrollPane alertHistory;
-
-    @FXML
-    private VBox contentAlerts;
-
-    private Stage stage;
     private boolean moved;
-    private MonsterHunterModel model;
     private MHMonsterView partieView;
     private MHHunterView hunterView;
 
-    private Alert winAlert;
-
-    private List<Label> alerts;
-
     public MHMonsterController(Stage stage, MonsterHunterModel model) {
-        this.stage = stage;
-        this.model = model;
-        this.moved = false;
-        this.maze = new GridPane();
-
-        this.winAlert = new Alert(Alert.AlertType.INFORMATION);
-        this.alerts = new ArrayList<>();
+        super(stage, model);
     }
 
     public void initialize() {
@@ -156,21 +112,21 @@ public class MHMonsterController {
         return cellValue;
     }
 
-    public void setHunterView(MHHunterView hunterView) {
-        this.hunterView = hunterView;
-    }
-
     public boolean hasMoved() {
         return moved;
     }
 
-    private void pathAlert(int cellX, int cellY) {
+    public void setHunterView(MHHunterView hunterView) {
+        this.hunterView = hunterView;
+    }
+
+    protected void pathAlert(int cellX, int cellY) {
         this.alertHeader.setText("You walk on a empty case.");
         this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.BLUE);
     }
 
-    private void wallAlert(int cellX, int cellY) {
+    protected void wallAlert(int cellX, int cellY) {
         this.alertHeader.setText("You cannot walk on a wall.");
         this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.RED);
@@ -188,7 +144,7 @@ public class MHMonsterController {
         this.alertHeader.setTextFill(Color.ORANGE);
     }
 
-    private void winAlert() {
+    protected void winAlert() {
         this.winAlert.setTitle("MONSTER Victory");
         this.winAlert.setHeaderText(null);
         this.winAlert.setContentText("The Monster leave the labyrinth. The Monster wins!");
@@ -197,7 +153,7 @@ public class MHMonsterController {
         alertOnClose();
     }
 
-    private void alertOnClose() {
+    protected void alertOnClose() {
         Platform.runLater(() -> {
             try {
                 new App().start(new Stage());
@@ -238,20 +194,5 @@ public class MHMonsterController {
 
             handleMove(x, y);
         });
-    }
-
-    private void updateHistory() {
-        Label action = new Label("Turn : " + model.getTurn() + "\n" + alertHeader.getText() + "\n" + alertBody.getText());
-        alerts.add(action);
-
-        showHistory();
-    }
-
-    public void showHistory() {
-        contentAlerts.getChildren().clear();
-
-        for (Label action : alerts) {
-            contentAlerts.getChildren().addAll(action, new Separator());
-        }
     }
 }
