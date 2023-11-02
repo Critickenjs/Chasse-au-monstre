@@ -45,6 +45,16 @@ public class JVJController {
 
     @FXML
     private void startGameButton() {
+        if (j1.getText().isEmpty()) {
+            j1.setStyle("-fx-border-color: red");
+            return;
+        }
+        j1.setStyle("-fx-border-color: none");
+        if (j2.getText().isEmpty()) {
+            j2.setStyle("-fx-border-color: red");
+            return;
+        }
+        j2.setStyle("-fx-border-color: none");
         startGame();
     }
 
