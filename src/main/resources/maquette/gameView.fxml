@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox fx:id="contentV" prefHeight="850.0" prefWidth="1050.0">
          <children>
@@ -54,7 +54,7 @@
                      <content>
                         <VBox fx:id="contentAlerts" alignment="TOP_CENTER" prefWidth="210.0" />
                      </content></ScrollPane>
-                  <Button fx:id="skipTurn" mnemonicParsing="false" onMousePressed="#onSkipTurn" prefHeight="40.0" prefWidth="118.0" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;" text="Passer le tour" textAlignment="CENTER">
+                  <Button fx:id="skipTurn" disable="true" mnemonicParsing="false" onMousePressed="#onSkipTurn" prefHeight="40.0" prefWidth="118.0" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;" text="Passer le tour" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
