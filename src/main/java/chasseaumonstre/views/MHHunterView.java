@@ -98,7 +98,7 @@ public class MHHunterView {
                         cell.setFill(Color.web("#a8a8a8"));
                     } else {
                         cell.setFill(Color.web("#de1b1b3c"));
-                        if (this.controller.getModel().getHunter().isVisited(x, y) && (this.controller.getModel().getHunter().getVisitedTurn(x,y)> 0)) {
+                        if (this.controller.getModel().getHunter().isVisited(x, y) && (this.controller.getModel().getHunter().getVisitedTurn(x,y)>= 0)) {
                                     text.setText("" + this.controller.getModel().getHunter().getVisitedTurn(x,y));
                                 }
                     }
