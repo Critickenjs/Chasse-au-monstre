@@ -69,14 +69,14 @@ public class MHHunterController {
     private Stage stage;
     private MHMonsterView monsterView;
 
-    private List<Label> contentAlert;
+    private List<Label> alerts;
 
     public MHHunterController(Stage stage, MonsterHunterModel model) {
         this.model = model;
         this.stage = stage;
 
         this.winAlert = new Alert(AlertType.INFORMATION);
-        this.contentAlert = new ArrayList<>();
+        this.alerts = new ArrayList<>();
     }
 
     public void initialize() {
@@ -185,7 +185,7 @@ public class MHHunterController {
 
     private void updateHistory() {
         Label action = new Label(alertHeader.getText() + "\n" + alertBody.getText());
-        contentAlert.add(action);
+        alerts.add(action);
 
         showHistory();
     }
@@ -193,7 +193,7 @@ public class MHHunterController {
     public void showHistory() {
         contentHistory.getChildren().clear();
 
-        for (Label action : contentAlert) {
+        for (Label action : alerts) {
             contentHistory.getChildren().addAll(action, new Separator());
         }
     }
