@@ -64,7 +64,7 @@ public class MHMonsterController {
     @FXML
     public void onSkipTurn() {
         moved = false;
-        this.model.nextStep();
+        this.model.nextTurn();
         this.hunterView.render();
     }
     
@@ -77,11 +77,10 @@ public class MHMonsterController {
                     visitedAlert(moveX, moveY);
                     break;
                 }
-                model.getMonster().setVisited(moveX, moveY);
                 moved = true;
                 ICoordinate coord = model.getMonster().getCoord();
                 model.getMaze()[coord.getRow()][coord.getCol()] = CellInfo.EMPTY;
-                model.getMonster().setCoord(moveX, moveY);
+                model.getMonster().setCoord(moveX, moveY, model.getTurn());
                 model.getMaze()[moveX][moveY] = CellInfo.MONSTER;
                 pathAlert(moveX, moveY);
                 partieView.update();

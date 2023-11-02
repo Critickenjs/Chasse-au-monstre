@@ -20,12 +20,14 @@ public class Monster implements IMonsterStrategy {
     private ICoordinate entry;
     private ICoordinate coord;
     private boolean[][] visited;
+    private int[][] visitedTurn;
 
     public Monster() {
         this.exit = null;
         this.entry = null;
         this.coord = null;
         this.visited = null;
+        this.visitedTurn = null;
     }
 
     /*
@@ -46,6 +48,7 @@ public class Monster implements IMonsterStrategy {
      */
     public void initialize(boolean[][] locations) {
         this.visited = locations;
+        this.visitedTurn = new int[locations.length][locations[0].length];
     }
 
     public ICoordinate getExit() {
@@ -94,9 +97,11 @@ public class Monster implements IMonsterStrategy {
         this.coord = coord;
     }
 
-    public void setCoord(int row, int col) throws ArrayIndexOutOfBoundsException {
+    public void setCoord(int row, int col, int turn) throws ArrayIndexOutOfBoundsException {
         checkCoord(row, col);
         setCoord(new Coordinate(row, col));
+        visitedTurn[row][col] = turn;
+        setVisited(row, col);
     }
 
     /*
@@ -121,7 +126,7 @@ public class Monster implements IMonsterStrategy {
      * @param col la colonne de la cellule
      * @return true si le monstre a déjà visité la cellule, false sinon
      */
-    public void setVisited(int row, int col) throws ArrayIndexOutOfBoundsException {
+    private void setVisited(int row, int col) throws ArrayIndexOutOfBoundsException {
         checkCoord(row, col);
         visited[row][col] = true;
     }
@@ -150,6 +155,13 @@ public class Monster implements IMonsterStrategy {
         }
     }
 
+    public int getVisitedTurn(int row, int col) {
+        try {
+            return visitedTurn[row][col];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return -1;
+        }
+    }
 
     /*
      * Joue un tour du monstre
