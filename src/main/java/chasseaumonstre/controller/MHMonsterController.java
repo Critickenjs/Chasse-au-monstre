@@ -1,5 +1,8 @@
 package chasseaumonstre.controller;
 
+import java.io.File;
+
+import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.MHHunterView;
 import chasseaumonstre.views.MHMonsterView;
@@ -13,6 +16,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MHMonsterController {
+    private final String STEPS_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+            + "main"
+            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
+            + "steps.wav";
+
+    private final double VOLUME = 100;
 
     @FXML
     private VBox contentV;
@@ -76,7 +85,7 @@ public class MHMonsterController {
                 if (model.getMonster().isVisited(moveX, moveY)) {
                     visitedAlert(moveX, moveY);
                     break;
-                }
+                }UtilsController.playSound(STEPS_SOUND_PATH, VOLUME);
                 moved = true;
                 ICoordinate coord = model.getMonster().getCoord();
                 model.getMaze()[coord.getRow()][coord.getCol()] = CellInfo.EMPTY;

@@ -22,6 +22,14 @@ public class MHHunterController {
             + "main"
             + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
             + "gun-shot.mp3";
+    private final String METAL_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+            + "main"
+            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
+            + "metal.wav";
+    private final String MONSTERKILL_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
+            + "main"
+            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
+            + "monsterkill.mp3";
 
     private final double VOLUME = 0.05;
 
@@ -120,7 +128,7 @@ public class MHHunterController {
     }
 
     private void wallAlert(int cellX, int cellY) {
-        UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
+        UtilsController.playSound(METAL_SOUND_PATH, VOLUME);
         this.alertHeader.setText("You shot a wall.\n Keep searching!");
         this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
         this.alertHeader.setStyle("-fx-text-fill: red;");
@@ -132,8 +140,9 @@ public class MHHunterController {
         this.alertBody.setText("You found the Monster at coordinates:\n (" + cellX + ", " + cellY + ")");
         this.alertHeader.setStyle("-fx-text-fill: green;");
     }
-
+    
     private void winAlert() {
+        UtilsController.playSound(MONSTERKILL_SOUND_PATH, VOLUME);
         this.winAlert.setTitle("HUNTER Victory");
         this.winAlert.setHeaderText(null);
         this.winAlert.setContentText("The Hunter has shot the Monster. The Hunter wins!");
