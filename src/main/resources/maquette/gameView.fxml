@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -49,6 +50,10 @@
             </VBox>
             <VBox alignment="BOTTOM_CENTER" prefHeight="548.0" prefWidth="272.0" spacing="30.0">
                <children>
+                  <ScrollPane fx:id="alertHistory" prefHeight="467.0" prefWidth="272.0">
+                     <content>
+                        <VBox fx:id="contentHistory" alignment="TOP_CENTER" prefHeight="467.0" prefWidth="272.0" />
+                     </content></ScrollPane>
                   <Button fx:id="skipTurn" mnemonicParsing="false" onMousePressed="#onSkipTurn" prefHeight="40.0" prefWidth="118.0" text="Passer le tour" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets />

@@ -1,6 +1,8 @@
 package chasseaumonstre.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import chasseaumonstre.App;
 import chasseaumonstre.controller.utils.UtilsController;
@@ -12,9 +14,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class MHHunterController {
@@ -43,21 +48,32 @@ public class MHHunterController {
     @FXML
     private Button skipTurn;
 
+    @FXML
+    private ScrollPane alertHistory;
+
+    @FXML
+    private VBox contentHistory;
+
     private Alert winAlert;
     private boolean shot;
+
     private MonsterHunterModel model;
     private Stage stage;
     private MHMonsterView monsterView;
+
+    private List<Label> contentAlert;
 
     public MHHunterController(Stage stage, MonsterHunterModel model) {
         this.model = model;
         this.stage = stage;
 
         this.winAlert = new Alert(AlertType.INFORMATION);
+        this.contentAlert = new ArrayList<>();
     }
 
     public void initialize() {
         this.characterName.setText("Le Chasseur \n" + this.model.getHunterName());
+
     }
 
     public MonsterHunterModel getModel() {
@@ -80,14 +96,17 @@ public class MHHunterController {
         switch (cellValue) {
             case EMPTY:
                 pathAlert(shotX, shotY);
+                this.updateHistory();
                 break;
 
             case WALL:
                 wallAlert(shotX, shotY);
+                this.updateHistory();
                 break;
 
             case MONSTER:
                 monsterAlert(shotX, shotY);
+                this.updateHistory();
                 winAlert();
                 break;
 
@@ -115,22 +134,22 @@ public class MHHunterController {
     private void pathAlert(int cellX, int cellY) {
         UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
         this.alertHeader.setText("You shot a path cell.\n Keep searching!");
-        this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
-        this.alertHeader.setStyle("-fx-text-fill: red;");
+        this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
+        this.alertHeader.setTextFill(Color.RED);
     }
 
     private void wallAlert(int cellX, int cellY) {
         UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
         this.alertHeader.setText("You shot a wall.\n Keep searching!");
-        this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
-        this.alertHeader.setStyle("-fx-text-fill: red;");
+        this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
+        this.alertHeader.setTextFill(Color.RED);
     }
 
     private void monsterAlert(int cellX, int cellY) {
         UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
         this.alertHeader.setText("YOU WON!");
-        this.alertBody.setText("You found the Monster at coordinates:\n (" + cellX + ", " + cellY + ")");
-        this.alertHeader.setStyle("-fx-text-fill: green;");
+        this.alertBody.setText("You found the Monster at coordinates: (" + cellX + ", " + cellY + ")");
+        this.alertHeader.setTextFill(Color.GREEN);
     }
 
     private void winAlert() {
@@ -153,5 +172,20 @@ public class MHHunterController {
                 System.out.println(e.getMessage());
             }
         });
+    }
+
+    private void updateHistory() {
+        Label action = new Label(alertHeader.getText() + "\n" + alertBody.getText());
+        contentAlert.add(action);
+
+        showHistory();
+    }
+
+    public void showHistory() {
+        contentHistory.getChildren().clear();
+
+        for (Label action : contentAlert) {
+            contentHistory.getChildren().addAll(action, new Separator());
+        }
     }
 }
