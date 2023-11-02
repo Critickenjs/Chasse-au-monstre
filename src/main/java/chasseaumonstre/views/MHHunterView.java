@@ -34,10 +34,10 @@ public class MHHunterView {
             FXMLLoader loader = new FXMLLoader(new URL("file", "", UtilsController.FXML_LOCATION + "gameView.fxml"));
             loader.setController(this.controller);
             Parent root = loader.load();
-            
 
             this.update();
             controller.getContentV().getChildren().add(maze);
+            controller.showHistory();
 
             Scene scene = new Scene(root, 1300, 900);
 
@@ -65,7 +65,7 @@ public class MHHunterView {
                     }
                     int cellX = GridPane.getColumnIndex(cell);
                     int cellY = GridPane.getRowIndex(cell);
-                    
+
                     switch (controller.handleShot(cellX, cellY)) {
                         case WALL:
                             cell.setFill(Color.web("#a8a8a8"));
@@ -78,7 +78,7 @@ public class MHHunterView {
                         case MONSTER:
                             cell.setFill(Color.web("#1bde243c"));
                             break;
-                    
+
                         default:
                             break;
                     }
@@ -92,12 +92,11 @@ public class MHHunterView {
                     }
                 } else {
                     if (MHHunterView.isOnBorder(x, y, width - 1, heigth - 1)) {
-                    cell.setFill(Color.BLACK);
+                        cell.setFill(Color.BLACK);
                     } else {
                         cell.setFill(Color.WHITE);
                     }
                 }
-                
 
                 this.maze.add(cell, x, y);
             }
