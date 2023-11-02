@@ -13,9 +13,9 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox fx:id="contentV" prefHeight="850.0" prefWidth="1046.0">
+      <VBox fx:id="contentV" prefHeight="850.0" prefWidth="1050.0">
          <children>
-            <GridPane fx:id="maze" prefHeight="882.0" prefWidth="1122.0">
+            <GridPane fx:id="maze" prefHeight="850.0" prefWidth="1050.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -28,16 +28,16 @@
             </GridPane>
          </children>
       </VBox>
-      <VBox alignment="TOP_CENTER" prefHeight="850.0" prefWidth="289.0" spacing="30.0">
+      <VBox alignment="TOP_CENTER" prefHeight="850.0" prefWidth="250.0" spacing="30.0">
          <children>
             <Label fx:id="characterName" text="Chasseur">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>
             </Label>
-            <VBox prefHeight="92.0" prefWidth="272.0" style="-fx-background-color: #fcba0320; -fx-background-radius: 20px;">
+            <VBox prefHeight="92.0" prefWidth="250.0" style="-fx-background-color: #fcba0320; -fx-background-radius: 20px;">
                <children>
-                  <Label fx:id="alertHeader" alignment="TOP_CENTER" prefHeight="91.0" prefWidth="269.0" text="Intitulé de l'alerte" textAlignment="CENTER" textFill="#398c8d">
+                  <Label fx:id="alertHeader" alignment="TOP_CENTER" prefHeight="91.0" prefWidth="250.0" text="Intitulé de l'alerte" textAlignment="CENTER" textFill="#398c8d">
                      <padding>
                         <Insets top="10.0" />
                      </padding>
@@ -45,16 +45,16 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="alertBody" alignment="CENTER" prefHeight="184.0" prefWidth="272.0" text="Coordonnées..." textAlignment="CENTER" />
+                  <Label fx:id="alertBody" alignment="CENTER" prefHeight="184.0" prefWidth="250.0" text="Coordonnées..." textAlignment="CENTER" />
                </children>
             </VBox>
-            <VBox alignment="BOTTOM_CENTER" prefHeight="548.0" prefWidth="272.0" spacing="30.0">
+            <VBox alignment="BOTTOM_CENTER" prefHeight="550.0" prefWidth="250.0" spacing="30.0">
                <children>
-                  <ScrollPane fx:id="alertHistory" prefHeight="467.0" prefWidth="272.0">
+                  <ScrollPane fx:id="alertHistory" prefHeight="480.0" prefWidth="250.0">
                      <content>
-                        <VBox fx:id="contentHistory" alignment="TOP_CENTER" prefHeight="467.0" prefWidth="272.0" />
+                        <VBox fx:id="contentHistory" alignment="TOP_CENTER" prefWidth="210.0" />
                      </content></ScrollPane>
-                  <Button fx:id="skipTurn" mnemonicParsing="false" onMousePressed="#onSkipTurn" prefHeight="40.0" prefWidth="118.0" text="Passer le tour" textAlignment="CENTER" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;">
+                  <Button fx:id="skipTurn" mnemonicParsing="false" onMousePressed="#onSkipTurn" prefHeight="40.0" prefWidth="118.0" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;" text="Passer le tour" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

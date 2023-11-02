@@ -81,7 +81,7 @@ public class MHHunterController {
 
     public void initialize() {
         this.characterName.setText("Le Chasseur \n" + this.model.getHunterName());
-
+        this.alertHistory.setVvalue(1.0);
     }
 
     public MonsterHunterModel getModel() {
