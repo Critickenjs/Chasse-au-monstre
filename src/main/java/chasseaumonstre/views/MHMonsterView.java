@@ -2,24 +2,19 @@ package chasseaumonstre.views;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 
 import chasseaumonstre.controller.MHMonsterController;
 import chasseaumonstre.controller.utils.UtilsController;
-import chasseaumonstre.model.Coordinate;
-import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
-import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MHMonsterView {
@@ -64,15 +59,17 @@ public class MHMonsterView {
         this.maze.getChildren().clear(); // TODO remplacer par update
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < heigth; y++) {
+                StackPane stack = new StackPane();
                 Rectangle cell = new Rectangle(50, 50);
+                Text text = new Text();
                 cell.setStroke(Color.BLACK);
 
                 cell.setOnMouseClicked(e -> {
                     if (this.controller.hasMoved()) {
                         return;
                     }
-                    int cellX = GridPane.getColumnIndex(cell);
-                    int cellY = GridPane.getRowIndex(cell);
+                    int cellX = GridPane.getColumnIndex(stack);
+                    int cellY = GridPane.getRowIndex(stack);
                     controller.handleMove(cellX, cellY);
                 });
 
@@ -82,9 +79,10 @@ public class MHMonsterView {
                         cell.setFill(Color.BLACK);
                         break;
                     case EMPTY:
-                        if (this.controller.getModel().getMonster().isVisited(x, y)) 
+                        if (this.controller.getModel().getMonster().isVisited(x, y)) {
                             cell.setFill(Color.web("#1bde243c"));
-                        else 
+                            text.setText("" + this.controller.getModel().getMonster().getVisitedTurn(x, y));
+                        } else 
                             cell.setFill(Color.WHITE);
                         break;
                     case EXIT:
@@ -98,15 +96,12 @@ public class MHMonsterView {
                         break;
                 }
 
-                this.maze.add(cell, x, y);
+                stack.getChildren().addAll(cell, text);
+                this.maze.add(stack, x, y);
             }
         }
     }
-
-    public Rectangle getCell(int x, int y) {
-        return (Rectangle) this.maze.getChildren().get(x * this.controller.getModel().getWidth() + y);
-    }
-
+    
     public void update() {
         this.maze.getChildren().clear();
         this.draw();

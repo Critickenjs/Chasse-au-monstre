@@ -1,7 +1,5 @@
 package chasseaumonstre.strategy.hunter;
 
-import java.util.Arrays;
-
 import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;

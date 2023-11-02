@@ -15,7 +15,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
  */
 public class MonsterHunterModel {
     private CellInfo[][] maze;
-    private Integer step;
+    private Integer turn;
     private int width, height;
     private String monsterName, hunterName;
     private Monster monster;
@@ -30,7 +30,7 @@ public class MonsterHunterModel {
      * @param heigth la hauteur du labyrinthe
      */
     public MonsterHunterModel(int width, int height) {
-        this.step = 0;
+        this.turn = 1;
         this.width = width;
         this.height = height;
         this.monster = new Monster();
@@ -92,7 +92,7 @@ public class MonsterHunterModel {
         }
         entrance = new Coordinate(mazeGenerator.getEntrance(), 0);
         exit = new Coordinate(mazeGenerator.getExit(), heigth - 1);
-        monster.setCoord(entrance.getRow(), entrance.getCol());
+        monster.setCoord(entrance.getRow(), entrance.getCol(), 0);
 
         this.maze = mazeGenerator.toCellInfo();
     }
@@ -101,8 +101,8 @@ public class MonsterHunterModel {
         return this.maze;
     }
 
-    public Integer getStep() {
-        return this.step;
+    public Integer getTurn() {
+        return this.turn;
     }
 
     public Coordinate getEntrance() {
@@ -113,7 +113,7 @@ public class MonsterHunterModel {
         return exit;
     }
 
-    public void nextStep() {
-        this.step++;
+    public void nextTurn() {
+        this.turn++;
     }
 }
