@@ -13,7 +13,6 @@ public class App extends Application {
         MonsterHunterModel model = new MonsterHunterModel(21, 17);
         stage.getIcons().add(new Image("https://4.bp.blogspot.com/-boWx8QCf9bA/UYrk_pyI0aI/AAAAAAAAAoo/936FQO4QlNQ/s1600/dj.png"));
         new MHMenuView(stage, new MHMenuController(stage, model));
-
         stage.setResizable(false);
     }
 

@@ -1,6 +1,7 @@
 package chasseaumonstre.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -40,7 +41,6 @@ public class JVJController {
         mc.setHunterView(hunterView);
         hc.setMonsterView(monsterView);
         this.hunterView.render();
-
     }
 
     @FXML
