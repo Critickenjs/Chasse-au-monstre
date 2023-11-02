@@ -49,7 +49,10 @@
             </VBox>
             <VBox alignment="BOTTOM_CENTER" prefHeight="548.0" prefWidth="272.0" spacing="30.0">
                <children>
-                  <Button fx:id="skipTurn" mnemonicParsing="false" onMousePressed="#onSkipTurn" text="Passer le tour" />
+                  <Button fx:id="skipTurn" mnemonicParsing="false" onMousePressed="#onSkipTurn" prefHeight="40.0" prefWidth="118.0" text="Passer le tour" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></Button>
                </children>
                <VBox.margin>
                   <Insets bottom="50.0" />
