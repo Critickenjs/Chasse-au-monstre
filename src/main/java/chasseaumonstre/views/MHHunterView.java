@@ -7,6 +7,7 @@ import chasseaumonstre.controller.MHHunterController;
 import chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -42,7 +43,8 @@ public class MHHunterView {
             controller.showHistory();
 
             Scene scene = new Scene(root, 1300, 900);
-
+            scene.setCursor(Cursor.CROSSHAIR);
+                    
             stage.setTitle("Tour du Chasseur");
             stage.setScene(scene);
             stage.centerOnScreen();
