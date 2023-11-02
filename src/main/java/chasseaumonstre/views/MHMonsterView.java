@@ -48,6 +48,8 @@ public class MHMonsterView {
             stage.setTitle("Tour du monstre");
             stage.setScene(scene);
             stage.show();
+
+            controller.keyPressedOnScene(stage.getScene());
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -73,7 +75,6 @@ public class MHMonsterView {
                     controller.handleMove(cellX, cellY);
                 });
 
-                
                 switch (this.controller.getModel().getMaze()[x][y]) {
                     case WALL:
                         cell.setFill(Color.BLACK);
@@ -82,7 +83,7 @@ public class MHMonsterView {
                         if (this.controller.getModel().getMonster().isVisited(x, y)) {
                             cell.setFill(Color.web("#1bde243c"));
                             text.setText("" + this.controller.getModel().getMonster().getVisitedTurn(x, y));
-                        } else 
+                        } else
                             cell.setFill(Color.WHITE);
                         break;
                     case EXIT:
@@ -90,7 +91,8 @@ public class MHMonsterView {
                         break;
                     case MONSTER:
                         cell.setFill(Color.web("#1bde243c"));
-                        cell.setFill(new ImagePattern(new Image("https://media.tenor.com/dPsOXgYjb30AAAAi/pixel-pixelart.gif")));
+                        cell.setFill(new ImagePattern(
+                                new Image("https://media.tenor.com/dPsOXgYjb30AAAAi/pixel-pixelart.gif")));
                         break;
                     default:
                         break;
@@ -101,7 +103,7 @@ public class MHMonsterView {
             }
         }
     }
-    
+
     public void update() {
         this.maze.getChildren().clear();
         this.draw();

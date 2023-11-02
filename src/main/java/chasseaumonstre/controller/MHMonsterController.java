@@ -9,8 +9,10 @@ import chasseaumonstre.views.MHMonsterView;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -147,6 +149,37 @@ public class MHMonsterController {
         this.alertHeader.setText("You are too far from this case.\n Keep searching!");
         this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
         alertHeader.setStyle("-fx-text-fill: orange;");
+    }
+
+    public void keyPressedOnScene(Scene scene) {
+        scene.setOnKeyPressed(event -> {
+                if(hasMoved())
+                    return;
+
+                int x = model.getMonster().getCoord().getRow();
+                int y = model.getMonster().getCoord().getCol();
+
+                KeyCode keyCode = event.getCode();
+
+                switch (keyCode) {
+                    case Z:
+                        y--;
+                        break;
+                    case S:
+                        y++;
+                        break;
+                    case Q:
+                        x--;
+                        break;
+                    case D:
+                        x++;
+                        break;
+                    default:
+                        break;
+                }
+
+                handleMove(x, y);
+            });
     }
 }
 
