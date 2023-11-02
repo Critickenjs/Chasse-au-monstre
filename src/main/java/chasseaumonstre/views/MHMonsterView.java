@@ -6,6 +6,7 @@ import java.net.URL;
 import chasseaumonstre.controller.MHMonsterController;
 import chasseaumonstre.controller.utils.UtilsController;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -21,6 +22,7 @@ public class MHMonsterView {
     private Stage stage;
     private MHMonsterController controller;
     private GridPane maze;
+    private static final String MONSTER_CROSSHAIRE_PATH = "https://cdn.discordapp.com/attachments/1159749679353974806/1169753687917346846/467900-200.png?ex=65568d04&is=65441804&hm=0d0bc1a4e1045921d9a369b4f808a348ea7473c35ba11ecf52174806f03f3f9f&";
 
     public MHMonsterView(Stage stage, MHMonsterController controller) {
         // Fenêtre
@@ -45,6 +47,8 @@ public class MHMonsterView {
             this.controller.showHistory();
 
             Scene scene = new Scene(root, 1300, 900);
+            Image image = new Image(MONSTER_CROSSHAIRE_PATH);  //pass in the image path
+            scene.setCursor(new ImageCursor(image));
 
             stage.setTitle("Tour du monstre");
             stage.setScene(scene);
