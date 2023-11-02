@@ -64,15 +64,18 @@ public class MHMonsterView {
                 cell.setStroke(Color.BLACK);
 
                 cell.setOnMouseClicked(e -> {
-                int cellX = GridPane.getColumnIndex(cell);
-                int cellY = GridPane.getRowIndex(cell);
-                CellInfo type = controller.handleMove(cellX, cellY);
+                    if (this.controller.hasMoved()) {
+                        return;
+                    }
+                    int cellX = GridPane.getColumnIndex(cell);
+                    int cellY = GridPane.getRowIndex(cell);
+                    CellInfo type = controller.handleMove(cellX, cellY);
 
-                if (type == CellInfo.WALL) {
-                    cell.setFill(Color.BLACK);
-                } else {
-                    cell.setFill(Color.web("#1bde243c"));
-                }
+                    if (type == CellInfo.WALL) {
+                        cell.setFill(Color.BLACK);
+                    } else {
+                        cell.setFill(Color.web("#1bde243c"));
+                    }
                 });
 
                 if (this.controller.getModel().getMonster().isVisited(x, y)) {

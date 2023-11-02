@@ -35,6 +35,7 @@ public class MHMonsterController {
     private Button skipTurn;
 
     private Stage stage;
+    private boolean moved;
     private MonsterHunterModel model;
     private MHMonsterView partieView;
     private MHHunterView hunterView;
@@ -42,6 +43,7 @@ public class MHMonsterController {
     public MHMonsterController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
         this.model = model;
+        this.moved = false;
         this.maze = new GridPane();
     }
     
@@ -63,12 +65,14 @@ public class MHMonsterController {
 
     @FXML
     public void onSkipTurn() {
+        moved = false;
         this.model.nextStep();
         this.hunterView.render();
     }
     
     public CellInfo handleMove(int moveX, int moveY) {
         model.getMonster().setVisited(moveX, moveY);
+        moved = true;
         CellInfo cellValue = model.getMaze()[moveX][moveY];
         switch (cellValue) {
             case EMPTY:
@@ -89,6 +93,10 @@ public class MHMonsterController {
         this.hunterView = hunterView;
     }
     
+    public boolean hasMoved() {
+        return moved;
+    }
+
     private void pathAlert(int cellX, int cellY) {
         this.alertHeader.setText("You walk on a empty case.\n Keep walking!");
         this.alertBody.setText("Coordinates:\n (" + cellX + ", " + cellY + ")");
