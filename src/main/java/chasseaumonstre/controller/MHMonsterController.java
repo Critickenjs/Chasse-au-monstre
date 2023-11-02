@@ -114,6 +114,7 @@ public class MHMonsterController {
                 return false;
             }
             moved = true;
+            skipTurn.setDisable(false);
             ICoordinate coord = model.getMonster().getCoord();
             model.getMaze()[coord.getRow()][coord.getCol()] = CellInfo.EMPTY;
             model.getMonster().setCoord(moveX, moveY, model.getTurn());

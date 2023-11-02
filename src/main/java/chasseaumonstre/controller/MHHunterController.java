@@ -99,6 +99,7 @@ public class MHHunterController {
     public CellInfo handleShot(int shotX, int shotY) {
         this.model.getHunter().shoot(shotX, shotY);
         shot = true;
+        skipTurn.setDisable(false);
         CellInfo cellValue = model.getMaze()[shotX][shotY];
 
         switch (cellValue) {
