@@ -240,7 +240,7 @@ public class MHMonsterController {
     }
 
     private void updateHistory() {
-        Label action = new Label(alertHeader.getText() + "\n" + alertBody.getText());
+        Label action = new Label("Turn : " + model.getTurn() + "\n" + alertHeader.getText() + "\n" + alertBody.getText());
         alerts.add(action);
 
         showHistory();

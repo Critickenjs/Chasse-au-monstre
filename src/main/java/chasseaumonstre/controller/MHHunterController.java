@@ -156,7 +156,7 @@ public class MHHunterController {
     private void monsterAlert(int cellX, int cellY) {
         UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
         this.alertHeader.setText("YOU WON!");
-        this.alertBody.setText("You found the Monster at coordinates: (" + cellX + ", " + cellY + ")");
+        this.alertBody.setText("You found the Monster.\nCoordinates: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.GREEN);
     }
     
@@ -184,7 +184,7 @@ public class MHHunterController {
     }
 
     private void updateHistory() {
-        Label action = new Label(alertHeader.getText() + "\n" + alertBody.getText());
+        Label action = new Label("Turn : " + model.getTurn() + "\n" + alertHeader.getText() + "\n" + alertBody.getText());
         alerts.add(action);
 
         showHistory();
