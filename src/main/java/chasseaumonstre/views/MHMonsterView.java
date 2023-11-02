@@ -5,6 +5,7 @@ import java.net.URL;
 
 import chasseaumonstre.controller.MHMonsterController;
 import chasseaumonstre.controller.utils.UtilsController;
+import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -65,7 +66,13 @@ public class MHMonsterView {
                 cell.setOnMouseClicked(e -> {
                     int cellX = GridPane.getColumnIndex(cell);
                     int cellY = GridPane.getRowIndex(cell);
-                    controller.handleMove(cellX, cellY);
+                    CellInfo type = controller.handleMove(cellX, cellY);
+
+                    if (type == CellInfo.WALL) {
+                        cell.setFill(Color.web("#a8a8a8"));
+                    } else {
+                        cell.setFill(Color.web("#1bde243c"));
+                    }
                 });
 
                 switch (this.controller.getModel().getMaze()[x][y]) {
@@ -74,6 +81,9 @@ public class MHMonsterView {
                         break;
                     case EMPTY:
                         cell.setFill(Color.WHITE);
+                        break;
+                    case EXIT:
+                        cell.setFill(Color.GREEN);
                         break;
                     default:
                         break;

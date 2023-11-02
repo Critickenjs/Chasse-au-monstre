@@ -65,7 +65,7 @@ public class MHMonsterController {
         new MHHunterView(this.stage, new MHHunterController(this.stage, this.model)).render();
     }
 
-    public void handleMove(int shotX, int shotY) {
+    public CellInfo handleMove(int shotX, int shotY) {
         CellInfo cellValue = model.getMaze()[shotX][shotY];
         switch (cellValue) {
             case EMPTY:
@@ -79,6 +79,7 @@ public class MHMonsterController {
             default:
                 break;
         }
+        return cellValue;
     }
 
     private void pathAlert(int cellX, int cellY) {
