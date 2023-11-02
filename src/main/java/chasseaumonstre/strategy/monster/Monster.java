@@ -20,7 +20,7 @@ public class Monster implements IMonsterStrategy {
     private ICoordinate entry;
     private ICoordinate coord;
     private boolean[][] visited;
-    private int[][] visitedTurn;
+    private Integer[][] visitedTurn;
 
     public Monster() {
         this.exit = null;
@@ -48,7 +48,7 @@ public class Monster implements IMonsterStrategy {
      */
     public void initialize(boolean[][] locations) {
         this.visited = locations;
-        this.visitedTurn = new int[locations.length][locations[0].length];
+        this.visitedTurn = new Integer[locations.length][locations[0].length];
     }
 
     public ICoordinate getExit() {
@@ -72,6 +72,11 @@ public class Monster implements IMonsterStrategy {
 
     public ICoordinate getEntry() {
         return entry;
+    }
+    
+
+    public boolean[][] getVisited() {
+        return visited;
     }
 
     /*

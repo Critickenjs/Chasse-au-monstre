@@ -17,6 +17,8 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 public class Hunter implements IHunterStrategy {
     private boolean[][] shootLocations;
     private String name;
+    private boolean[][] visited;
+    private int[][] visitedTurn;
 
     /*
      * Constructeur de Hunter
@@ -25,6 +27,8 @@ public class Hunter implements IHunterStrategy {
      */
     public void initialize(boolean[][] locations) {
         this.shootLocations = locations;
+        this.visited = locations;
+        this.visitedTurn = new int[locations.length][locations[0].length];
     }
 
     /*
@@ -57,6 +61,8 @@ public class Hunter implements IHunterStrategy {
         this.shootLocations[x][y] = true;
     }
 
+    
+
     /*
      * Joue un tour du chasseur
      */
@@ -74,5 +80,20 @@ public class Hunter implements IHunterStrategy {
     public void update(ICellEvent event) {
         ICoordinate coord = event.getCoord();
         this.shootLocations[coord.getRow()][coord.getCol()] = true;
+    }
+
+    public boolean isVisited(int x, int y) {
+        return visited[x][y];
+    }
+
+    public int getVisitedTurn(int x, int y) {
+        return visitedTurn[x][y];
+    }
+    public void setVisitedTurn(int res,int x, int y) {
+        visitedTurn[x][y] = res;
+    }
+
+    public void setVisited(int cellX, int cellY) {
+        this.visited[cellX][cellY] = true;
     }
 }
