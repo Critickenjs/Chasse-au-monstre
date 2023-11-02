@@ -77,11 +77,7 @@ public class MHMonsterView {
 
                 switch (this.controller.getModel().getMaze()[x][y]) {
                     case WALL:
-                        if (this.controller.getModel().getStep() == 0) {
-                            cell.setFill(Color.BLACK);
-                        } else {
-                            cell.setFill(Color.WHITE);
-                        }
+                        cell.setFill(Color.BLACK);
                         break;
                     case EMPTY:
                         cell.setFill(Color.WHITE);
