@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox fx:id="contentV" prefHeight="850.0" prefWidth="1046.0">
          <children>
@@ -44,7 +44,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="alertBody" alignment="CENTER" prefHeight="184.0" prefWidth="272.0" text="Coordonnées..." />
+                  <Label fx:id="alertBody" alignment="CENTER" prefHeight="184.0" prefWidth="272.0" text="Coordonnées..." textAlignment="CENTER" />
                </children>
             </VBox>
             <VBox alignment="BOTTOM_CENTER" prefHeight="548.0" prefWidth="272.0" spacing="30.0">
