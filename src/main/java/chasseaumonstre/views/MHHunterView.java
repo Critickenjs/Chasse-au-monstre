@@ -62,6 +62,9 @@ public class MHHunterView {
                 cell.setStroke(Color.BLACK);
 
                 cell.setOnMouseClicked(e -> {
+                    if (this.controller.hasShot()) {
+                        return;
+                    }
                     int cellX = GridPane.getColumnIndex(cell);
                     int cellY = GridPane.getRowIndex(cell);
                     

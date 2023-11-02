@@ -40,6 +40,7 @@ public class MHHunterController {
     private Button skipTurn;
 
     private Stage stage;
+    private boolean shot;
     private MonsterHunterModel model;
     private MHMonsterView monsterView;
 
@@ -65,6 +66,7 @@ public class MHHunterController {
 
     public CellInfo handleShot(int shotX, int shotY) {
         model.getHunter().shoot(shotX, shotY);
+        shot = true;
         CellInfo cellValue = model.getMaze()[shotX][shotY];
 
         switch (cellValue) {
@@ -88,7 +90,12 @@ public class MHHunterController {
 
     @FXML
     public void onSkipTurn() {
+        shot = false;
         this.monsterView.render();
+    }
+
+    public boolean hasShot() {
+        return shot;
     }
 
     public void setMonsterView(MHMonsterView monsterView) {
