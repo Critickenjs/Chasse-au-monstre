@@ -29,6 +29,11 @@ public class Hunter implements IHunterStrategy {
         this.shootLocations = locations;
         this.visited = locations;
         this.visitedTurn = new int[locations.length][locations[0].length];
+        for (int i = 0; i < locations.length; i++) {
+            for (int j = 0; j < locations[0].length; j++) {
+                visitedTurn[i][j] = -1;
+            }
+        }
     }
 
     /*
