@@ -94,6 +94,13 @@ public class MazeGenerator {
             }
         }
     }
+    
+    private int getEntrance() {
+        for(int i = 0; i < this.width; i++)
+            if (maze[i][0] == 0)
+                return i;
+        return -1;
+    }
 
     /*
      * Convertit le labyrinthe en tableau de CellInfo
@@ -105,12 +112,20 @@ public class MazeGenerator {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 switch (maze[x][y]) {
-                    case 0:
-                        labyrinth[x][y] = CellInfo.EMPTY;
-                        break;
-                    default:
+                    case 1:
                         labyrinth[x][y] = CellInfo.WALL;
                         break;
+                    case 2:
+                        labyrinth[x][y] = CellInfo.MONSTER;
+                        break;
+                    case 4:
+                        labyrinth[x][y] = CellInfo.EXIT;
+                        break;
+                    
+                    default:
+                        labyrinth[x][y] = CellInfo.EMPTY;
+                        break;
+                    
                 }
             }
         }
