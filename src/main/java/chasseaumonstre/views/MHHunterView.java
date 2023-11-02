@@ -45,6 +45,7 @@ public class MHHunterView {
 
             stage.setTitle("Tour du Chasseur");
             stage.setScene(scene);
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             System.out.println(e);
