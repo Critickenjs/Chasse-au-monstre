@@ -1,7 +1,6 @@
 package chasseaumonstre.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -11,6 +10,11 @@ import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.MHHunterView;
 import chasseaumonstre.views.MHMonsterView;
 
+/*
+ * Contrôleur de la vue JvJ, menu permettant de choisir les noms des joueurs
+ * 
+ * @see chasseaumonstre.views.JVJView
+ */
 public class JVJController {
     
     @FXML
@@ -31,6 +35,14 @@ public class JVJController {
         this.model = model;
     }
 
+    /*
+     * Configure la partie, les vues/contrôleurs et lance la partie en affichant la vue du chasseur.
+     * 
+     * @see chasseaumonstre.views.MHHunterView
+     * @see chasseaumonstre.views.MHMonsterView
+     * @see chasseaumonstre.controller.MHHunterController
+     * @see chasseaumonstre.controller.MHMonsterController
+     */
     private void startGame() {
         model.setHunterName(j1.getText());
         model.setMonsterName(j2.getText());
@@ -43,6 +55,10 @@ public class JVJController {
         this.hunterView.render();
     }
 
+    /*
+     * Lors d'un clic souris sur le bouton lancer,
+     * vérifie que les noms des joueurs sont renseignés et lance la partie.
+     */
     @FXML
     private void startGameButton() {
         if (j1.getText().isEmpty()) {
@@ -58,6 +74,10 @@ public class JVJController {
         startGame();
     }
 
+    /*
+     * Lors d'un appui sur la touche entrée,
+     * Vérifie que les noms des joueurs sont renseignés et lance la partie.
+     */
     @FXML
     private void startGame(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
