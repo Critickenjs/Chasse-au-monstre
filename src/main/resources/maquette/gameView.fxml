@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox fx:id="contentV" prefHeight="850.0" prefWidth="1050.0">
          <children>
@@ -37,7 +37,7 @@
             </Label>
             <VBox prefHeight="92.0" prefWidth="250.0" style="-fx-background-color: #fcba0320; -fx-background-radius: 20px;">
                <children>
-                  <Label fx:id="alertHeader" alignment="TOP_CENTER" prefHeight="91.0" prefWidth="250.0" text="Intitulé de l'alerte" textAlignment="CENTER" textFill="#398c8d">
+                  <Label fx:id="alertHeader" alignment="TOP_CENTER" prefHeight="91.0" prefWidth="250.0" text="En attente du joueur ..." textAlignment="CENTER" textFill="#398c8d">
                      <padding>
                         <Insets top="10.0" />
                      </padding>
@@ -45,7 +45,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="alertBody" alignment="CENTER" prefHeight="184.0" prefWidth="250.0" text="Coordonnées..." textAlignment="CENTER" />
+                  <Label fx:id="alertBody" alignment="CENTER" prefHeight="184.0" prefWidth="250.0" textAlignment="CENTER" />
                </children>
             </VBox>
             <VBox alignment="BOTTOM_CENTER" prefHeight="550.0" prefWidth="250.0" spacing="30.0">
