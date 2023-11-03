@@ -87,8 +87,30 @@ public class MHHunterView implements IPlayerView {
                     }
                     int cellX = GridPane.getColumnIndex(stack);
                     int cellY = GridPane.getRowIndex(stack);
-                    controller.handleShot(cellX, cellY, cell, text);
+                    
+                    switch (controller.handleShot(cellX, cellY)) {
+                        case WALL:
+                            cell.setFill(Color.web("#a8a8a8"));
+                            break;
+
+                        case EMPTY:
+                            cell.setFill(Color.web("#de1b1b3c"));
+                            if (this.controller.getModel().getMonster().isVisited(cellX, cellY)) {
+                                int visitedTurn = this.controller.getModel().getMonster().getVisitedTurn(cellX, cellY);
+                                this.controller.getModel().getHunter().setVisited(cellX, cellY, visitedTurn);
+                                text.setText("" + visitedTurn);
+                                }
+                            break;
+
+                        case MONSTER:
+                            cell.setFill(Color.web("#1bde243c"));
+                            break;
+
+                        default:
+                            break;
+                    }
                 });
+
 
                 if (this.controller.getModel().getHunter().hasShot(x, y)) {
                     if (this.controller.getModel().getMaze()[x][y] == CellInfo.WALL) {
