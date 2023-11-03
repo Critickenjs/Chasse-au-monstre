@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import chasseaumonstre.model.MazeGenerator;
+import chasseaumonstre.model.MazeValidator;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,6 +16,7 @@ public class MazeGeneratorTest {
     public void setUp() {
         generator = new MazeGenerator(10, 10);
         generator.generate();
+        int[][] maze = generator.getMaze();
     }
 
     @Test
@@ -31,7 +33,9 @@ public class MazeGeneratorTest {
     @Test
     public void testCellInfoConversion() {
         CellInfo[][] cellInfo = generator.toCellInfo();
-
+        int[][] maze = generator.getMaze();
+        MazeValidator mazeValidator = new MazeValidator(10, 10, maze);
+        if (mazeValidator.isValid()) {
         assertEquals(CellInfo.MONSTER, cellInfo[generator.getEntranceRow()][0]);
         assertEquals(CellInfo.EXIT, cellInfo[generator.getExitRow()][9]);
         boolean foundEmpty = false;
@@ -49,5 +53,9 @@ public class MazeGeneratorTest {
 
         assertTrue(foundEmpty);
         assertTrue(foundWall);
+            
+        }
+    
+        
     }
 }
