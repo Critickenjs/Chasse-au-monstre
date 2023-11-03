@@ -24,16 +24,16 @@ public class MazeGeneratorTest {
         assertEquals(10, maze.length);
         assertEquals(10, maze[0].length);
 
-        assertEquals(0, maze[generator.getEntrance()][0]); // Entrée
-        assertEquals(0, maze[generator.getExit()][9]); // Sortie
+        assertEquals(0, maze[generator.getEntranceRow()][0]); // Entrée
+        assertEquals(0, maze[generator.getExitRow()][9]); // Sortie
     }
 
     @Test
     public void testCellInfoConversion() {
         CellInfo[][] cellInfo = generator.toCellInfo();
 
-        assertEquals(CellInfo.MONSTER, cellInfo[generator.getEntrance()][0]);
-        assertEquals(CellInfo.EXIT, cellInfo[generator.getExit()][9]);
+        assertEquals(CellInfo.MONSTER, cellInfo[generator.getEntranceRow()][0]);
+        assertEquals(CellInfo.EXIT, cellInfo[generator.getExitRow()][9]);
         boolean foundEmpty = false;
         boolean foundWall = false;
 
