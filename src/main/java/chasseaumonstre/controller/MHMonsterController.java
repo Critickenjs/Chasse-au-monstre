@@ -1,7 +1,5 @@
 package chasseaumonstre.controller;
 
-import java.io.File;
-
 import chasseaumonstre.App;
 import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
@@ -17,16 +15,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/*
+ * Classe abstraite représentant un contrôleur du joueur monstre
+ * 
+ * @param stage : la fenêtre principale
+ * @param model : le modèle
+ * @see MHPlayerController
+ */
 public class MHMonsterController extends MHPlayerController {
-    private final String STEPS_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
-            + "main"
-            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
-            + "steps.wav";
-
-    private final String WRONG_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
-            + "main"
-            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
-            + "error.mp3";
 
     private final double VOLUME = 100;
     private final double LOW_VOLUME = 0.05;
@@ -39,6 +35,9 @@ public class MHMonsterController extends MHPlayerController {
         super(stage, model);
     }
 
+    /*
+     * Initialise le contrôleur, affiche le nom du monstre et initialise la zone
+     */
     public void initialize() {
         this.characterName.setText("Le Monstre \n" + this.model.getMonsterName());
         this.alertHistory.setVvalue(1.0);
@@ -52,10 +51,18 @@ public class MHMonsterController extends MHPlayerController {
         return this.contentV;
     }
 
+    /*
+     * Définit la vue à contrôler
+     * 
+     * @param partieView : la vue 
+     */
     public void setVue(MHMonsterView partieView) {
         this.partieView = partieView;
     }
 
+    /*
+     * Gère le clic sur le bouton "Passer le tour"
+     */
     @FXML
     public void onSkipTurn() {
         moved = false;
@@ -63,6 +70,13 @@ public class MHMonsterController extends MHPlayerController {
         this.hunterView.render();
     }
 
+    /*
+     * Fait avancer le monstre
+     * 
+     * @param moveX : la coordonnée X de la case visée
+     * @param moveY : la coordonnée Y de la case visée
+     * @return true si le monstre a bougé, false sinon
+     */
     private boolean advance(int moveX, int moveY) {
         if (model.getMonster().estAdjacente(moveX, moveY)) {
             if (model.getMonster().isVisited(moveX, moveY)) {
@@ -76,26 +90,33 @@ public class MHMonsterController extends MHPlayerController {
             model.getMonster().setCoord(moveX, moveY, model.getTurn());
             model.getMaze()[moveX][moveY] = CellInfo.MONSTER;
         } else {
-            UtilsController.playSound(WRONG_SOUND_PATH, LOW_VOLUME);
+            UtilsController.playSound(UtilsController.WRONG_SOUND_PATH, LOW_VOLUME);
             farAlert(moveX, moveY);
         }
         partieView.update();
         return moved;
     }
 
+    /*
+     * Gère le déplacement du monstre
+     * 
+     * @param moveX : la coordonnée X de la case visée
+     * @param moveY : la coordonnée Y de la case visée
+     * @return la valeur de la case visée
+     */
     public CellInfo handleMove(int moveX, int moveY) {
         CellInfo cellValue = model.getMaze()[moveX][moveY];
         switch (cellValue) {
             case EMPTY:
                 if (advance(moveX, moveY)) {
-                    UtilsController.playSound(STEPS_SOUND_PATH, VOLUME);
+                    UtilsController.playSound(UtilsController.STEPS_SOUND_PATH, VOLUME);
                     pathAlert(moveX, moveY);
                     this.updateHistory();
                 }
                 break;
 
             case WALL:
-                UtilsController.playSound(WRONG_SOUND_PATH, LOW_VOLUME);
+                UtilsController.playSound(UtilsController.WRONG_SOUND_PATH, LOW_VOLUME);
                 wallAlert(moveX, moveY);
                 break;
 
@@ -116,34 +137,66 @@ public class MHMonsterController extends MHPlayerController {
         return moved;
     }
 
+    /*
+     * Définit la vue du chasseur
+     * 
+     * @param hunterView : la vue du chasseur
+     */
     public void setHunterView(MHHunterView hunterView) {
         this.hunterView = hunterView;
     }
 
+    /*
+     * Alerte le joueur que la case visée est vide
+     * 
+     * @param cellX : la coordonnée X de la case visée
+     * @param cellY : la coordonnée Y de la case visée
+     */
     protected void pathAlert(int cellX, int cellY) {
         this.alertHeader.setText("You walk on a empty case.");
         this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.BLUE);
     }
 
+    /*
+     * Alerte le joueur que la case visée est un mur
+     * 
+     * @param cellX : la coordonnée X de la case visée
+     * @param cellY : la coordonnée Y de la case visée
+     */
     protected void wallAlert(int cellX, int cellY) {
         this.alertHeader.setText("You cannot walk on a wall.");
         this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.RED);
     }
 
+    /*
+     * Alerte le joueur que la case visée a déjà été visitée
+     * 
+     * @param cellX : la coordonnée X de la case visée
+     * @param cellY : la coordonnée Y de la case visée
+     */
     private void visitedAlert(int cellX, int cellY) {
         this.alertHeader.setText("You already walked on this case.\n Keep searching!");
         this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.ORANGE);
     }
 
+    /*
+     * Alerte le joueur que la case visée est trop loin
+     * 
+     * @param cellX : la coordonnée X de la case visée
+     * @param cellY : la coordonnée Y de la case visée
+     */
     private void farAlert(int cellX, int cellY) {
         this.alertHeader.setText("You are too far from this case!");
         this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.ORANGE);
     }
 
+    /*
+     * Alerte le joueur que le monstre a gagné
+     */
     protected void winAlert() {
         this.winAlert.setTitle("MONSTER Victory");
         this.winAlert.setHeaderText(null);
@@ -153,6 +206,9 @@ public class MHMonsterController extends MHPlayerController {
         alertOnClose();
     }
 
+    /*
+     * Retourne au menu principal lorsque la fenêtre est fermée
+     */
     protected void alertOnClose() {
         Platform.runLater(() -> {
             try {
@@ -165,6 +221,9 @@ public class MHMonsterController extends MHPlayerController {
         });
     }
 
+    /*
+     * Gère les mouvements via les touches ZQSD
+     */
     public void keyPressedOnScene(Scene scene) {
         scene.setOnKeyPressed(event -> {
             if (hasMoved())

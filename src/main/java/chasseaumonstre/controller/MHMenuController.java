@@ -1,25 +1,23 @@
     package chasseaumonstre.controller;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.JVJView;
 
+/*
+ * Classe représentant le contrôleur du menu principal
+ * 
+ * @param stage : la fenêtre principale
+ * @param model : le modèle
+ */
 public class MHMenuController  {
+    private static final String BACKGROUND_URL = "https://www.premiere.fr/sites/default/files/styles/scale_crop_border_1280x720/public/2020-02/m.jpg";
+
     @FXML
     private ImageView imageView;
     @FXML
@@ -44,7 +42,9 @@ public class MHMenuController  {
         return this.model;
     }
 
-
+    /*
+     * Gère le clic sur le bouton "Jouer contre joueur", lance la vue JVJ pour choisir les noms des joueurs
+     */
     @FXML
     private void onPVP() {
         jvjBtn.setOnMouseClicked(e -> {
@@ -54,22 +54,34 @@ public class MHMenuController  {
        
     }
 
+    /*
+     * Gère le clic sur le bouton "Chasseur contre IA"
+     */
     @FXML
     private void onHunterVAi() {
         
     }
 
+    /*
+     * Gère le clic sur le bouton "Monstre contre IA"
+     */
     @FXML
     private void onMonsterVAi() {
         
     }
 
+    /*
+     * Gère le clic sur le bouton "IA contre IA"
+     */
     @FXML
     private void onAiVAi() {
     }
+
+    /*
+     * Initialise le contrôleur, affiche le fond d'écran et initialise le style des boutons
+     */
     public void initialize() {
-        // Chargez l'image depuis l'URL et affectez-la à l'ImageView
-        Image image = new Image("https://www.premiere.fr/sites/default/files/styles/scale_crop_border_1280x720/public/2020-02/m.jpg");
+        Image image = new Image(BACKGROUND_URL);
         imageView.setImage(image);
         UtilsController.hovereffect(jvjBtn);
         UtilsController.hovereffect(cviBtn);

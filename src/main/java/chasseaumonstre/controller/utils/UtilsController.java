@@ -7,10 +7,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+/*
+ * Classe utilitaire pour les contrôleurs
+ */
 public class UtilsController {
 
-    public static final String FXML_LOCATION = System.getProperty("user.dir") + File.separator + "src" + File.separator
-            + "main" + File.separator + "resources" + File.separator + "maquette" + File.separator;
+    public static final String FXML_LOCATION = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "maquette" + File.separator;
+    public static final String SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "audio" + File.separator;
+    public static final String GUN_SHOT_SOUND_PATH = SOUND_PATH + "gun-shot.mp3";
+    public static final String METAL_SOUND_PATH = SOUND_PATH + "metal.wav";
+    public static final String MONSTERKILL_SOUND_PATH = SOUND_PATH + "monsterkill.mp3";
+    public static final String STEPS_SOUND_PATH = SOUND_PATH + "steps.wav";
+    public static final String WRONG_SOUND_PATH = SOUND_PATH + "error.mp3";
 
     /*
      * Joue un son

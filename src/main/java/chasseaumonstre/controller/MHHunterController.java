@@ -1,7 +1,5 @@
 package chasseaumonstre.controller;
 
-import java.io.File;
-
 import chasseaumonstre.App;
 import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
@@ -14,20 +12,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/*
+ * Classe représentant un contrôleur du joueur chasseur
+ * 
+ * @param stage : la fenêtre principale
+ * @param model : le modèle
+ * @see MHPlayerController
+ */
 public class MHHunterController extends MHPlayerController {
-    private final String GUN_SHOT_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
-            + "main"
-            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
-            + "gun-shot.mp3";
-    private final String METAL_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
-            + "main"
-            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
-            + "metal.wav";
-    private final String MONSTERKILL_SOUND_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator
-            + "main"
-            + File.separator + File.separator + "resources" + File.separator + "audio" + File.separator
-            + "monsterkill.mp3";
-
     private final double VOLUME = 0.05;
 
     private boolean shot;
@@ -37,6 +29,9 @@ public class MHHunterController extends MHPlayerController {
         super(stage, model);
     }
 
+    /*
+     * Initialise le contrôleur, affiche le nom du chasseur et initialise la zone
+     */
     public void initialize() {
         this.characterName.setText("Le Chasseur \n" + this.model.getHunterName());
         this.alertHistory.setVvalue(1.0);
@@ -54,12 +49,22 @@ public class MHHunterController extends MHPlayerController {
         this.maze = maze;
     }
 
+    /*
+     * Gère le clic sur le bouton "Passer le tour"
+     */
     @FXML
     public void onSkipTurn() {
         shot = false;
         this.monsterView.render();
     }
 
+    /*
+     * Gère les tirs du chasseur
+     * 
+     * @param shotX : la coordonnée X de la cellule visée
+     * @param shotY : la coordonnée Y de la cellule visée
+     * @return la valeur de la cellule visée
+     */
     public CellInfo handleShot(int shotX, int shotY) {
         this.model.getHunter().shoot(shotX, shotY);
         shot = true;
@@ -90,37 +95,66 @@ public class MHHunterController extends MHPlayerController {
         return cellValue;
     }
 
+    /*
+     * Savoir si le chasseur a tiré
+     * 
+     * @return true si le chasseur a tiré, false sinon
+     */
     public boolean hasShot() {
         return shot;
     }
 
+    /*
+     * Définit la vue du monstre
+     */
     public void setMonsterView(MHMonsterView monsterView) {
         this.monsterView = monsterView;
     }
 
+    /*
+     * Alerte le joueur que la cellule visée est vide
+     * 
+     * @param cellX : la coordonnée X de la cellule visée
+     * @param cellY : la coordonnée Y de la cellule visée
+     */
     protected void pathAlert(int cellX, int cellY) {
-        UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
+        UtilsController.playSound(UtilsController.GUN_SHOT_SOUND_PATH, VOLUME);
         this.alertHeader.setText("You shot a path cell.\n Keep searching!");
         this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.RED);
     }
 
+    /*
+     * Alerte le joueur que la cellule visée est un mur
+     * 
+     * @param cellX : la coordonnée X de la cellule visée
+     * @param cellY : la coordonnée Y de la cellule visée
+     */
     protected void wallAlert(int cellX, int cellY) {
-        UtilsController.playSound(METAL_SOUND_PATH, VOLUME);
+        UtilsController.playSound(UtilsController.METAL_SOUND_PATH, VOLUME);
         this.alertHeader.setText("You shot a wall.\n Keep searching!");
         this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.RED);
     }
 
+    /*
+     * Alerte le joueur que la cellule visée est le monstre
+     * 
+     * @param cellX : la coordonnée X de la cellule visée
+     * @param cellY : la coordonnée Y de la cellule visée
+     */
     private void monsterAlert(int cellX, int cellY) {
-        UtilsController.playSound(GUN_SHOT_SOUND_PATH, VOLUME);
+        UtilsController.playSound(UtilsController.GUN_SHOT_SOUND_PATH, VOLUME);
         this.alertHeader.setText("YOU WON!");
         this.alertBody.setText("You found the Monster.\nCoordinates: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.GREEN);
     }
     
+    /*
+     * Alerte le joueur que le monstre a été tué et qu'il a gagné
+     */
     protected void winAlert() {
-        UtilsController.playSound(MONSTERKILL_SOUND_PATH, VOLUME);
+        UtilsController.playSound(UtilsController.MONSTERKILL_SOUND_PATH, VOLUME);
         this.winAlert.setTitle("HUNTER Victory");
         this.winAlert.setHeaderText(null);
         this.winAlert.setContentText("The Hunter has shot the Monster. The Hunter wins!");
@@ -129,8 +163,10 @@ public class MHHunterController extends MHPlayerController {
         alertOnClose();
     }
 
+    /*
+     * Retourne au menu principal lorsque la fenêtre est fermée
+     */
     protected void alertOnClose() {
-        System.out.println("alert closed");
         Platform.runLater(() -> {
             try {
                 new App().start(new Stage());

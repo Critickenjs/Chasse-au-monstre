@@ -14,6 +14,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/*
+ * Classe abstraite représentant un contrôleur de joueur 
+ * 
+ * @param stage : la fenêtre principale
+ * @param model : le modèle
+ */
 public abstract class MHPlayerController {
     @FXML
     protected VBox contentV;
@@ -53,6 +59,9 @@ public abstract class MHPlayerController {
         this.alerts = new ArrayList<>();
     }
 
+    /*
+     * Initialise le contrôleur
+     */
     public abstract void initialize();
 
     public MonsterHunterModel getModel() {
@@ -63,6 +72,9 @@ public abstract class MHPlayerController {
         return this.contentV;
     }
 
+    /*
+     * Met à jour l'historique des actions
+     */
     protected void updateHistory() {
         Label action = new Label("Turn : " + model.getTurn() + "\n" + alertHeader.getText() + "\n" + alertBody.getText());
         alerts.add(action);
@@ -70,6 +82,9 @@ public abstract class MHPlayerController {
         showHistory();
     }
 
+    /*
+     * Affiche l'historique des actions
+     */
     public void showHistory() {
         contentAlerts.getChildren().clear();
 
@@ -78,14 +93,29 @@ public abstract class MHPlayerController {
         }
     }
     
+    /*
+     * Gère le clic sur le bouton "Passer le tour"
+     */
     @FXML
     public abstract void onSkipTurn();
 
+    /*
+     * Alerte le joueur touchant une case vide
+     */
     protected abstract void pathAlert(int cellX, int cellY);
 
+    /*
+     * Alerte le joueur touchant un mûr
+     */
     protected abstract void wallAlert(int cellX, int cellY);
 
+    /*
+     * Alerte le joueur ayant gagné
+     */
     protected abstract void winAlert();
 
+    /*
+     * Retourne au menu principal
+     */
     protected abstract void alertOnClose();
 }
