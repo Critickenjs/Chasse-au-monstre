@@ -1,5 +1,10 @@
 package chasseaumonstre.strategy.hunter;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
@@ -14,7 +19,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @author Selim Hamza
  * @author Yliess El Atifi
  */
-public class Hunter implements IHunterStrategy {
+public class Hunter implements IHunterStrategy, Serializable {
     private boolean[][] shootLocations;
     private String name;
     private boolean[][] visited;
@@ -100,5 +105,19 @@ public class Hunter implements IHunterStrategy {
 
     public void setVisited(int cellX, int cellY) {
         this.visited[cellX][cellY] = true;
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.writeObject(this.shootLocations);
+        oos.writeObject(this.name);
+        oos.writeObject(this.visited);
+        oos.writeObject(this.visitedTurn);
+    }
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        this.shootLocations = (boolean[][])ois.readObject();
+        this.name = (String)ois.readObject();
+        this.visited = (boolean[][])ois.readObject();
+        this.visitedTurn = (int[][])ois.readObject();
     }
 }

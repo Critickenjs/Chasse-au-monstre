@@ -1,5 +1,10 @@
 package chasseaumonstre.model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 import chasseaumonstre.strategy.hunter.Hunter;
 import chasseaumonstre.strategy.monster.Monster;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
@@ -13,7 +18,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
  * @author Selim Hamza
  * @author Yliess El Atifi
  */
-public class MonsterHunterModel {
+public class MonsterHunterModel implements Serializable {
     private CellInfo[][] maze;
     private Integer turn;
     private int width, height;
@@ -115,5 +120,31 @@ public class MonsterHunterModel {
 
     public void nextTurn() {
         this.turn++;
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.writeObject(this.maze);
+        oos.writeObject(this.turn);
+        oos.writeObject(this.width);
+        oos.writeObject(this.height);
+        oos.writeObject(this.monsterName);
+        oos.writeObject(this.hunterName);
+        oos.writeObject(this.monster);
+        oos.writeObject(this.hunter);
+        oos.writeObject(this.entrance);
+        oos.writeObject(this.exit);
+    }
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        this.maze = (CellInfo[][])ois.readObject();
+        this.turn = (Integer)ois.readObject();
+        this.width = (int)ois.readObject();
+        this.height = (int)ois.readObject();
+        this.monsterName = (String)ois.readObject();
+        this.hunterName = (String)ois.readObject();
+        this.monster = (Monster)ois.readObject();
+        this.hunter = (Hunter)ois.readObject();
+        this.entrance = (Coordinate)ois.readObject();
+        this.exit = (Coordinate)ois.readObject();
     }
 }

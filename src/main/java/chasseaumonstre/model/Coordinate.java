@@ -1,5 +1,13 @@
 package chasseaumonstre.model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+import chasseaumonstre.strategy.hunter.Hunter;
+import chasseaumonstre.strategy.monster.Monster;
+import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
 /*
@@ -12,7 +20,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @author Selim Hamza
  * @author Yliess El Atifi
  */
-public class Coordinate implements ICoordinate {
+public class Coordinate implements ICoordinate, Serializable {
     private Integer row;
     private Integer col;
 
@@ -33,5 +41,15 @@ public class Coordinate implements ICoordinate {
 
     public int getCol() {
         return this.col;
+    }
+
+     private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.writeObject(this.row);
+        oos.writeObject(this.col);
+    }
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        this.row = (Integer)ois.readObject();
+        this.col = (Integer)ois.readObject();
     }
 }
