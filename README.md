@@ -8,6 +8,14 @@
 | TAS Atilla |
 | HAMZA Sélim|
 
+### Lancement de l'application
+
+Décompressez le fichier 'ChasseAuMonstre.zip' et à l'intérieur du dossier décompressé éxecutez cette commande:
+
+```
+java --module-path [CHEMIN_ABSOLU_VERS_LE_DOSSIER_LIB_DE_JAVAFX] --add-modules javafx.controls,javafx.fxml,javafx.media -jar ChasseAuMonstre.jar
+```
+
 ### Consigne de compilation de la doc (+ UML)
 
 ```
