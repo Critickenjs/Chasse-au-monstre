@@ -4,10 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
-import chasseaumonstre.strategy.hunter.Hunter;
-import chasseaumonstre.strategy.monster.Monster;
-import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
 /*
@@ -43,7 +39,7 @@ public class Coordinate implements ICoordinate, Serializable {
         return this.col;
     }
 
-     private void writeObject(ObjectOutputStream oos) throws IOException {
+    private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.writeObject(this.row);
         oos.writeObject(this.col);
     }
