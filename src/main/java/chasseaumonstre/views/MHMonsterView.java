@@ -34,6 +34,8 @@ public class MHMonsterView implements IPlayerView {
     private Stage stage;
     private MHMonsterController controller;
     private GridPane maze;
+    private Image otherImage = new Image("https://media.tenor.com/dPsOXgYjb30AAAAi/pixel-pixelart.gif");
+    private ImagePattern patternInRectangle = new ImagePattern(otherImage);
 
     public MHMonsterView(Stage stage, MHMonsterController controller) {
         // Fenêtre
@@ -74,6 +76,7 @@ public class MHMonsterView implements IPlayerView {
     private void draw() {
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();
+        
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < heigth; y++) {
                 StackPane stack = new StackPane();
@@ -106,8 +109,10 @@ public class MHMonsterView implements IPlayerView {
                         break;
                     case MONSTER:
                         cell.setFill(Color.web("#1bde243c"));
-                        cell.setFill(new ImagePattern(
-                        new Image("https://media.tenor.com/dPsOXgYjb30AAAAi/pixel-pixelart.gif")));
+                        if (!(cell.getFill().equals(patternInRectangle))) { 
+                            cell.setFill(patternInRectangle
+                            );
+                        }
                         break;
                     default:
                         break;
