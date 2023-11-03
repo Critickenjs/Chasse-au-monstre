@@ -126,7 +126,7 @@ public class MHHunterController extends MHPlayerController {
         UtilsController.playSound(UtilsController.GUN_SHOT_SOUND_PATH, VOLUME);
         this.alertHeader.setText("Vous avez tiré sur le chemin.");
         this.alertBody.setText("Coordonnées: (" + cellX + ", " + cellY + ")");
-        this.alertHeader.setTextFill(Color.RED);
+        this.alertHeader.setTextFill(Color.ORANGE);
     }
 
     /*
@@ -150,7 +150,7 @@ public class MHHunterController extends MHPlayerController {
      */
     private void monsterAlert(int cellX, int cellY) {
         UtilsController.playSound(UtilsController.GUN_SHOT_SOUND_PATH, VOLUME);
-        this.alertHeader.setText("VOUS AVEZ GAGNÉ!");
+        this.alertHeader.setText("VOUS AVEZ GAGNÉ !");
         this.alertBody.setText("Vous avez trouvé le monstre aux\ncoordonnées: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.GREEN);
     }

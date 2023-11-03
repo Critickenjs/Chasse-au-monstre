@@ -84,7 +84,8 @@ public abstract class MHPlayerController {
      * Met à jour l'historique des actions
      */
     protected void updateHistory() {
-        Label action = new Label("Turn : " + model.getTurn() + "\n" + alertHeader.getText() + "\n" + alertBody.getText());
+        Label action = new Label("Tour : " + model.getTurn() + "\n" + alertHeader.getText() + "\n" + alertBody.getText());
+        action.setTextFill(alertHeader.getTextFill());
         alerts.add(action);
 
         showHistory();
