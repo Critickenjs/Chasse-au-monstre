@@ -1,11 +1,8 @@
-package chasseaumonstre;
+package chasseaumonstre.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import chasseaumonstre.model.MazeGenerator;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MazeGeneratorTest {

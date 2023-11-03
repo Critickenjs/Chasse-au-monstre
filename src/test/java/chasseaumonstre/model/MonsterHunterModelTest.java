@@ -1,10 +1,7 @@
-package chasseaumonstre;
+package chasseaumonstre.model;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import chasseaumonstre.model.MonsterHunterModel;
-
 import static org.junit.Assert.*;
 
 public class MonsterHunterModelTest {
