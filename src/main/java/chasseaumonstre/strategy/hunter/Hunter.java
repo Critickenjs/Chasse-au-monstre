@@ -113,24 +113,15 @@ public class Hunter implements IHunterStrategy, Serializable {
     }
 
     /*
-     * Met à jour le tour auquel une cellule a été visitée
-     * 
-     * @param res le tour auquel la cellule a été visitée
-     * @param x la ligne de la cellule
-     * @param y la colonne de la cellule
-     */
-    public void setVisitedTurn(int res,int x, int y) {
-        visitedTurn[x][y] = res;
-    }
-
-    /*
      * Met à jour la cellule visitée
      * 
      * @param cellX la ligne de la cellule
      * @param cellY la colonne de la cellule
+     * @param turn le tour auquel la cellule a été visitée
      */
-    public void setVisited(int cellX, int cellY) {
+    public void setVisited(int cellX, int cellY, int turn) {
         this.visited[cellX][cellY] = true;
+        this.visitedTurn[cellX][cellY] = turn;
     }
 
     private void writeObject(ObjectOutputStream oos) throws IOException {

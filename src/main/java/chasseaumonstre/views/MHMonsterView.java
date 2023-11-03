@@ -2,7 +2,6 @@ package chasseaumonstre.views;
 
 import java.io.IOException;
 import java.net.URL;
-
 import chasseaumonstre.controller.MHMonsterController;
 import chasseaumonstre.controller.utils.UtilsController;
 import javafx.fxml.FXMLLoader;
@@ -18,11 +17,23 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/*
+ * Classe représentant la vue du Monstre
+ * 
+ * @param stage : la fenêtre principale
+ * @param controller : le contrôleur
+ * @see MHMonsterController
+ * @autor Anas Ouhdda
+ * @autor Atilla Tas
+ * @autor Karim Aoulad-Tayab
+ * @autor Selim Hamza
+ * @autor Yliess El Atifi
+ */
 public class MHMonsterView {
+    private static final String MONSTER_CROSSHAIR_PATH = "https://cdn.discordapp.com/attachments/1159749679353974806/1169753687917346846/467900-200.png?ex=65568d04&is=65441804&hm=0d0bc1a4e1045921d9a369b4f808a348ea7473c35ba11ecf52174806f03f3f9f&";
     private Stage stage;
     private MHMonsterController controller;
     private GridPane maze;
-    private static final String MONSTER_CROSSHAIRE_PATH = "https://cdn.discordapp.com/attachments/1159749679353974806/1169753687917346846/467900-200.png?ex=65568d04&is=65441804&hm=0d0bc1a4e1045921d9a369b4f808a348ea7473c35ba11ecf52174806f03f3f9f&";
 
     public MHMonsterView(Stage stage, MHMonsterController controller) {
         // Fenêtre
@@ -47,7 +58,7 @@ public class MHMonsterView {
             this.controller.showHistory();
 
             Scene scene = new Scene(root, 1300, 900);
-            Image image = new Image(MONSTER_CROSSHAIRE_PATH);  //pass in the image path
+            Image image = new Image(MONSTER_CROSSHAIR_PATH);
             scene.setCursor(new ImageCursor(image));
 
             stage.setTitle("Tour du monstre");
@@ -63,7 +74,6 @@ public class MHMonsterView {
     private void draw() {
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();
-        this.maze.getChildren().clear(); // TODO remplacer par update
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < heigth; y++) {
                 StackPane stack = new StackPane();
@@ -97,7 +107,7 @@ public class MHMonsterView {
                     case MONSTER:
                         cell.setFill(Color.web("#1bde243c"));
                         cell.setFill(new ImagePattern(
-                                new Image("https://media.tenor.com/dPsOXgYjb30AAAAi/pixel-pixelart.gif")));
+                        new Image("https://media.tenor.com/dPsOXgYjb30AAAAi/pixel-pixelart.gif")));
                         break;
                     default:
                         break;
@@ -109,6 +119,9 @@ public class MHMonsterView {
         }
     }
 
+    /*
+     * Mettre à jour la vue du Monstre
+     */
     public void update() {
         this.maze.getChildren().clear();
         this.draw();
