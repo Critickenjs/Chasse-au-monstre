@@ -136,7 +136,7 @@ public class Monster implements IMonsterStrategy, Serializable {
      * @param col la colonne de la cellule
      * @return true si le monstre a déjà visité la cellule, false sinon
      */
-    private void setVisited(int row, int col) throws ArrayIndexOutOfBoundsException {
+    public void setVisited(int row, int col) throws ArrayIndexOutOfBoundsException {
         checkCoord(row, col);
         visited[row][col] = true;
     }
