@@ -71,8 +71,6 @@ public class Hunter implements IHunterStrategy, Serializable {
         this.shootLocations[x][y] = true;
     }
 
-    
-
     /*
      * Joue un tour du chasseur
      */
@@ -92,17 +90,45 @@ public class Hunter implements IHunterStrategy, Serializable {
         this.shootLocations[coord.getRow()][coord.getCol()] = true;
     }
 
+    /*
+     * Connaitre si une cellule a été visitée
+     * 
+     * @param x la ligne de la cellule
+     * @param y la colonne de la cellule
+     * @return true si la cellule a été visitée, false sinon
+     */
     public boolean isVisited(int x, int y) {
         return visited[x][y];
     }
 
+    /*
+     * Connaitre à quel tour une cellule a été visitée
+     * 
+     * @param x la ligne de la cellule
+     * @param y la colonne de la cellule
+     * @return le tour auquel la cellule a été visitée
+     */
     public int getVisitedTurn(int x, int y) {
         return visitedTurn[x][y];
     }
+
+    /*
+     * Met à jour le tour auquel une cellule a été visitée
+     * 
+     * @param res le tour auquel la cellule a été visitée
+     * @param x la ligne de la cellule
+     * @param y la colonne de la cellule
+     */
     public void setVisitedTurn(int res,int x, int y) {
         visitedTurn[x][y] = res;
     }
 
+    /*
+     * Met à jour la cellule visitée
+     * 
+     * @param cellX la ligne de la cellule
+     * @param cellY la colonne de la cellule
+     */
     public void setVisited(int cellX, int cellY) {
         this.visited[cellX][cellY] = true;
     }
