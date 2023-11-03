@@ -1,12 +1,10 @@
-package chasseaumonstre;
+package chasseaumonstre.model.strategy.hunter;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-
 import chasseaumonstre.model.CellEvent;
 import chasseaumonstre.model.Coordinate;
-import chasseaumonstre.model.strategy.hunter.Hunter;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 

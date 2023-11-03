@@ -1,9 +1,8 @@
-package chasseaumonstre;
+package chasseaumonstre.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import chasseaumonstre.model.MazeValidator;
 
 public class MazeValidatorTest {
     private int width;

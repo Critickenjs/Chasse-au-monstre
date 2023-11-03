@@ -1,12 +1,8 @@
-package chasseaumonstre;
+package chasseaumonstre.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import chasseaumonstre.model.CellEvent;
-import chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 
 public class CellEventTest {
