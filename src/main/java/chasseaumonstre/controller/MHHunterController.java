@@ -30,7 +30,6 @@ public class MHHunterController extends MHPlayerController {
     private final double VOLUME = 0.05;
 
     private boolean shot;
-    private MHMonsterView monsterView;
 
     public MHHunterController(Stage stage, MonsterHunterModel model) {
         super(stage, model);

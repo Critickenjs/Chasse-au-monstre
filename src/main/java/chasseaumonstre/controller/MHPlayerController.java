@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chasseaumonstre.model.MonsterHunterModel;
+import chasseaumonstre.views.IPlayerView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -54,6 +55,8 @@ public abstract class MHPlayerController {
     protected MonsterHunterModel model;
     protected Alert winAlert;
     protected List<Label> alerts;
+    protected IPlayerView monsterView;
+    protected IPlayerView hunterView;
 
     public MHPlayerController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;

@@ -33,8 +33,6 @@ public class MHMonsterController extends MHPlayerController {
     private final double LOW_VOLUME = 0.05;
 
     private boolean moved;
-    private MHMonsterView partieView;
-    private MHHunterView hunterView;
 
     public MHMonsterController(Stage stage, MonsterHunterModel model) {
         super(stage, model);
@@ -59,10 +57,10 @@ public class MHMonsterController extends MHPlayerController {
     /*
      * Définit la vue à contrôler
      * 
-     * @param partieView : la vue 
+     * @param monsterView : la vue 
      */
-    public void setVue(MHMonsterView partieView) {
-        this.partieView = partieView;
+    public void setVue(MHMonsterView monsterView) {
+        this.monsterView = monsterView;
     }
 
     /*
@@ -98,7 +96,7 @@ public class MHMonsterController extends MHPlayerController {
             UtilsController.playSound(UtilsController.WRONG_SOUND_PATH, LOW_VOLUME);
             farAlert(moveX, moveY);
         }
-        partieView.update();
+        monsterView.update();
         return moved;
     }
 
