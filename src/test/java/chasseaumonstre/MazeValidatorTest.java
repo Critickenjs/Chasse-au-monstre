@@ -16,7 +16,7 @@ public class MazeValidatorTest {
         width = 5;
         height = 5;
         maze = new int[][]{
-            {0, 0, 0, 0, 0},
+            {2, 0, 0, 0, 4},
             {1, 1, 0, 1, 1},
             {0, 0, 0, 0, 0},
             {1, 1, 0, 1, 1},
@@ -24,7 +24,6 @@ public class MazeValidatorTest {
         };
         mazeValidator = new MazeValidator(width, height, maze);
     }
-
 
     @Test
     public void testValidMaze1() {
@@ -35,11 +34,11 @@ public class MazeValidatorTest {
     @Test
     public void testValidMaze2() {
         int[][] maze = new int[][]{
-            {0, 0, 1, 1, 1},
-            {1, 0, 0, 0, 1},
+            {2, 1, 1, 1, 4},
+            {0, 0, 0, 0, 0},
             {1, 1, 1, 0, 1},
             {1, 0, 0, 0, 0},
-            {1, 1, 1, 1, 1}
+            {1, 1, 1, 0, 1}
         };
 
         mazeValidator.setMaze(maze);
@@ -50,7 +49,7 @@ public class MazeValidatorTest {
     @Test
     public void testInvalidMaze1() {
         int[][] maze = new int[][]{
-            {0, 1, 1, 1, 1},
+            {2, 1, 1, 1, 4},
             {0, 0, 0, 0, 1},
             {1, 1, 1, 0, 1},
             {1, 0, 0, 1, 1},
@@ -65,7 +64,7 @@ public class MazeValidatorTest {
     @Test
     public void testInvalidMaze2() {
         int[][] maze = new int[][]{
-            {0, 1, 1, 1, 1},
+            {2, 1, 1, 1, 4},
             {0, 0, 0, 0, 1},
             {1, 1, 1, 0, 1},
             {1, 0, 0, 0, 1},
@@ -80,7 +79,7 @@ public class MazeValidatorTest {
     @Test
     public void testMazeWithNoPath() {
         int[][] maze = new int[][]{
-            {0, 1, 1, 1, 1},
+            {2, 1, 1, 1, 4},
             {1, 0, 1, 0, 1},
             {1, 1, 1, 0, 1},
             {1, 0, 1, 1, 1},
@@ -106,11 +105,4 @@ public class MazeValidatorTest {
         boolean isValid = mazeValidator.isValid();
         assertFalse(isValid);
     }
-
-    
-
-     
-
-    
-
 }
