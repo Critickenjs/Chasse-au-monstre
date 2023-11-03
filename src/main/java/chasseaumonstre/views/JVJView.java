@@ -1,16 +1,27 @@
 package chasseaumonstre.views;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import chasseaumonstre.controller.JVJController;
+import chasseaumonstre.views.utils.UtilsView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/*
+ * Classe représentant la vue du jeu Joueur contre Joueur
+ * où les joueurs peuvent choisir leurs noms
+ * 
+ * @param stage : la fenêtre principale
+ * @param controller : le contrôleur
+ * @see JVJController
+ * @autor Anas Ouhdda
+ * @autor Atilla Tas
+ * @autor Karim Aoulad-Tayab
+ * @autor Selim Hamza
+ * @autor Yliess El Atifi
+ */
 public class JVJView {
-    private static final String FXML_LOCATION = System.getProperty("user.dir") + File.separator + "src" + File.separator
-            + "main" + File.separator + "resources" + File.separator + "maquette" + File.separator;
     private Stage stage;
     private JVJController controller;
 
@@ -22,7 +33,7 @@ public class JVJView {
 
     private void render() {
         try {
-            FXMLLoader loader = new FXMLLoader(new URL("file", "", FXML_LOCATION + "jvj.fxml"));
+            FXMLLoader loader = new FXMLLoader(new URL("file", "", UtilsView.FXML_LOCATION + "jvj.fxml"));
             loader.setController(this.controller);
             Scene scene = new Scene(loader.load(), 1080, 600);
             stage.setTitle("Joueur contre Joueur");

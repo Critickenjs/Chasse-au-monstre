@@ -141,6 +141,13 @@ public class Monster implements IMonsterStrategy, Serializable {
         visited[row][col] = true;
     }
 
+    /*
+     * Vérifie si le monstre est adjacent à une cellule
+     * 
+     * @param x1 la ligne de la cellule
+     * @param y1 la colonne de la cellule
+     * @return true si le monstre est adjacent à la cellule, false sinon
+     */
     public boolean estAdjacente(int x1, int y1) {
         int diffX = Math.abs(x1- this.coord.getRow());
         int diffY = Math.abs(y1 -this.coord.getCol());
@@ -165,6 +172,13 @@ public class Monster implements IMonsterStrategy, Serializable {
         }
     }
 
+    /*
+     * Connaitre à quel tour une cellule a été visitée
+     * 
+     * @param row la ligne de la cellule
+     * @param col la colonne de la cellule
+     * @return le tour auquel la cellule a été visitée
+     */
     public int getVisitedTurn(int row, int col) {
         try {
             return visitedTurn[row][col];
@@ -176,9 +190,10 @@ public class Monster implements IMonsterStrategy, Serializable {
     /*
      * Joue un tour du monstre
      */
-    public Coordinate play() {
+    @Override
+    public ICoordinate play() {
         // TODO (partie 2 - implémentation de l'IA du monstre)
-        return null;
+        throw new UnsupportedOperationException("Unimplemented method 'play'");
     }
 
     /*

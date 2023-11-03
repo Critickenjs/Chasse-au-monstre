@@ -17,6 +17,18 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/*
+ * Classe représentant la vue du Chasseur
+ * 
+ * @param stage : la fenêtre principale
+ * @param controller : le contrôleur
+ * @see MHHunterController
+ * @autor Anas Ouhdda
+ * @autor Atilla Tas
+ * @autor Karim Aoulad-Tayab
+ * @autor Selim Hamza
+ * @autor Yliess El Atifi
+ */
 public class MHHunterView {
     private Stage stage;
     private MHHunterController controller;
@@ -72,28 +84,7 @@ public class MHHunterView {
                     }
                     int cellX = GridPane.getColumnIndex(stack);
                     int cellY = GridPane.getRowIndex(stack);
-                    
-                    switch (controller.handleShot(cellX, cellY)) {
-                        case WALL:
-                            cell.setFill(Color.web("#a8a8a8"));
-                            break;
-
-                        case EMPTY:
-                            cell.setFill(Color.web("#de1b1b3c"));
-                            if (this.controller.getModel().getMonster().isVisited(cellX, cellY)) {
-                                    text.setText("" + this.controller.getModel().getMonster().getVisitedTurn(cellX,cellY));
-                                    this.controller.getModel().getHunter().setVisited(cellX,cellY);
-                                    this.controller.getModel().getHunter().setVisitedTurn(this.controller.getModel().getMonster().getVisitedTurn(cellX,cellY),cellX,cellY);
-                                }
-                            break;
-
-                        case MONSTER:
-                            cell.setFill(Color.web("#1bde243c"));
-                            break;
-
-                        default:
-                            break;
-                    }
+                    controller.handleShot(cellX, cellY, cell, text);
                 });
 
                 if (this.controller.getModel().getHunter().hasShot(x, y)) {
@@ -102,8 +93,8 @@ public class MHHunterView {
                     } else {
                         cell.setFill(Color.web("#de1b1b3c"));
                         if (this.controller.getModel().getHunter().isVisited(x, y) && (this.controller.getModel().getHunter().getVisitedTurn(x,y)>= 0)) {
-                                    text.setText("" + this.controller.getModel().getHunter().getVisitedTurn(x,y));
-                                }
+                            text.setText("" + this.controller.getModel().getHunter().getVisitedTurn(x,y));
+                        }
                     }
                 } else {
                     if (MHHunterView.isOnBorder(x, y, width - 1, heigth - 1)) {
@@ -119,6 +110,14 @@ public class MHHunterView {
         }
     }
 
+    /*
+     * Connaitre si une cellule est sur le bord du labyrinthe
+     * 
+     * @param x la ligne de la cellule
+     * @param y la colonne de la cellule
+     * @param width la largeur du labyrinthe
+     * @return true si la cellule est sur le bord du labyrinthe, false sinon
+     */
     public static boolean isOnBorder(int x, int y, int width, int heigth) {
         return x == 0 || x == width || y == 0 || y == heigth;
     }
@@ -127,6 +126,9 @@ public class MHHunterView {
         return maze;
     }
 
+    /*
+     * Met à jour la vue du Chasseur
+     */
     public void update() {
         this.maze.getChildren().clear();
         this.draw();

@@ -43,7 +43,7 @@ public class Coordinate implements ICoordinate, Serializable {
         return this.col;
     }
 
-     private void writeObject(ObjectOutputStream oos) throws IOException {
+    private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.writeObject(this.row);
         oos.writeObject(this.col);
     }

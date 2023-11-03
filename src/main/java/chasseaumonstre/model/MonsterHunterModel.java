@@ -95,8 +95,8 @@ public class MonsterHunterModel implements Serializable {
             mazeGenerator.generate();
             mazeValidator.setMaze(mazeGenerator.getMaze());
         }
-        entrance = new Coordinate(mazeGenerator.getEntrance(), 0);
-        exit = new Coordinate(mazeGenerator.getExit(), heigth - 1);
+        entrance = mazeGenerator.getEntranceCoordinate();
+        exit = mazeGenerator.getExitCoordinate();
         monster.setCoord(entrance.getRow(), entrance.getCol(), 0);
 
         this.maze = mazeGenerator.toCellInfo();

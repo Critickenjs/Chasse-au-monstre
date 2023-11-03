@@ -19,6 +19,11 @@ import javafx.stage.Stage;
  * 
  * @param stage : la fenêtre principale
  * @param model : le modèle
+ * @author Anas Ouhdda
+ * @author Atilla Tas
+ * @author Karim Aoulad-Tayab
+ * @author Selim Hamza
+ * @author Yliess El Atifi
  */
 public abstract class MHPlayerController {
     @FXML

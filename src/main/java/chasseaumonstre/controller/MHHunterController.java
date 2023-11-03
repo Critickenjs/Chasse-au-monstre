@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /*
@@ -18,6 +20,11 @@ import javafx.stage.Stage;
  * @param stage : la fenêtre principale
  * @param model : le modèle
  * @see MHPlayerController
+ * @author Anas Ouhdda
+ * @author Atilla Tas
+ * @author Karim Aoulad-Tayab
+ * @author Selim Hamza
+ * @author Yliess El Atifi
  */
 public class MHHunterController extends MHPlayerController {
     private final double VOLUME = 0.05;
@@ -65,7 +72,7 @@ public class MHHunterController extends MHPlayerController {
      * @param shotY : la coordonnée Y de la cellule visée
      * @return la valeur de la cellule visée
      */
-    public CellInfo handleShot(int shotX, int shotY) {
+    public CellInfo handleShot(int shotX, int shotY, Rectangle cell, Text text) {
         this.model.getHunter().shoot(shotX, shotY);
         shot = true;
         skipTurn.setDisable(false);
@@ -75,14 +82,22 @@ public class MHHunterController extends MHPlayerController {
             case EMPTY:
                 pathAlert(shotX, shotY);
                 this.updateHistory();
+                cell.setFill(Color.web("#a8a8a8"));
                 break;
 
             case WALL:
                 wallAlert(shotX, shotY);
                 this.updateHistory();
+                cell.setFill(Color.web("#de1b1b3c"));
+                if (model.getMonster().isVisited(shotX, shotY)) {
+                    int visitedTurn = model.getMonster().getVisitedTurn(shotX, shotY);
+                    text.setText("" + visitedTurn);
+                    model.getHunter().setVisited(shotX, shotY, visitedTurn);
+                }
                 break;
 
             case MONSTER:
+                cell.setFill(Color.web("#1bde243c"));
                 monsterAlert(shotX, shotY);
                 this.updateHistory();
                 winAlert();

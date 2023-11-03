@@ -14,6 +14,11 @@ import chasseaumonstre.views.JVJView;
  * 
  * @param stage : la fenêtre principale
  * @param model : le modèle
+ * @author Anas Ouhdda
+ * @author Atilla Tas
+ * @author Karim Aoulad-Tayab
+ * @author Selim Hamza
+ * @author Yliess El Atifi
  */
 public class MHMenuController  {
     private static final String BACKGROUND_URL = "https://www.premiere.fr/sites/default/files/styles/scale_crop_border_1280x720/public/2020-02/m.jpg";

@@ -9,6 +9,12 @@ import javafx.scene.media.MediaPlayer;
 
 /*
  * Classe utilitaire pour les contrôleurs
+ * 
+ * @author Anas Ouhdda
+ * @author Atilla Tas
+ * @author Karim Aoulad-Tayab
+ * @author Selim Hamza
+ * @author Yliess El Atifi
  */
 public class UtilsController {
 
