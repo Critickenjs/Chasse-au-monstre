@@ -7,9 +7,10 @@ import chasseaumonstre.controller.MHHunterController;
 import chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -33,7 +34,8 @@ public class MHHunterView implements IPlayerView {
     private Stage stage;
     private MHHunterController controller;
     private GridPane maze;
-
+    private static final String HUNTER_CROSSHAIR_PATH = "https://media.discordapp.net/attachments/1159749679353974806/1169753431930572870/7506753.png?ex=65568cc7&is=654417c7&hm=c5381360ebf9dcac106f92196dfa1e036710f61740b72c980cae199d8e0b395f&=";
+    
     public MHHunterView(Stage stage, MHHunterController controller) {
         // Fenêtre
         this.stage = stage;
@@ -55,7 +57,8 @@ public class MHHunterView implements IPlayerView {
             controller.showHistory();
 
             Scene scene = new Scene(root, 1300, 900);
-            scene.setCursor(Cursor.CROSSHAIR);
+            Image image = new Image(HUNTER_CROSSHAIR_PATH);
+            scene.setCursor(new ImageCursor(image));
                     
             stage.setTitle("Tour du Chasseur");
             stage.setScene(scene);
