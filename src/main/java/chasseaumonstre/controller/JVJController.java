@@ -3,7 +3,6 @@ package chasseaumonstre.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -16,6 +15,11 @@ import chasseaumonstre.views.MHMonsterView;
  * Contrôleur de la vue JvJ, menu permettant de choisir les noms des joueurs
  * 
  * @see chasseaumonstre.views.JVJView
+ * @author Anas Ouhdda
+ * @author Atilla Tas
+ * @author Karim Aoulad-Tayab
+ * @author Selim Hamza
+ * @author Yliess El Atifi
  */
 public class JVJController {
     
