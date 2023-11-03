@@ -3,9 +3,11 @@ package chasseaumonstre.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.MHHunterView;
 import chasseaumonstre.views.MHMonsterView;
@@ -33,6 +35,7 @@ public class JVJController {
     public JVJController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
         this.model = model;
+        this.startGameButton = new Button();
     }
 
     /*
@@ -61,17 +64,20 @@ public class JVJController {
      */
     @FXML
     private void startGameButton() {
-        if (j1.getText().isEmpty()) {
-            j1.setStyle("-fx-border-color: red");
-            return;
-        }
-        j1.setStyle("-fx-border-color: none");
-        if (j2.getText().isEmpty()) {
-            j2.setStyle("-fx-border-color: red");
-            return;
-        }
-        j2.setStyle("-fx-border-color: none");
-        startGame();
+        startGameButton.setOnMouseClicked(e -> {
+                if (j1.getText().isEmpty()) {
+                    j1.setStyle("-fx-border-color: red");
+                    return;
+                }
+                j1.setStyle("-fx-border-color: none");
+                if (j2.getText().isEmpty()) {
+                    j2.setStyle("-fx-border-color: red");
+                    return;
+                }
+                j2.setStyle("-fx-border-color: none");
+                startGame();
+    });
+
     }
 
     /*
@@ -83,5 +89,9 @@ public class JVJController {
         if (event.getCode() == KeyCode.ENTER) {
             startGame();
         }
+    }
+    public void initialize() {
+        UtilsController.hovereffect(startGameButton);
+        
     }
 }

@@ -1,5 +1,10 @@
 package chasseaumonstre.strategy.monster;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 import chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
@@ -15,7 +20,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @author Selim Hamza
  * @author Yliess El Atifi
 */
-public class Monster implements IMonsterStrategy {
+public class Monster implements IMonsterStrategy, Serializable {
     private ICoordinate exit;
     private ICoordinate entry;
     private ICoordinate coord;
@@ -194,5 +199,21 @@ public class Monster implements IMonsterStrategy {
                 setVisited(event.getCoord());
                 break;
         }
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.writeObject(this.exit);
+        oos.writeObject(this.entry);
+        oos.writeObject(this.coord);
+        oos.writeObject(this.visited);
+        oos.writeObject(this.visitedTurn);
+    }
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        this.exit = (ICoordinate)ois.readObject();
+        this.entry = (ICoordinate)ois.readObject();
+        this.coord = (ICoordinate)ois.readObject();
+        this.visited = (boolean[][])ois.readObject();
+        this.visitedTurn = (Integer[][])ois.readObject();
     }
 }

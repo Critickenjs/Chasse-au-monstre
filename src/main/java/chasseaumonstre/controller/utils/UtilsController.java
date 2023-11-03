@@ -1,6 +1,9 @@
 package chasseaumonstre.controller.utils;
 
 import java.io.File;
+
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -29,4 +32,18 @@ public class UtilsController {
             return false;
         }
     }
+    public static void hovereffect(Button btn) {
+        btn.setOnMouseEntered(UtilsController::onMouseEntered);
+        btn.setOnMouseExited(UtilsController::onMouseExited);
+    }
+    public static void onMouseEntered(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setStyle("-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-width: 2px; -fx-border-color: #5073f2; -fx-border-radius: 3%;");
+    }
+
+    public static void onMouseExited(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setStyle("-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;");
+    }
+    
 }
