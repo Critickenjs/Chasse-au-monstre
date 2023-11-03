@@ -29,8 +29,8 @@ import javafx.stage.Stage;
  */
 public class MHMonsterController extends MHPlayerController {
 
-    private final double VOLUME = 100;
-    private final double LOW_VOLUME = 0.05;
+    private static final double VOLUME = 100;
+    private static final double LOW_VOLUME = 0.05;
 
     private boolean moved;
 
@@ -156,8 +156,8 @@ public class MHMonsterController extends MHPlayerController {
      * @param cellY : la coordonnée Y de la case visée
      */
     protected void pathAlert(int cellX, int cellY) {
-        this.alertHeader.setText("You walk on a empty case.");
-        this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
+        this.alertHeader.setText("Vous marchez sur une case vide");
+        this.alertBody.setText("Coordonnées: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.BLUE);
     }
 
@@ -168,8 +168,8 @@ public class MHMonsterController extends MHPlayerController {
      * @param cellY : la coordonnée Y de la case visée
      */
     protected void wallAlert(int cellX, int cellY) {
-        this.alertHeader.setText("You cannot walk on a wall.");
-        this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
+        this.alertHeader.setText("Vous ne pouvez pas marcher sur un mur.");
+        this.alertBody.setText("Coordonnées: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.RED);
     }
 
@@ -180,8 +180,8 @@ public class MHMonsterController extends MHPlayerController {
      * @param cellY : la coordonnée Y de la case visée
      */
     private void visitedAlert(int cellX, int cellY) {
-        this.alertHeader.setText("You already walked on this case.\n Keep searching!");
-        this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
+        this.alertHeader.setText("Vous avez déjà marché sur cette case.");
+        this.alertBody.setText("Coordonnées: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.ORANGE);
     }
 
@@ -192,8 +192,8 @@ public class MHMonsterController extends MHPlayerController {
      * @param cellY : la coordonnée Y de la case visée
      */
     private void farAlert(int cellX, int cellY) {
-        this.alertHeader.setText("You are too far from this case!");
-        this.alertBody.setText("Coordinates: (" + cellX + ", " + cellY + ")");
+        this.alertHeader.setText("Vous êtes trop loin de cette case !");
+        this.alertBody.setText("Coordonnées: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.ORANGE);
     }
 
@@ -201,9 +201,9 @@ public class MHMonsterController extends MHPlayerController {
      * Alerte le joueur que le monstre a gagné
      */
     protected void winAlert() {
-        this.winAlert.setTitle("MONSTER Victory");
+        this.winAlert.setTitle("Victoire du MONSTRE");
         this.winAlert.setHeaderText(null);
-        this.winAlert.setContentText("The Monster leave the labyrinth. The Monster wins!");
+        this.winAlert.setContentText("Le Monstre a atteint la sortie du Labyrinthe. Le Monstre gagne !");
         this.winAlert.showAndWait();
 
         alertOnClose();

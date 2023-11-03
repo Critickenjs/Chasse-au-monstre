@@ -63,7 +63,7 @@ public class MHMonsterView implements IPlayerView {
             Image image = new Image(MONSTER_CROSSHAIR_PATH);
             scene.setCursor(new ImageCursor(image));
 
-            stage.setTitle("Tour du monstre");
+            stage.setTitle("Tour du Monstre");
             stage.setScene(scene);
             stage.show();
 
