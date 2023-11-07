@@ -51,10 +51,6 @@ public class Hunter implements IHunterStrategy, Serializable {
         this.shootLocations = new boolean[row][col];
     }
 
-    public boolean[][] getShootLocations() {
-        return this.shootLocations;
-    }
-
     public String getName() {
         return this.name;
     }
