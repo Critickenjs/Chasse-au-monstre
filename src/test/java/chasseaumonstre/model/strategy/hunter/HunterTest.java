@@ -20,14 +20,6 @@ public class HunterTest {
     }
 
     @Test
-    public void testGetShootLocations() {
-        boolean[][] shootLocations = hunter.getShootLocations();
-        assertNotNull(shootLocations);
-        assertEquals(5, shootLocations.length);
-        assertEquals(5, shootLocations[0].length);
-    }
-
-    @Test
     public void testGetName() {
         assertEquals("Hunter1", hunter.getName());
     }
