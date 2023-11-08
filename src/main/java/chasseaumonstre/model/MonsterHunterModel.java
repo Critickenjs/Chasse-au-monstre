@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import chasseaumonstre.model.strategy.hunter.Hunter;
 import chasseaumonstre.model.strategy.monster.Monster;
@@ -19,7 +20,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
  * @author Selim Hamza
  * @author Yliess El Atifi
  */
-public class MonsterHunterModel extends Subject implements Serializable {
+public class MonsterHunterModel extends Subject implements Serializable, Observer {
     private CellInfo[][] maze;
     private Integer turn;
     private int width, height;
@@ -43,6 +44,8 @@ public class MonsterHunterModel extends Subject implements Serializable {
         this.hunter = new Hunter();
         this.monster.initialize(new boolean[width][height]);
         this.hunter.initialize(new boolean[width][height]);
+        this.monster.attach(this);
+        this.hunter.attach(this);
         this.initializeMaze(width, height);
     }
 
@@ -121,6 +124,16 @@ public class MonsterHunterModel extends Subject implements Serializable {
 
     public void nextTurn() {
         this.turn++;
+    }
+
+    @Override
+    public void update(Subject subj) {
+        this.notifyObservers();
+    }
+    
+    @Override
+    public void update(Subject subj, Object data) {
+        this.update(subj);
     }
 
     private void writeObject(ObjectOutputStream oos) throws IOException {

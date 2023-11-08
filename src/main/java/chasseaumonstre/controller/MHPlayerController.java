@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.IPlayerView;
+import chasseaumonstre.views.MHHunterView;
+import chasseaumonstre.views.MHMonsterView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -55,8 +56,8 @@ public abstract class MHPlayerController {
     protected MonsterHunterModel model;
     protected Alert winAlert;
     protected List<Label> alerts;
-    protected IPlayerView monsterView;
-    protected IPlayerView hunterView;
+    protected MHMonsterView monsterView;
+    protected MHHunterView hunterView;
 
     public MHPlayerController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
@@ -65,6 +66,17 @@ public abstract class MHPlayerController {
 
         this.winAlert = new Alert(Alert.AlertType.INFORMATION);
         this.alerts = new ArrayList<>();
+        this.attachControllersToModel();
+    }
+
+    /*
+     * Attache les contrôleurs au modèle
+     */
+    private void attachControllersToModel() {
+        if (this.monsterView != null)
+            this.model.attach(this.monsterView);
+        if (this.hunterView != null)
+            this.model.attach(this.hunterView);
     }
 
     /*
@@ -96,7 +108,7 @@ public abstract class MHPlayerController {
      * 
      * @param monsterView : la vue
      */
-    public void setMonsterView(IPlayerView monsterView) {
+    public void setMonsterView(MHMonsterView monsterView) {
         this.monsterView = monsterView;
     }
 
@@ -105,7 +117,7 @@ public abstract class MHPlayerController {
      * 
      * @param hunterView : la vue
      */
-    public void setHunterView(IPlayerView hunterView) {
+    public void setHunterView(MHHunterView hunterView) {
         this.hunterView = hunterView;
     }
 

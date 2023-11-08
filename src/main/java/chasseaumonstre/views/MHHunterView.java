@@ -32,7 +32,7 @@ import javafx.stage.Stage;
  * @autor Selim Hamza
  * @autor Yliess El Atifi
  */
-public class MHHunterView implements IPlayerView, Observer {
+public class MHHunterView implements Observer {
     private Stage stage;
     private MHHunterController controller;
     private GridPane maze;

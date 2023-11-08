@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
+import SubjectObserver.Subject;
 import chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
@@ -20,7 +20,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @author Selim Hamza
  * @author Yliess El Atifi
 */
-public class Monster implements IMonsterStrategy, Serializable {
+public class Monster extends Subject implements IMonsterStrategy, Serializable {
     private ICoordinate exit;
     private ICoordinate entry;
     private ICoordinate coord;
@@ -112,6 +112,7 @@ public class Monster implements IMonsterStrategy, Serializable {
         setCoord(new Coordinate(row, col));
         visitedTurn[row][col] = turn;
         setVisited(row, col);
+        this.notifyObservers();
     }
 
     /*
@@ -139,6 +140,7 @@ public class Monster implements IMonsterStrategy, Serializable {
     public void setVisited(int row, int col) throws ArrayIndexOutOfBoundsException {
         checkCoord(row, col);
         visited[row][col] = true;
+        this.notifyObservers();
     }
 
     /*

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
+import SubjectObserver.Subject;
 import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
@@ -19,7 +19,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @author Selim Hamza
  * @author Yliess El Atifi
  */
-public class Hunter implements IHunterStrategy, Serializable {
+public class Hunter extends Subject implements IHunterStrategy, Serializable {
     private boolean[][] shootLocations;
     private String name;
     private boolean[][] visited;
@@ -65,6 +65,7 @@ public class Hunter implements IHunterStrategy, Serializable {
 
     public void shoot(int x, int y) {
         this.shootLocations[x][y] = true;
+        this.notifyObservers();
     }
 
     /*
@@ -83,7 +84,7 @@ public class Hunter implements IHunterStrategy, Serializable {
     @Override
     public void update(ICellEvent event) {
         ICoordinate coord = event.getCoord();
-        this.shootLocations[coord.getRow()][coord.getCol()] = true;
+        this.shoot(coord.getRow(), coord.getCol());
     }
 
     /*
@@ -118,6 +119,7 @@ public class Hunter implements IHunterStrategy, Serializable {
     public void setVisited(int cellX, int cellY, int turn) {
         this.visited[cellX][cellY] = true;
         this.visitedTurn[cellX][cellY] = turn;
+        this.notifyObservers();
     }
 
     private void writeObject(ObjectOutputStream oos) throws IOException {
