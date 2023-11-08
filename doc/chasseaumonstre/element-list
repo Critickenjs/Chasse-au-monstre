@@ -1,0 +1,8 @@
+chasseaumonstre
+chasseaumonstre.controller
+chasseaumonstre.controller.utils
+chasseaumonstre.model
+chasseaumonstre.model.strategy.hunter
+chasseaumonstre.model.strategy.monster
+chasseaumonstre.views
+chasseaumonstre.views.utils
