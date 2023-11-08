@@ -89,6 +89,24 @@ public abstract class MHPlayerController {
         alerts.add(action);
 
         showHistory();
+    }    
+    
+    /*
+     * Définit la vue du monstre
+     * 
+     * @param monsterView : la vue
+     */
+    public void setMonsterView(IPlayerView monsterView) {
+        this.monsterView = monsterView;
+    }
+
+    /*
+     * Définit la vue du chasseur
+     * 
+     * @param hunterView : la vue
+     */
+    public void setHunterView(IPlayerView hunterView) {
+        this.hunterView = hunterView;
     }
 
     /*

@@ -3,7 +3,6 @@ package chasseaumonstre.controller;
 import chasseaumonstre.App;
 import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.MHMonsterView;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -107,13 +106,6 @@ public class MHHunterController extends MHPlayerController {
      */
     public boolean hasShot() {
         return shot;
-    }
-
-    /*
-     * Définit la vue du monstre
-     */
-    public void setMonsterView(MHMonsterView monsterView) {
-        this.monsterView = monsterView;
     }
 
     /*

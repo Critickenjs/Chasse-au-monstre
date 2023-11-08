@@ -3,7 +3,6 @@ package chasseaumonstre.controller;
 import chasseaumonstre.App;
 import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.MHHunterView;
 import chasseaumonstre.views.MHMonsterView;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
@@ -138,15 +137,6 @@ public class MHMonsterController extends MHPlayerController {
 
     public boolean hasMoved() {
         return moved;
-    }
-
-    /*
-     * Définit la vue du chasseur
-     * 
-     * @param hunterView : la vue du chasseur
-     */
-    public void setHunterView(MHHunterView hunterView) {
-        this.hunterView = hunterView;
     }
 
     /*
