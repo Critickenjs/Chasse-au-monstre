@@ -3,6 +3,8 @@ package chasseaumonstre.views;
 import java.io.IOException;
 import java.net.URL;
 
+import SubjectObserver.Observer;
+import SubjectObserver.Subject;
 import chasseaumonstre.controller.MHHunterController;
 import chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
@@ -30,7 +32,7 @@ import javafx.stage.Stage;
  * @autor Selim Hamza
  * @autor Yliess El Atifi
  */
-public class MHHunterView implements IPlayerView {
+public class MHHunterView implements IPlayerView, Observer {
     private Stage stage;
     private MHHunterController controller;
     private GridPane maze;
@@ -157,5 +159,15 @@ public class MHHunterView implements IPlayerView {
     public void update() {
         this.maze.getChildren().clear();
         this.draw();
+    }
+
+    @Override
+    public void update(Subject subj) {
+        this.update();
+    }
+
+    @Override
+    public void update(Subject subj, Object obj) {
+        this.update(subj);
     }
 }

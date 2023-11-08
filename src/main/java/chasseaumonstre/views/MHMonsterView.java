@@ -2,6 +2,9 @@ package chasseaumonstre.views;
 
 import java.io.IOException;
 import java.net.URL;
+
+import SubjectObserver.Observer;
+import SubjectObserver.Subject;
 import chasseaumonstre.controller.MHMonsterController;
 import chasseaumonstre.controller.utils.UtilsController;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +32,7 @@ import javafx.stage.Stage;
  * @autor Selim Hamza
  * @autor Yliess El Atifi
  */
-public class MHMonsterView implements IPlayerView {
+public class MHMonsterView implements IPlayerView, Observer {
     private static final String MONSTER_CROSSHAIR_PATH = "https://cdn.discordapp.com/attachments/1159749679353974806/1169753687917346846/467900-200.png?ex=65568d04&is=65441804&hm=0d0bc1a4e1045921d9a369b4f808a348ea7473c35ba11ecf52174806f03f3f9f&";
     private Stage stage;
     private MHMonsterController controller;
@@ -130,5 +133,15 @@ public class MHMonsterView implements IPlayerView {
     public void update() {
         this.maze.getChildren().clear();
         this.draw();
+    }
+
+    @Override
+    public void update(Subject subj) {
+        this.update();
+    }
+
+    @Override
+    public void update(Subject subj, Object obj) {
+        this.update(subj);
     }
 }
