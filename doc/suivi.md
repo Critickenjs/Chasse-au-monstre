@@ -1,0 +1,21 @@
+# Suivi de l'avancée
+
+## Semaine 45
+
+Bien sûr, voici un résumé des modifications effectuées par chaque personne dans le journal Git que vous avez fourni pour la semaine, sans préciser les hachages des commits :
+
+**Karim Aoulad-Tayab** :
+- Mise à jour du fichier "Rapport_Analyse_1.md".
+- Ajout de nouveaux fichiers, réorganisation de certains dossiers, mise à jour de la documentation et de l'UML du projet.
+
+**Anas Ouhdda** :
+- Correction du diagramme de classes du rapport 1.
+- Ajout du patron de conception Observer/Subject.
+- Suppression de fichiers et dossiers inutiles.
+- Refactoring des contrôleurs.
+- Ajout d'héritages et d'implémentations de l'Observer/Subject à certains fichiers.
+- Ajout de classes Subject et Observer depuis un jar.
+- Modifications dans le fichier de test "HunterTest.java".
+
+**Selim Hamza** :
+- Ajout de plusieurs fichiers et dossiers au projet, notamment des ressources audio, des fichiers de maquette, et un JAR.
