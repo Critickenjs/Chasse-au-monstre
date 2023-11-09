@@ -157,6 +157,13 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         
         return (diffX == 1 && diffY == 0) || (diffX == 0 && diffY == 1);
     }
+    public boolean estVisible(int x,int y) {
+        int diffX = Math.abs(x- this.coord.getRow());
+        int diffY = Math.abs(y -this.coord.getCol());
+
+        
+        return (diffX <= 2 && diffY <= 2);
+    }
 
     /*
      * Définit que le monstre a déjà visité une cellule

@@ -96,29 +96,31 @@ public class MHMonsterView implements Observer {
                     controller.handleMove(cellX, cellY);
                 });
 
-                switch (this.controller.getModel().getMaze()[x][y]) {
-                    case WALL:
-                        cell.setFill(Color.BLACK);
-                        break;
-                    case EMPTY:
-                        if (this.controller.getModel().getMonster().isVisited(x, y)) {
+                if(this.controller.getModel().getMonster().estVisible(x,y)){
+                    switch (this.controller.getModel().getMaze()[x][y]) {
+                        case WALL:
+                            cell.setFill(Color.BLACK);
+                            break;
+                        case EMPTY:
+                            if (this.controller.getModel().getMonster().isVisited(x, y)) {
+                                cell.setFill(Color.web("#1bde243c"));
+                                text.setText("" + this.controller.getModel().getMonster().getVisitedTurn(x, y));
+                            } else
+                                cell.setFill(Color.WHITE);
+                            break;
+                        case EXIT:
+                            cell.setFill(Color.GREEN);
+                            break;
+                        case MONSTER:
                             cell.setFill(Color.web("#1bde243c"));
-                            text.setText("" + this.controller.getModel().getMonster().getVisitedTurn(x, y));
-                        } else
-                            cell.setFill(Color.WHITE);
-                        break;
-                    case EXIT:
-                        cell.setFill(Color.GREEN);
-                        break;
-                    case MONSTER:
-                        cell.setFill(Color.web("#1bde243c"));
-                        if (!(cell.getFill().equals(patternInRectangle))) { 
-                            cell.setFill(patternInRectangle
-                            );
-                        }
-                        break;
-                    default:
-                        break;
+                            if (!(cell.getFill().equals(patternInRectangle))) { 
+                                cell.setFill(patternInRectangle
+                                );
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
                 stack.getChildren().addAll(cell, text);
