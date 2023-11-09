@@ -1,10 +1,15 @@
-    package chasseaumonstre.controller;
+package chasseaumonstre.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+
+import java.io.File;
+
 import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.JVJView;
@@ -33,6 +38,8 @@ public class MHMenuController  {
     private Button mviBtn;
     @FXML
     private Button iviBtn;
+    @FXML
+    private Button chargerLabyrinthe;
 
     private Stage stage;
     private MonsterHunterModel model;
@@ -82,6 +89,20 @@ public class MHMenuController  {
     private void onAiVAi() {
     }
 
+    @FXML
+    private void onLoadLabyrinth() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Charger un labyrinthe");
+        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
+        File selectedFile = fileChooser.showOpenDialog(this.stage);
+        if (selectedFile != null) {
+            System.out.println(selectedFile);
+            // À implémenter...
+            // this.model.importMaze(selectedFile);
+        }
+
+    }
+
     /*
      * Initialise le contrôleur, affiche le fond d'écran et initialise le style des boutons
      */
@@ -92,9 +113,7 @@ public class MHMenuController  {
         UtilsController.hovereffect(cviBtn);
         UtilsController.hovereffect(mviBtn);
         UtilsController.hovereffect(iviBtn);
-        
+        UtilsController.hovereffect(chargerLabyrinthe);
     }
     
 }
-
-
