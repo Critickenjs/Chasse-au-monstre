@@ -19,3 +19,7 @@ Bien sûr, voici un résumé des modifications effectuées par chaque personne d
 
 **Selim Hamza** :
 - Ajout de plusieurs fichiers et dossiers au projet, notamment des ressources audio, des fichiers de maquette, et un JAR.
+
+**Yliess El atifi** :
+
+-Ajout de la methode estvisible qui change la vue du monstre, il ne voit plus que 2 case autout de lui.
