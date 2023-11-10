@@ -16,6 +16,7 @@ Bien sûr, voici un résumé des modifications effectuées par chaque personne d
 - Ajout d'héritages et d'implémentations de l'Observer/Subject à certains fichiers.
 - Ajout de classes Subject et Observer depuis un jar.
 - Modifications dans le fichier de test "HunterTest.java".
+- Ajout d'un brouillard en dehors de la vision du monstre.
 
 **Selim Hamza** :
 - Ajout de plusieurs fichiers et dossiers au projet, notamment des ressources audio, des fichiers de maquette, et un JAR.

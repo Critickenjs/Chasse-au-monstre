@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
@@ -109,7 +107,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     public void initializeMaze(int width, int heigth) {
         if(this.maze == null) {
             MazeGenerator mazeGenerator = new MazeGenerator(width, heigth);
-            mazeGenerator.generate();
+            mazeGenerator.generatePlateau(50);
             int [][] tmpMaze = mazeGenerator.getMaze();
 
             MazeValidator mazeValidator = new MazeValidator(width, heigth, tmpMaze);
@@ -147,7 +145,6 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     }
 
     public void importMaze(File file) throws NumberFormatException, IOException {
-        Random r = new Random();
         Path p = Paths.get(file.toString());
         List<String> lines = Files.readAllLines(p);
         this.height = lines.size();
