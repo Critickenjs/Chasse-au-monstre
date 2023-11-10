@@ -83,7 +83,7 @@ public class MHMonsterView implements Observer {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < heigth; y++) {
                 StackPane stack = new StackPane();
-                Rectangle cell = new Rectangle(50, 50);
+                Rectangle cell = new Rectangle(1050/width, 850/heigth);
                 Text text = new Text();
                 cell.setStroke(Color.BLACK);
 
