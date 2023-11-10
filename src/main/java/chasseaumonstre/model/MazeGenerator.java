@@ -53,6 +53,8 @@ public class MazeGenerator {
      * 
      * @return le labyrinthe généré
      */
+    
+     // Permet de génére un Labyrinthe
     public void generate() {
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
@@ -63,6 +65,25 @@ public class MazeGenerator {
         maze[entrance][0] = 0;
         maze[exit][height - 1] = 0;
 
+        this.entranceCoordinate = new Coordinate(entrance, 0);
+        this.exitCoordinate = new Coordinate(exit, height - 1);
+        this.generatePath(entrance, exit);
+    }
+
+    // Permet de génére un plateau avec un % d'obstacles prédéfini
+    public void generatePlateau(int obstacle) {
+        if (obstacle < 0 || obstacle > 100) {
+            throw new IllegalArgumentException("Le pourcentage doit être compris entre 0 et 100 inclus.");
+        }
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                maze[x][y] = random.nextInt(100) < obstacle ? 1 : 0;
+    
+        int entrance = random.nextInt(width);
+        int exit = random.nextInt(width);
+        maze[entrance][0] = 0;
+        maze[exit][height - 1] = 0;
+    
         this.entranceCoordinate = new Coordinate(entrance, 0);
         this.exitCoordinate = new Coordinate(exit, height - 1);
         this.generatePath(entrance, exit);

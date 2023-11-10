@@ -39,6 +39,10 @@ public class MHMonsterView implements Observer {
     private GridPane maze;
     private Image otherImage = new Image("https://media.tenor.com/dPsOXgYjb30AAAAi/pixel-pixelart.gif");
     private ImagePattern patternInRectangle = new ImagePattern(otherImage);
+    private Image br = new Image("https://media.tenor.com/JxxiPL5nseoAAAAi/fog-jared-d-weiss.gif");
+    private ImagePattern brouillard = new ImagePattern(br);
+    private Image mur = new Image("https://cdn.discordapp.com/attachments/1159749679353974806/1172539649072304219/image.png?ex=6560afa5&is=654e3aa5&hm=d18c0f8879f791c7bad3e76b97cd6ba430b24b9c24f0dfa9961c83bce50174b6&");
+    private ImagePattern wall = new ImagePattern(mur);
 
     public MHMonsterView(Stage stage, MHMonsterController controller) {
         // Fenêtre
@@ -99,7 +103,7 @@ public class MHMonsterView implements Observer {
                 if(this.controller.getModel().getMonster().estVisible(x,y)){
                     switch (this.controller.getModel().getMaze()[x][y]) {
                         case WALL:
-                            cell.setFill(Color.BLACK);
+                            cell.setFill(wall);
                             break;
                         case EMPTY:
                             if (this.controller.getModel().getMonster().isVisited(x, y)) {
@@ -121,6 +125,10 @@ public class MHMonsterView implements Observer {
                         default:
                             break;
                     }
+                }
+                else{
+                    cell.setFill(brouillard);
+
                 }
 
                 stack.getChildren().addAll(cell, text);
