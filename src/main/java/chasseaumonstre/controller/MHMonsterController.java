@@ -51,7 +51,7 @@ public class MHMonsterController extends MHPlayerController {
     public void initialize() {
         this.characterName.setText("Le Monstre \n" + this.model.getMonsterName());
         this.alertHistory.setVvalue(1.0);
-        Image fogImage = new Image(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "img" + File.separator + "fog.png");
+        Image fogImage = new Image("https://cdn.discordapp.com/attachments/1159749679353974806/1172561801574109214/fog.png?ex=6560c446&is=654e4f46&hm=179e40d2cf2e2a6cd19f72a721db7dbcba4c816b9bb6b3d26fd77ed71709df80&");
         BackgroundImage myBI = new BackgroundImage(fogImage,
         BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
         contentV.setBackground(new Background(myBI));
