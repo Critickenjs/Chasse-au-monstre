@@ -1,5 +1,7 @@
 package chasseaumonstre.controller;
 
+import java.io.File;
+
 import chasseaumonstre.App;
 import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
@@ -9,7 +11,13 @@ import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -43,6 +51,10 @@ public class MHMonsterController extends MHPlayerController {
     public void initialize() {
         this.characterName.setText("Le Monstre \n" + this.model.getMonsterName());
         this.alertHistory.setVvalue(1.0);
+        Image fogImage = new Image(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "img" + File.separator + "fog.png");
+        BackgroundImage myBI = new BackgroundImage(fogImage,
+        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+        contentV.setBackground(new Background(myBI));
     }
 
     public MonsterHunterModel getModel() {

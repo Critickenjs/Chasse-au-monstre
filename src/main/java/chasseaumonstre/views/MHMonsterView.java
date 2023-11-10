@@ -88,6 +88,7 @@ public class MHMonsterView implements Observer {
             for (int y = 0; y < heigth; y++) {
                 StackPane stack = new StackPane();
                 Rectangle cell = new Rectangle(50, 50);
+                cell.setOpacity(0);
                 Text text = new Text();
                 cell.setStroke(Color.BLACK);
 
@@ -101,6 +102,7 @@ public class MHMonsterView implements Observer {
                 });
 
                 if(this.controller.getModel().getMonster().estVisible(x,y)){
+                    cell.setOpacity(1);
                     switch (this.controller.getModel().getMaze()[x][y]) {
                         case WALL:
                             cell.setFill(wall);
