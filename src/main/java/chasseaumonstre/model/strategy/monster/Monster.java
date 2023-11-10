@@ -103,7 +103,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         return coord;
     }
 
-    private void setCoord(ICoordinate coord) {
+    public void setCoord(ICoordinate coord) {
         this.coord = coord;
     }
 

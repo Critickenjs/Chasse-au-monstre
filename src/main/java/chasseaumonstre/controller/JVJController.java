@@ -53,6 +53,8 @@ public class JVJController {
     private void startGame() {
         model.setHunterName(j1.getText());
         model.setMonsterName(j2.getText());
+        this.model.initializeMaze(this.model.getWidth(), this.model.getHeight());
+        this.model.initializePlayers(this.model.getWidth(), this.model.getHeight());
         MHMonsterController mc = new MHMonsterController(stage, model);
         this.monsterView = new MHMonsterView(stage, mc);
         MHHunterController hc = new MHHunterController(stage, model);

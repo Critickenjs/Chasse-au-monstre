@@ -1,9 +1,16 @@
 package chasseaumonstre.model;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
 
 import SubjectObserver.Observer;
 import SubjectObserver.Subject;
@@ -42,11 +49,8 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         this.height = height;
         this.monster = new Monster();
         this.hunter = new Hunter();
-        this.monster.initialize(new boolean[width][height]);
-        this.hunter.initialize(new boolean[width][height]);
         this.monster.attach(this);
         this.hunter.attach(this);
-        this.initializeMaze(width, height);
     }
 
     public String getMonsterName() {
@@ -72,13 +76,27 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     public int getHeight() {
         return this.height;
     }
+
     
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     public Monster getMonster() {
         return monster;
     }
 
     public Hunter getHunter() {
         return hunter;
+    }
+
+    public void initializePlayers(int width, int height) {
+        this.monster.initialize(new boolean[width][height]);
+        this.hunter.initialize(new boolean[width][height]);
     }
 
     /*
@@ -88,22 +106,24 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
      * @param width la largeur du labyrinthe
      * @param heigth la hauteur du labyrinthe
      */
-    private void initializeMaze(int width, int heigth) {
-        MazeGenerator mazeGenerator = new MazeGenerator(width, heigth);
-        mazeGenerator.generate();
-        int [][] tmpMaze = mazeGenerator.getMaze();
-
-        MazeValidator mazeValidator = new MazeValidator(width, heigth, tmpMaze);
-
-        while (!mazeValidator.isValid()) {
+    public void initializeMaze(int width, int heigth) {
+        if(this.maze == null) {
+            MazeGenerator mazeGenerator = new MazeGenerator(width, heigth);
             mazeGenerator.generate();
-            mazeValidator.setMaze(mazeGenerator.getMaze());
-        }
-        entrance = mazeGenerator.getEntranceCoordinate();
-        exit = mazeGenerator.getExitCoordinate();
-        monster.setCoord(entrance.getRow(), entrance.getCol(), 0);
+            int [][] tmpMaze = mazeGenerator.getMaze();
 
-        this.maze = mazeGenerator.toCellInfo();
+            MazeValidator mazeValidator = new MazeValidator(width, heigth, tmpMaze);
+
+            while (!mazeValidator.isValid()) {
+                mazeGenerator.generate();
+                mazeValidator.setMaze(mazeGenerator.getMaze());
+            }
+            entrance = mazeGenerator.getEntranceCoordinate();
+            exit = mazeGenerator.getExitCoordinate();
+            monster.setCoord(entrance.getRow(), entrance.getCol(), 0);
+
+            this.maze = mazeGenerator.toCellInfo();
+        }
     }
 
     public CellInfo[][] getMaze() {
@@ -124,6 +144,31 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
 
     public void nextTurn() {
         this.turn++;
+    }
+
+    public void importMaze(File file) throws NumberFormatException, IOException {
+        Random r = new Random();
+        Path p = Paths.get(file.toString());
+        List<String> lines = Files.readAllLines(p);
+        this.height = lines.size();
+        this.width = lines.get(0).split(",").length;
+        CellInfo[][] labyrinth = new CellInfo[height][width];
+        int entranceX = 0;
+        int entranceY = 0;
+        String[] line;
+        for(int i = 0; i < this.height; i++) {
+            line = lines.get(i).split(",");
+            for(int j = 0; j < this.width; j++) {
+                labyrinth[i][j] = MazeGenerator.toCellInfo(Integer.parseInt(line[j]));
+                if(i == 0 && labyrinth[i][j] == CellInfo.MONSTER) {
+                    entranceX = j;
+                    entranceY = i;
+                }
+
+            }
+        }
+        monster.setCoord(new Coordinate(entranceY, entranceX));
+        this.maze = labyrinth;
     }
 
     @Override

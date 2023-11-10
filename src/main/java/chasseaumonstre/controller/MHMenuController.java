@@ -1,14 +1,23 @@
 package chasseaumonstre.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import javafx.geometry.Insets;
 
 import java.io.File;
+import java.io.IOException;
 
 import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
@@ -39,7 +48,7 @@ public class MHMenuController  {
     @FXML
     private Button iviBtn;
     @FXML
-    private Button chargerLabyrinthe;
+    private Button parametres;
 
     private Stage stage;
     private MonsterHunterModel model;
@@ -89,18 +98,90 @@ public class MHMenuController  {
     private void onAiVAi() {
     }
 
-    @FXML
-    private void onLoadLabyrinth() {
+    private void loadLabyrinth() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Charger un labyrinthe");
         fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Text Files", "*.txt"));
         File selectedFile = fileChooser.showOpenDialog(this.stage);
         if (selectedFile != null) {
-            System.out.println(selectedFile);
-            // À implémenter...
-            // this.model.importMaze(selectedFile);
+            try {
+                this.model.importMaze(selectedFile);
+            } catch (IOException e) {
+                System.out.println("Erreur IO sur le fichier '" + selectedFile + "'");
+            } catch(NumberFormatException e) {
+                System.out.println("Erreur de parsing d'entier sur le fichier '" + selectedFile + "'");
+            }
         }
+    }
 
+    @FXML
+    private void onParameter() {
+        Stage stageParameter = new Stage();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+
+        Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+        alert2.setHeaderText(null);
+        alert2.setTitle("Succès");
+        
+        alert2.setContentText("Changement effectué avec succès");
+
+        VBox vbox = new VBox();
+
+        HBox hbox = new HBox();
+
+        Label label = new Label("Changer la taille du labyrinthe");
+        label.setStyle("-fx-font-weight: bold");
+
+        TextField width = new TextField();
+        width.setPromptText("Width");
+
+        TextField height = new TextField();
+        height.setPromptText("Height");
+
+        Button button = new Button("Valider");
+
+        button.setOnAction(e -> {
+            if(!width.getText().equals("") && height.getText().equals("")) {
+                alert.setTitle("Erreur de saisie");
+                alert.setContentText("Veuillez saisir les 2 champs");
+                alert.showAndWait();
+            } else {
+               try {
+                    this.model.setWidth(Integer.parseInt(width.getText()));
+                    this.model.setHeight(Integer.parseInt(height.getText()));
+                    alert2.showAndWait();
+               } catch(NumberFormatException e2) {
+                    alert.setContentText("Erreur de type sur l'un des 2 champs");
+                    alert.showAndWait();
+               }
+            }
+        });
+
+        hbox.getChildren().addAll(width, height, button);
+
+        Button button2 = new Button("Charger un labyrinthe prédéfini");
+
+        button2.setOnAction(e -> {
+            this.loadLabyrinth();
+        });
+
+        vbox.getChildren().addAll(label, hbox, button2);
+
+        VBox.setMargin(label, new Insets(5, 0, 0, 10));
+        VBox.setMargin(hbox, new Insets(10, 0, 0, 10));
+        HBox.setMargin(button, new Insets(0, 0, 0, 10));
+
+        HBox.setMargin(height, new Insets(0, 0, 0, 10));
+        VBox.setMargin(button2, new Insets(10, 0, 0, 10));
+
+        Scene scene = new Scene(vbox, 450, 100);
+        stageParameter.setScene(scene);
+        stageParameter.setResizable(false);
+        stageParameter.initOwner(this.stage);
+        stageParameter.initModality(Modality.WINDOW_MODAL);
+
+        stageParameter.show();
     }
 
     /*
@@ -113,7 +194,7 @@ public class MHMenuController  {
         UtilsController.hovereffect(cviBtn);
         UtilsController.hovereffect(mviBtn);
         UtilsController.hovereffect(iviBtn);
-        UtilsController.hovereffect(chargerLabyrinthe);
+        UtilsController.hovereffect(parametres);
     }
     
 }

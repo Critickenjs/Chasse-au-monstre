@@ -37,12 +37,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="chargerLabyrinthe" layoutX="409.0" layoutY="454.0" mnemonicParsing="false" onAction="#onLoadLabyrinth" prefHeight="30.0" prefWidth="221.0" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;" text="Charger un labyrinthe" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="parametres" layoutX="409.0" layoutY="494.0" mnemonicParsing="false" onAction="#onParameter" prefHeight="30.0" prefWidth="221.0" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;" text="Paramètres" textFill="WHITE">
+            <Button fx:id="parametres" layoutX="409.0" layoutY="457.0" mnemonicParsing="false" onAction="#onParameter" prefHeight="30.0" prefWidth="221.0" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;" text="Paramètres" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

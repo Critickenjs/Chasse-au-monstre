@@ -115,6 +115,26 @@ public class MazeGenerator {
         return getExitCoordinate().getRow();
     }
 
+    public static CellInfo toCellInfo(int n) {
+        CellInfo info = null;
+        switch(n) {
+            case 0:
+                info = CellInfo.EMPTY;
+                break;
+            case 1:
+                info = CellInfo.WALL;
+                break;
+            case 2:
+                info = CellInfo.MONSTER;
+                break;
+            case 4:
+                info = CellInfo.EXIT;
+            default:
+                break;
+        }
+        return info;
+    }
+
     /*
      * Convertit le labyrinthe en tableau de CellInfo
      * 
@@ -122,21 +142,9 @@ public class MazeGenerator {
      */
     public CellInfo[][] toCellInfo() {
         CellInfo[][] labyrinth = new CellInfo[width][height];
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                switch (maze[x][y]) {
-                    case 1:
-                        labyrinth[x][y] = CellInfo.WALL;
-                        break;
-                    default:
-                        labyrinth[x][y] = CellInfo.EMPTY;
-                        break;
-                    
-                }
-            }
-            
-
-        }
+        for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
+                labyrinth[x][y] = MazeGenerator.toCellInfo(maze[x][y]);
         labyrinth[this.getEntranceRow()][0] = CellInfo.MONSTER;
         labyrinth[getExitRow()][height-1] = CellInfo.EXIT;
         return labyrinth;
