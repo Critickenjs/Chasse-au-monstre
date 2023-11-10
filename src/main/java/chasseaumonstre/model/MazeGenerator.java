@@ -54,7 +54,7 @@ public class MazeGenerator {
      * @return le labyrinthe généré
      */
     
-     // Permet de génére un Labyrinthe
+     // Permet de génére un Labyrinthe 
     public void generate() {
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
@@ -79,14 +79,15 @@ public class MazeGenerator {
             for (int y = 0; y < height; y++)
                 maze[x][y] = random.nextInt(100) < obstacle ? 1 : 0;
     
-        int entrance = random.nextInt(width);
+        int entrancex = random.nextInt(width);
+        int entrancey = random.nextInt(height-1);
         int exit = random.nextInt(width);
-        maze[entrance][0] = 0;
+        maze[entrancex][entrancey] = 0;
         maze[exit][height - 1] = 0;
     
-        this.entranceCoordinate = new Coordinate(entrance, 0);
+        this.entranceCoordinate = new Coordinate(entrancex, entrancey);
         this.exitCoordinate = new Coordinate(exit, height - 1);
-        this.generatePath(entrance, exit);
+        this.generatePath(entrancex, exit);
     }
 
     private void generatePath(int x, int y) {
@@ -131,6 +132,9 @@ public class MazeGenerator {
     public int getEntranceRow() { 
         return getEntranceCoordinate().getRow();
     }
+    public int getEntranceCol() { 
+        return getEntranceCoordinate().getCol();
+    }
 
     public int getExitRow() { 
         return getExitCoordinate().getRow();
@@ -158,7 +162,7 @@ public class MazeGenerator {
             
 
         }
-        labyrinth[this.getEntranceRow()][0] = CellInfo.MONSTER;
+        labyrinth[this.getEntranceRow()][this.getEntranceCol()] = CellInfo.MONSTER;
         labyrinth[getExitRow()][height-1] = CellInfo.EXIT;
         return labyrinth;
     }
