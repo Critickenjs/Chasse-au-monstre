@@ -41,14 +41,21 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
      * @param width la largeur du labyrinthe
      * @param heigth la hauteur du labyrinthe
      */
+
     public MonsterHunterModel(int width, int height) {
         this.turn = 1;
         this.width = width;
         this.height = height;
         this.monster = new Monster();
         this.hunter = new Hunter();
+    }
+
+    public void initialize() {
+        this.monster.initialize(new boolean[width][height]);
+        this.hunter.initialize(new boolean[width][height]);
         this.monster.attach(this);
         this.hunter.attach(this);
+        this.initializeMaze(width, height);
     }
 
     public String getMonsterName() {

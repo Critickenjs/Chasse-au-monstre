@@ -148,9 +148,17 @@ public class MHMenuController  {
                 alert.showAndWait();
             } else {
                try {
-                    this.model.setWidth(Integer.parseInt(width.getText()));
-                    this.model.setHeight(Integer.parseInt(height.getText()));
-                    alert2.showAndWait();
+                    int widthVal = Integer.parseInt(width.getText());
+                    int heightVal = Integer.parseInt(height.getText());
+                    if (widthVal%2 == 0) {
+                        alert.setTitle("Erreur de saisie");
+                        alert.setContentText("Veuillez saisir les 2 valeurs impaires");
+                        alert.showAndWait();
+                    } else {
+                        this.model.setWidth(widthVal);
+                        this.model.setHeight(heightVal);
+                        alert2.showAndWait();
+                    }
                } catch(NumberFormatException e2) {
                     alert.setContentText("Erreur de type sur l'un des 2 champs");
                     alert.showAndWait();
