@@ -38,12 +38,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
 
     /*
      * Constructeur de MonsterHunterModel
-     * 
-     * @param maze le labyrinthe généré
-     * @param getWidth() la largeur du labyrinthe
-     * @param heigth la hauteur du labyrinthe
      */
-
     public MonsterHunterModel() {
         this.turn = 1;
         this.monster = new Monster();
