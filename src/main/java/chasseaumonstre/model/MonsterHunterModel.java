@@ -12,6 +12,7 @@ import java.nio.file.Files;
 
 import SubjectObserver.Observer;
 import SubjectObserver.Subject;
+import chasseaumonstre.App;
 import chasseaumonstre.model.strategy.hunter.Hunter;
 import chasseaumonstre.model.strategy.monster.Monster;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
@@ -26,9 +27,10 @@ import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
  * @author Yliess El Atifi
  */
 public class MonsterHunterModel extends Subject implements Serializable, Observer {
+    public static final int DEFAULT_WIDTH = 21;
+    public static final int DEFAULT_HEIGHT = 17;
     private CellInfo[][] maze;
     private Integer turn;
-    private int width, height;
     private String monsterName, hunterName;
     private Monster monster;
     private Hunter hunter;
@@ -38,24 +40,22 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
      * Constructeur de MonsterHunterModel
      * 
      * @param maze le labyrinthe généré
-     * @param width la largeur du labyrinthe
+     * @param getWidth() la largeur du labyrinthe
      * @param heigth la hauteur du labyrinthe
      */
 
-    public MonsterHunterModel(int width, int height) {
+    public MonsterHunterModel() {
         this.turn = 1;
-        this.width = width;
-        this.height = height;
         this.monster = new Monster();
         this.hunter = new Hunter();
     }
 
     public void initialize() {
-        this.monster.initialize(new boolean[width][height]);
-        this.hunter.initialize(new boolean[width][height]);
+        this.monster.initialize(new boolean[getWidth()][getHeight()]);
+        this.hunter.initialize(new boolean[getWidth()][getHeight()]);
         this.monster.attach(this);
         this.hunter.attach(this);
-        this.initializeMaze(width, height);
+        this.initializeMaze();
     }
 
     public String getMonsterName() {
@@ -75,20 +75,19 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     }
 
     public int getWidth() {
-        return this.width;
+        return App.PREFERENCES.getInt("mazeWidth", DEFAULT_WIDTH);
     }
 
     public int getHeight() {
-        return this.height;
+        return App.PREFERENCES.getInt("mazeHeight", DEFAULT_HEIGHT);
     }
-
     
     public void setWidth(int width) {
-        this.width = width;
+        App.PREFERENCES.putInt("mazeWidth", width);
     }
 
     public void setHeight(int height) {
-        this.height = height;
+        App.PREFERENCES.putInt("mazeHeight", height);
     }
 
     public Monster getMonster() {
@@ -99,25 +98,23 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         return hunter;
     }
 
-    public void initializePlayers(int width, int height) {
-        this.monster.initialize(new boolean[width][height]);
-        this.hunter.initialize(new boolean[width][height]);
+    public void initializePlayers() {
+        this.monster.initialize(new boolean[getWidth()][getHeight()]);
+        this.hunter.initialize(new boolean[getWidth()][getHeight()]);
     }
 
     /*
      * Génère un labyrinthe aléatoirement validé par MazeValidator
      * 
      * @see MazeValidator
-     * @param width la largeur du labyrinthe
-     * @param heigth la hauteur du labyrinthe
      */
-    public void initializeMaze(int width, int heigth) {
+    public void initializeMaze() {
         if(this.maze == null) {
-            MazeGenerator mazeGenerator = new MazeGenerator(width, heigth);
+            MazeGenerator mazeGenerator = new MazeGenerator(getWidth(), getHeight());
             mazeGenerator.generatePlateau(50);
             int [][] tmpMaze = mazeGenerator.getMaze();
 
-            MazeValidator mazeValidator = new MazeValidator(width, heigth, tmpMaze);
+            MazeValidator mazeValidator = new MazeValidator(getWidth(), getHeight(), tmpMaze);
 
             while (!mazeValidator.isValid()) {
                 mazeGenerator.generate();
@@ -154,15 +151,15 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     public void importMaze(File file) throws NumberFormatException, IOException {
         Path p = Paths.get(file.toString());
         List<String> lines = Files.readAllLines(p);
-        this.height = lines.size();
-        this.width = lines.get(0).split(",").length;
-        CellInfo[][] labyrinth = new CellInfo[height][width];
+        this.setHeight(lines.size());
+        this.setWidth(lines.get(0).split(",").length);
+        CellInfo[][] labyrinth = new CellInfo[getHeight()][getWidth()];
         int entranceX = 0;
         int entranceY = 0;
         String[] line;
-        for(int i = 0; i < this.height; i++) {
+        for(int i = 0; i < this.getHeight(); i++) {
             line = lines.get(i).split(",");
-            for(int j = 0; j < this.width; j++) {
+            for(int j = 0; j < this.getWidth(); j++) {
                 labyrinth[i][j] = MazeGenerator.toCellInfo(Integer.parseInt(line[j]));
                 if(i == 0 && labyrinth[i][j] == CellInfo.MONSTER) {
                     entranceX = j;
@@ -188,8 +185,8 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.writeObject(this.maze);
         oos.writeObject(this.turn);
-        oos.writeObject(this.width);
-        oos.writeObject(this.height);
+        oos.writeObject(this.getWidth());
+        oos.writeObject(this.getHeight());
         oos.writeObject(this.monsterName);
         oos.writeObject(this.hunterName);
         oos.writeObject(this.monster);
@@ -201,8 +198,6 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
         this.maze = (CellInfo[][])ois.readObject();
         this.turn = (Integer)ois.readObject();
-        this.width = (int)ois.readObject();
-        this.height = (int)ois.readObject();
         this.monsterName = (String)ois.readObject();
         this.hunterName = (String)ois.readObject();
         this.monster = (Monster)ois.readObject();
