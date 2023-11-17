@@ -18,10 +18,6 @@ import javafx.geometry.Insets;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Properties;
-import java.util.prefs.Preferences;
-
-import chasseaumonstre.App;
 import chasseaumonstre.controller.utils.UtilsController;
 import chasseaumonstre.model.MonsterHunterModel;
 import chasseaumonstre.views.JVJView;
@@ -153,18 +149,14 @@ public class MHMenuController  {
                try {
                     int widthVal = Integer.parseInt(width.getText());
                     int heightVal = Integer.parseInt(height.getText());
-                    if (widthVal%2 == 0) {
-                        alert.setTitle("Erreur de saisie");
-                        alert.setContentText("Veuillez saisir une largeur impaire");
-                        alert.showAndWait();
-                    } else if (widthVal < 5 || heightVal < 5) {
-                        alert.setTitle("Erreur de saisie");
-                        alert.setContentText("Veuillez saisir une largeur et une hauteur supérieures ou égales à 5");
-                        alert.showAndWait();
-                    } else {
-                        App.PREFERENCES.putInt("mazeWidth", widthVal);
-                        App.PREFERENCES.putInt("mazeHeight", heightVal);
+                    try {
+                        model.setWidth(widthVal);
+                        model.setHeight(heightVal);
                         alert2.showAndWait();
+                    } catch(IllegalArgumentException e1) {
+                        alert.setTitle("Erreur de saisie");
+                        alert.setContentText(e1.getMessage());
+                        alert.showAndWait();
                     }
                } catch(NumberFormatException e2) {
                     alert.setContentText("Erreur de type sur l'un des 2 champs");

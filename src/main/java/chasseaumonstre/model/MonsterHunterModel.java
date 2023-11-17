@@ -82,12 +82,20 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         return App.PREFERENCES.getInt("mazeHeight", DEFAULT_HEIGHT);
     }
     
-    public void setWidth(int width) {
-        App.PREFERENCES.putInt("mazeWidth", width);
+    public void setWidth(int width) throws IllegalArgumentException {
+        if (width >= 5 && width % 2 > 0) {
+            App.PREFERENCES.putInt("mazeWidth", width);
+        } else {
+            throw new IllegalArgumentException("La largeur doit être impaire et supérieure ou égale à 5");
+        }
     }
 
-    public void setHeight(int height) {
-        App.PREFERENCES.putInt("mazeHeight", height);
+    public void setHeight(int height) throws IllegalArgumentException {
+        if (height >= 5) {
+            App.PREFERENCES.putInt("mazeHeight", height);
+        } else {
+            throw new IllegalArgumentException("La hauteur doit être supérieure ou égale à 5");
+        }
     }
 
     public Monster getMonster() {
