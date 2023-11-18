@@ -1,4 +1,4 @@
-package chasseaumonstre.model;
+package fr.univlille.info.J3.chasseaumonstre.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

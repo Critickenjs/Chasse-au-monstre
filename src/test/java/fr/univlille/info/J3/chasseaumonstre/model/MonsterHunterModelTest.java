@@ -1,8 +1,7 @@
-package chasseaumonstre.model;
+package fr.univlille.info.J3.chasseaumonstre.model;
 
 import org.junit.Before;
 import org.junit.Test;
-import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import static org.junit.Assert.*;
 
 public class MonsterHunterModelTest {

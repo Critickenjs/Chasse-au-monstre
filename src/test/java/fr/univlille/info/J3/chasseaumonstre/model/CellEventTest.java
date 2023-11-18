@@ -1,4 +1,4 @@
-package chasseaumonstre.model;
+package fr.univlille.info.J3.chasseaumonstre.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
