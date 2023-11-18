@@ -1,4 +1,4 @@
-package chasseaumonstre.model;
+package fr.univlille.info.J3.chasseaumonstre.model;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,9 +12,9 @@ import java.nio.file.Files;
 
 import SubjectObserver.Observer;
 import SubjectObserver.Subject;
-import chasseaumonstre.App;
-import chasseaumonstre.model.strategy.hunter.Hunter;
-import chasseaumonstre.model.strategy.monster.Monster;
+import fr.univlille.info.J3.chasseaumonstre.App;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.hunter.Hunter;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.Monster;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 
 /*

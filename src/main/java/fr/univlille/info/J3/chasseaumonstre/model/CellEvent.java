@@ -1,4 +1,4 @@
-package chasseaumonstre.model;
+package fr.univlille.info.J3.chasseaumonstre.model;
 
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 

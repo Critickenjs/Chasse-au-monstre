@@ -1,4 +1,4 @@
-package chasseaumonstre.controller.utils;
+package fr.univlille.info.J3.chasseaumonstre.controller.utils;
 
 import java.io.File;
 

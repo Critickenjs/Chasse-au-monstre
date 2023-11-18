@@ -1,4 +1,4 @@
-package chasseaumonstre.model;
+package fr.univlille.info.J3.chasseaumonstre.model;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -1,10 +1,10 @@
-package chasseaumonstre.views;
+package fr.univlille.info.J3.chasseaumonstre.views;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import chasseaumonstre.controller.MHMenuController;
+import fr.univlille.info.J3.chasseaumonstre.controller.MHMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

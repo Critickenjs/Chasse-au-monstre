@@ -1,4 +1,4 @@
-package chasseaumonstre.views.utils;
+package fr.univlille.info.J3.chasseaumonstre.views.utils;
 
 import java.io.File;
 

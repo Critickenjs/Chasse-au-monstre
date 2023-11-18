@@ -1,4 +1,4 @@
-package chasseaumonstre.controller;
+package fr.univlille.info.J3.chasseaumonstre.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -18,9 +18,10 @@ import javafx.geometry.Insets;
 
 import java.io.File;
 import java.io.IOException;
-import chasseaumonstre.controller.utils.UtilsController;
-import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.JVJView;
+
+import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
+import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
+import fr.univlille.info.J3.chasseaumonstre.views.JVJView;
 
 /*
  * Classe représentant le contrôleur du menu principal

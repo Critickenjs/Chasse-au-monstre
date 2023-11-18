@@ -1,15 +1,15 @@
-package chasseaumonstre.controller;
+package fr.univlille.info.J3.chasseaumonstre.controller;
 
+import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
+import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
+import fr.univlille.info.J3.chasseaumonstre.views.MHHunterView;
+import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import chasseaumonstre.controller.utils.UtilsController;
-import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.MHHunterView;
-import chasseaumonstre.views.MHMonsterView;
 
 /*
  * Contrôleur de la vue JvJ, menu permettant de choisir les noms des joueurs

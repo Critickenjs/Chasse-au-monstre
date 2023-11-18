@@ -1,11 +1,11 @@
-package chasseaumonstre.model.strategy.monster;
+package fr.univlille.info.J3.chasseaumonstre.model.strategy.monster;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import SubjectObserver.Subject;
-import chasseaumonstre.model.Coordinate;
+import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;

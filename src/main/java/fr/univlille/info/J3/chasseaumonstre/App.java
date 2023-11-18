@@ -1,10 +1,10 @@
-package chasseaumonstre;
+package fr.univlille.info.J3.chasseaumonstre;
 
 import java.util.prefs.Preferences;
 
-import chasseaumonstre.controller.MHMenuController;
-import chasseaumonstre.model.MonsterHunterModel;
-import chasseaumonstre.views.MHMenuView;
+import fr.univlille.info.J3.chasseaumonstre.controller.MHMenuController;
+import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
+import fr.univlille.info.J3.chasseaumonstre.views.MHMenuView;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;

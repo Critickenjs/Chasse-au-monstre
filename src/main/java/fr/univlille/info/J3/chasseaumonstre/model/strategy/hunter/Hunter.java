@@ -1,4 +1,4 @@
-package chasseaumonstre.model.strategy.hunter;
+package fr.univlille.info.J3.chasseaumonstre.model.strategy.hunter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

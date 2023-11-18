@@ -1,4 +1,4 @@
-package chasseaumonstre.model;
+package fr.univlille.info.J3.chasseaumonstre.model;
 
 /*
  * MazeValidator valide un labyrinthe généré, s'il contient bien un chemin entre l'entrée et la sortie

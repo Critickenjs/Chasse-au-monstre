@@ -1,8 +1,8 @@
-package chasseaumonstre.controller;
+package fr.univlille.info.J3.chasseaumonstre.controller;
 
-import chasseaumonstre.App;
-import chasseaumonstre.controller.utils.UtilsController;
-import chasseaumonstre.model.MonsterHunterModel;
+import fr.univlille.info.J3.chasseaumonstre.App;
+import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
+import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
