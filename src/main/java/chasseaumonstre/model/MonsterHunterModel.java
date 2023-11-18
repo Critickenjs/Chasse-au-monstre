@@ -140,6 +140,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
             monster.setCoord(entrance.getRow(), entrance.getCol(), 0);
 
             this.maze = mazeGenerator.toCellInfo();
+            this.maze[entrance.getRow()][entrance.getCol()] = CellInfo.MONSTER;
         }
     }
 

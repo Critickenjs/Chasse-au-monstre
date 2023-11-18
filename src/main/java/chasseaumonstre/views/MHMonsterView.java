@@ -108,7 +108,9 @@ public class MHMonsterView implements Observer {
                         case EMPTY:
                             if (this.controller.getModel().getMonster().isVisited(x, y)) {
                                 cell.setFill(Color.web("#1bde243c"));
-                                text.setText("" + this.controller.getModel().getMonster().getVisitedTurn(x, y));
+                                int turn = this.controller.getModel().getMonster().getVisitedTurn(x, y);
+                                if (turn > 0)
+                                    text.setText("" + turn);
                             } else
                                 cell.setFill(Color.WHITE);
                             break;
@@ -116,6 +118,7 @@ public class MHMonsterView implements Observer {
                             cell.setFill(Color.GREEN);
                             break;
                         case MONSTER:
+                            System.out.println("MONSTER " + x + " " + y);
                             cell.setFill(Color.web("#1bde243c"));
                             if (!(cell.getFill().equals(patternInRectangle))) { 
                                 cell.setFill(patternInRectangle
