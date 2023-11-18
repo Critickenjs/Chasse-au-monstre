@@ -76,6 +76,10 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     public int getHeight() {
         return App.PREFERENCES.getInt("mazeHeight", DEFAULT_HEIGHT);
     }
+
+    public int getObstacles() {
+        return App.PREFERENCES.getInt("obstacles", 1);
+    }
     
     public void setWidth(int width) throws IllegalArgumentException {
         if (width >= 7 && width % 2 > 0) {
@@ -90,6 +94,14 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
             App.PREFERENCES.putInt("mazeHeight", height);
         } else {
             throw new IllegalArgumentException("La hauteur doit être supérieure ou égale à 5");
+        }
+    }
+
+    public void setObstacles(int obstacles) throws IllegalArgumentException {
+        if (obstacles >= 1 && obstacles <= 80) {
+            App.PREFERENCES.putInt("obstacles", obstacles);
+        } else {
+            throw new IllegalArgumentException("Le pourcentage doit être compris entre 0 et 80 inclus.");
         }
     }
 
@@ -114,7 +126,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     public void initializeMaze() {
         if(this.maze == null) {
             MazeGenerator mazeGenerator = new MazeGenerator(getWidth(), getHeight());
-            mazeGenerator.generatePlateau(50);
+            mazeGenerator.generatePlateau(getObstacles());
             int [][] tmpMaze = mazeGenerator.getMaze();
 
             MazeValidator mazeValidator = new MazeValidator(getWidth(), getHeight(), tmpMaze);

@@ -122,23 +122,28 @@ public class MHMenuController  {
         Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
         alert2.setHeaderText(null);
         alert2.setTitle("Succès");
-        
         alert2.setContentText("Changement effectué avec succès");
 
         VBox vbox = new VBox();
-
         HBox hbox = new HBox();
 
         Label label = new Label("Changer la taille du labyrinthe");
         label.setStyle("-fx-font-weight: bold");
 
-        TextField width = new TextField();
+        TextField width = new TextField(""+model.getWidth());
         width.setPromptText("Width");
 
-        TextField height = new TextField();
+        TextField height = new TextField(""+model.getHeight());
         height.setPromptText("Height");
 
         Button button = new Button("Valider");
+
+        hbox.getChildren().addAll(width, height, button);
+
+        HBox obstacleSettings = new HBox();
+        Label obstacleLabel = new Label("Pourcentage d'obstacles :");
+        TextField obstacle = new TextField(""+model.getObstacles());
+        obstacleSettings.getChildren().addAll(obstacleLabel, obstacle);
 
         button.setOnAction(e -> {
             if(!width.getText().equals("") && height.getText().equals("")) {
@@ -152,20 +157,40 @@ public class MHMenuController  {
                     try {
                         model.setWidth(widthVal);
                         model.setHeight(heightVal);
-                        alert2.showAndWait();
                     } catch(IllegalArgumentException e1) {
                         alert.setTitle("Erreur de saisie");
                         alert.setContentText(e1.getMessage());
                         alert.showAndWait();
+                        return;
                     }
                } catch(NumberFormatException e2) {
                     alert.setContentText("Erreur de type sur l'un des 2 champs");
                     alert.showAndWait();
+                    return;
                }
             }
-        });
 
-        hbox.getChildren().addAll(width, height, button);
+            if(!obstacle.getText().equals("")) {
+                try {
+                    int obstacleVal = Integer.parseInt(obstacle.getText());
+                    try {
+                        model.setObstacles(obstacleVal);
+                    } catch(IllegalArgumentException e1) {
+                        alert.setTitle("Erreur de saisie");
+                        alert.setContentText(e1.getMessage());
+                        alert.showAndWait();
+                        return;
+                    }
+                } catch(NumberFormatException e2) {
+                    alert.setTitle("Erreur de saisie");
+                    alert.setContentText("Erreur de type sur le champ");
+                    alert.showAndWait();
+                    return;
+                }
+            }
+
+            alert2.showAndWait();
+        });
 
         Button button2 = new Button("Charger un labyrinthe prédéfini");
 
@@ -173,16 +198,17 @@ public class MHMenuController  {
             this.loadLabyrinth();
         });
 
-        vbox.getChildren().addAll(label, hbox, button2);
+        vbox.getChildren().addAll(label, hbox, obstacleSettings, button2);
 
         VBox.setMargin(label, new Insets(5, 0, 0, 10));
         VBox.setMargin(hbox, new Insets(10, 0, 0, 10));
         HBox.setMargin(button, new Insets(0, 0, 0, 10));
+        HBox.setMargin(obstacleSettings, new Insets(0, 0, 0, 10));
 
         HBox.setMargin(height, new Insets(0, 0, 0, 10));
         VBox.setMargin(button2, new Insets(10, 0, 0, 10));
 
-        Scene scene = new Scene(vbox, 450, 100);
+        Scene scene = new Scene(vbox, 450, 150);
         stageParameter.setScene(scene);
         stageParameter.setResizable(false);
         stageParameter.initOwner(this.stage);
