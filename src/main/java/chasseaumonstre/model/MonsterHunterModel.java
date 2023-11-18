@@ -78,10 +78,10 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     }
     
     public void setWidth(int width) throws IllegalArgumentException {
-        if (width >= 5 && width % 2 > 0) {
+        if (width >= 7 && width % 2 > 0) {
             App.PREFERENCES.putInt("mazeWidth", width);
         } else {
-            throw new IllegalArgumentException("La largeur doit être impaire et supérieure ou égale à 5");
+            throw new IllegalArgumentException("La largeur doit être impaire et supérieure ou égale à 7");
         }
     }
 

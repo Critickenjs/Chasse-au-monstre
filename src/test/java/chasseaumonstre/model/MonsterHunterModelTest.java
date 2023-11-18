@@ -10,13 +10,16 @@ public class MonsterHunterModelTest {
 
     @Before
     public void setUp() {
-        model = new MonsterHunterModel(5, 5);
+        model = new MonsterHunterModel();
+        model.setHeight(7);
+        model.setWidth(7);
+        model.initialize();
     }
 
     @Test
     public void testConstructorInitialization() {
-        assertEquals(5, model.getWidth());
-        assertEquals(5, model.getHeight());
+        assertEquals(7, model.getWidth());
+        assertEquals(7, model.getHeight());
         assertNotNull(model.getMonster());
         assertNotNull(model.getHunter());
         assertEquals(1, model.getTurn().intValue());
