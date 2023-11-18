@@ -15,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 
 import java.io.File;
 import java.io.IOException;
@@ -139,12 +140,17 @@ public class MHMenuController  {
 
         Button button = new Button("Valider");
 
-        hbox.getChildren().addAll(width, height, button);
+        hbox.getChildren().addAll(width, height);
 
         HBox obstacleSettings = new HBox();
         Label obstacleLabel = new Label("Pourcentage d'obstacles :");
         TextField obstacle = new TextField(""+model.getObstacles());
         obstacleSettings.getChildren().addAll(obstacleLabel, obstacle);
+
+        HBox fovSettings = new HBox();
+        Label fovLabel = new Label("Champ de vision :");
+        TextField fov = new TextField(""+model.getMonster().getFov());
+        fovSettings.getChildren().addAll(fovLabel, fov);
 
         button.setOnAction(e -> {
             if(!width.getText().equals("") && height.getText().equals("")) {
@@ -190,6 +196,25 @@ public class MHMenuController  {
                 }
             }
 
+            if(!fov.getText().equals("")) {
+                try {
+                    int fovVal = Integer.parseInt(fov.getText());
+                    try {
+                        model.getMonster().setFov(fovVal);
+                    } catch(IllegalArgumentException e1) {
+                        alert.setTitle("Erreur de saisie");
+                        alert.setContentText(e1.getMessage());
+                        alert.showAndWait();
+                        return;
+                    }
+                } catch(NumberFormatException e2) {
+                    alert.setTitle("Erreur de saisie");
+                    alert.setContentText("Erreur de type sur le champ");
+                    alert.showAndWait();
+                    return;
+                }
+            }
+
             alert2.showAndWait();
         });
 
@@ -199,17 +224,17 @@ public class MHMenuController  {
             this.loadLabyrinth();
         });
 
-        vbox.getChildren().addAll(label, hbox, obstacleSettings, button2);
+        vbox.getChildren().addAll(label, hbox, obstacleSettings, fovSettings, button, button2);
 
-        VBox.setMargin(label, new Insets(5, 0, 0, 10));
-        VBox.setMargin(hbox, new Insets(10, 0, 0, 10));
-        HBox.setMargin(button, new Insets(0, 0, 0, 10));
-        HBox.setMargin(obstacleSettings, new Insets(0, 0, 0, 10));
+        vbox.setPadding(new Insets(10, 10, 10, 10));
+        hbox.setSpacing(10);
+        obstacleSettings.setSpacing(10);
+        obstacleSettings.setAlignment(Pos.CENTER_LEFT);
+        fovSettings.setSpacing(10);
+        fovSettings.setAlignment(Pos.CENTER_LEFT);
+        vbox.setSpacing(10);
 
-        HBox.setMargin(height, new Insets(0, 0, 0, 10));
-        VBox.setMargin(button2, new Insets(10, 0, 0, 10));
-
-        Scene scene = new Scene(vbox, 450, 150);
+        Scene scene = new Scene(vbox, 450, 210);
         stageParameter.setScene(scene);
         stageParameter.setResizable(false);
         stageParameter.initOwner(this.stage);

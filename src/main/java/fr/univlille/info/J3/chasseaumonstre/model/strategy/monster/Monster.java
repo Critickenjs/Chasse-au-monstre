@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import SubjectObserver.Subject;
+import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
@@ -157,12 +158,19 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         
         return (diffX == 1 && diffY == 0) || (diffX == 0 && diffY == 1);
     }
+
+    /*
+     * Vérifie si le monstre la case est visible par le monstre (distance)
+     * 
+     * @param x la ligne de la cellule
+     * @param y la colonne de la cellule
+     * @return true si la cellule est visible, false sinon
+     */
     public boolean estVisible(int x,int y) {
         int diffX = Math.abs(x- this.coord.getRow());
         int diffY = Math.abs(y -this.coord.getCol());
-
         
-        return (diffX <= 2 && diffY <= 2);
+        return (diffX <= getFov() && diffY <= getFov());
     }
 
     /*
@@ -223,6 +231,27 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
                 setVisited(event.getCoord());
                 break;
         }
+    }
+
+    /*
+     * Connaitre le champ de vision du monstre
+     * 
+     * @return le champ de vision du monstre
+     */
+    public int getFov() {
+        return App.PREFERENCES.getInt("monsterFov", 2);
+    }
+
+    /*
+     * Définit le champ de vision du monstre
+     * 
+     * @param fov le champ de vision du monstre
+     */
+    public void setFov(int fov) throws IllegalArgumentException {
+        if (fov < 0) {
+            throw new IllegalArgumentException("Le champ de vision doit être positif");
+        }
+        App.PREFERENCES.putInt("monsterFov", fov);
     }
 
     private void writeObject(ObjectOutputStream oos) throws IOException {
