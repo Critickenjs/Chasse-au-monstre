@@ -9,13 +9,11 @@ import java.util.List;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
-
 import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.hunter.Hunter;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.Monster;
-import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 
 /*
  * MonsterHunterModel représente le modèle, qui se charge du déroulement du jeu
@@ -29,7 +27,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 public class MonsterHunterModel extends Subject implements Serializable, Observer {
     public static final int DEFAULT_WIDTH = 21;
     public static final int DEFAULT_HEIGHT = 17;
-    private CellInfo[][] maze;
+    private boolean[][] maze;
     private Integer turn;
     private String monsterName, hunterName;
     private Monster monster;
@@ -139,12 +137,11 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
             exit = mazeGenerator.getExitCoordinate();
             monster.setCoord(entrance.getRow(), entrance.getCol(), 0);
 
-            this.maze = mazeGenerator.toCellInfo();
-            this.maze[entrance.getRow()][entrance.getCol()] = CellInfo.MONSTER;
+            this.maze = mazeGenerator.toBoolean();
         }
     }
 
-    public CellInfo[][] getMaze() {
+    public boolean[][] getMaze() {
         return this.maze;
     }
 
@@ -164,20 +161,24 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         this.turn++;
     }
 
+    /*
+     * Importe un labyrinthe depuis un fichier
+     */
     public void importMaze(File file) throws NumberFormatException, IOException {
         Path p = Paths.get(file.toString());
         List<String> lines = Files.readAllLines(p);
         this.setHeight(lines.size());
         this.setWidth(lines.get(0).split(",").length);
-        CellInfo[][] labyrinth = new CellInfo[getHeight()][getWidth()];
+        boolean[][] labyrinth = new boolean[getHeight()][getWidth()];
         int entranceX = 0;
         int entranceY = 0;
         String[] line;
         for(int i = 0; i < this.getHeight(); i++) {
             line = lines.get(i).split(",");
             for(int j = 0; j < this.getWidth(); j++) {
-                labyrinth[i][j] = MazeGenerator.toCellInfo(Integer.parseInt(line[j]));
-                if(i == 0 && labyrinth[i][j] == CellInfo.MONSTER) {
+                int value = Integer.parseInt(line[j]);
+                labyrinth[i][j] = MazeGenerator.toBoolean(value);
+                if(i == 0 && value == 4) {
                     entranceX = j;
                     entranceY = i;
                 }
@@ -212,7 +213,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-        this.maze = (CellInfo[][])ois.readObject();
+        this.maze = (boolean[][])ois.readObject();
         this.turn = (Integer)ois.readObject();
         this.monsterName = (String)ois.readObject();
         this.hunterName = (String)ois.readObject();

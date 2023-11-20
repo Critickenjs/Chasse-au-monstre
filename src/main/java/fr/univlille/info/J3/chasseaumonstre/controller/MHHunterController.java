@@ -3,7 +3,7 @@ package fr.univlille.info.J3.chasseaumonstre.controller;
 import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
-import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
+import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
@@ -66,36 +66,29 @@ public class MHHunterController extends MHPlayerController {
      * 
      * @param shotX : la coordonnée X de la cellule visée
      * @param shotY : la coordonnée Y de la cellule visée
-     * @return la valeur de la cellule visée
+     * @return true si le chasseur a touché le monstre, false sinon
      */
-    public CellInfo handleShot(int shotX, int shotY) {
+    public boolean handleShot(int shotX, int shotY) {
         this.model.getHunter().shoot(shotX, shotY);
         shot = true;
         skipTurn.setDisable(false);
-        CellInfo cellValue = model.getMaze()[shotX][shotY];
+        boolean isWall = !model.getMaze()[shotX][shotY];
+        ICoordinate monsterCoordinate = model.getMonster().getCoord();
+        boolean hit = monsterCoordinate.getRow() == shotX && monsterCoordinate.getCol() == shotY;
 
-        switch (cellValue) {
-            case EMPTY:
-                pathAlert(shotX, shotY);
-                this.updateHistory();
-                break;
-
-            case WALL:
-                wallAlert(shotX, shotY);
-                this.updateHistory();
-                break;
-
-            case MONSTER:
-                monsterAlert(shotX, shotY);
-                this.updateHistory();
-                winAlert();
-                break;
-
-            default:
-                break;
+        if (hit) {
+            monsterAlert(shotX, shotY);
+            this.updateHistory();
+            winAlert();
+        } else if (isWall) {
+            wallAlert(shotX, shotY);
+            this.updateHistory();
+        } else {
+            pathAlert(shotX, shotY);
+            this.updateHistory();
         }
 
-        return cellValue;
+        return hit;
     }
 
 

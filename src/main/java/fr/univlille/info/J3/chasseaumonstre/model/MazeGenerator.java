@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 
 /*
  * MazeGenerator génère un labyrinthe aléatoirement, validé par MazeValidator
@@ -140,38 +139,20 @@ public class MazeGenerator {
         return getExitCoordinate().getRow();
     }
 
-    public static CellInfo toCellInfo(int n) {
-        CellInfo info = null;
-        switch(n) {
-            case 0:
-                info = CellInfo.EMPTY;
-                break;
-            case 1:
-                info = CellInfo.WALL;
-                break;
-            case 2:
-                info = CellInfo.MONSTER;
-                break;
-            case 4:
-                info = CellInfo.EXIT;
-            default:
-                break;
-        }
-        return info;
+    public static boolean toBoolean(int n) {
+        return n == 0;
     }
 
     /*
-     * Convertit le labyrinthe en tableau de CellInfo
+     * Convertit le labyrinthe en un tableau de booléens
      * 
      * @return le labyrinthe converti
      */
-    public CellInfo[][] toCellInfo() {
-        CellInfo[][] labyrinth = new CellInfo[width][height];
+    public boolean[][] toBoolean() {
+        boolean[][] labyrinth = new boolean[width][height];
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
-                labyrinth[x][y] = MazeGenerator.toCellInfo(maze[x][y]);
-        labyrinth[this.getEntranceRow()][0] = CellInfo.MONSTER;
-        labyrinth[getExitRow()][height-1] = CellInfo.EXIT;
+                labyrinth[x][y] = toBoolean(maze[x][y]);
         return labyrinth;
     }
 

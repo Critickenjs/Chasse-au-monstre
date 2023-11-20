@@ -2,12 +2,10 @@ package fr.univlille.info.J3.chasseaumonstre.views;
 
 import java.io.IOException;
 import java.net.URL;
-
 import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.controller.MHHunterController;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
-import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
@@ -90,32 +88,20 @@ public class MHHunterView implements Observer {
                     int cellX = GridPane.getColumnIndex(stack);
                     int cellY = GridPane.getRowIndex(stack);
                     
-                    switch (controller.handleShot(cellX, cellY)) {
-                        case WALL:
-                            cell.setFill(Color.web("#a8a8a8"));
-                            break;
-
-                        case EMPTY:
-                            cell.setFill(Color.web("#de1b1b3c"));
-                            if (this.controller.getModel().getMonster().isVisited(cellX, cellY)) {
-                                int visitedTurn = this.controller.getModel().getMonster().getVisitedTurn(cellX, cellY);
-                                this.controller.getModel().getHunter().setVisited(cellX, cellY, visitedTurn);
-                                text.setText("" + visitedTurn);
-                                }
-                            break;
-
-                        case MONSTER:
-                            cell.setFill(Color.web("#1bde243c"));
-                            break;
-
-                        default:
-                            break;
+                    if (controller.handleShot(cellX, cellY)) {
+                        cell.setFill(Color.web("#1bde243c"));
+                    } else {
+                        cell.setFill(Color.web("#de1b1b3c"));
+                        if (this.controller.getModel().getMonster().isVisited(cellX, cellY)) {
+                            int visitedTurn = this.controller.getModel().getMonster().getVisitedTurn(cellX, cellY);
+                            this.controller.getModel().getHunter().setVisited(cellX, cellY, visitedTurn);
+                            text.setText("" + visitedTurn);
+                        }
                     }
                 });
 
-
                 if (this.controller.getModel().getHunter().hasShot(x, y)) {
-                    if (this.controller.getModel().getMaze()[x][y] == CellInfo.WALL) {
+                    if (!this.controller.getModel().getMaze()[x][y]) {
                         cell.setFill(Color.web("#a8a8a8"));
                     } else {
                         cell.setFill(Color.web("#de1b1b3c"));

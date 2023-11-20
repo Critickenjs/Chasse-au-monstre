@@ -97,10 +97,7 @@ public class MHMonsterController extends MHPlayerController {
             }
             moved = true;
             skipTurn.setDisable(false);
-            ICoordinate coord = model.getMonster().getCoord();
-            model.getMaze()[coord.getRow()][coord.getCol()] = CellInfo.EMPTY;
             model.getMonster().setCoord(moveX, moveY, model.getTurn());
-            model.getMaze()[moveX][moveY] = CellInfo.MONSTER;
         } else {
             UtilsController.playSound(UtilsController.WRONG_SOUND_PATH, LOW_VOLUME);
             farAlert(moveX, moveY);
@@ -112,37 +109,32 @@ public class MHMonsterController extends MHPlayerController {
     /*
      * Gère le déplacement du monstre
      * 
-     * @param moveX : la coordonnée X de la case visée
-     * @param moveY : la coordonnée Y de la case visée
-     * @return la valeur de la case visée
+     * @param moveX : la coordonnée X de la case de destination
+     * @param moveY : la coordonnée Y de la case de destination
+     * @return la valeur de la case de destination
      */
     public CellInfo handleMove(int moveX, int moveY) {
-        CellInfo cellValue = model.getMaze()[moveX][moveY];
-        switch (cellValue) {
-            case EMPTY:
-                if (advance(moveX, moveY)) {
-                    UtilsController.playSound(UtilsController.STEPS_SOUND_PATH, VOLUME);
-                    pathAlert(moveX, moveY);
-                    this.updateHistory();
-                }
-                break;
+        boolean isWall = !model.getMaze()[moveX][moveY];
+        ICoordinate exit = model.getExit();
 
-            case WALL:
-                UtilsController.playSound(UtilsController.WRONG_SOUND_PATH, LOW_VOLUME);
-                wallAlert(moveX, moveY);
-                break;
-
-            case EXIT:
-                if (advance(moveX, moveY)) {
-                    this.updateHistory();
-                    winAlert();
-                }
-                break;
-
-            default:
-                break;
+        if (isWall) {
+            UtilsController.playSound(UtilsController.WRONG_SOUND_PATH, LOW_VOLUME);
+            wallAlert(moveX, moveY);
+            return CellInfo.WALL;
+        } else if (exit.getRow() == moveX && exit.getCol() == moveY) {
+            if (advance(moveX, moveY)) {
+                this.updateHistory();
+                winAlert();
+            }
+            return CellInfo.EXIT;
+        } else {
+            if (advance(moveX, moveY)) {
+                UtilsController.playSound(UtilsController.STEPS_SOUND_PATH, VOLUME);
+                pathAlert(moveX, moveY);
+                this.updateHistory();
+            }
+            return CellInfo.EMPTY;
         }
-        return cellValue;
     }
 
     public boolean hasMoved() {

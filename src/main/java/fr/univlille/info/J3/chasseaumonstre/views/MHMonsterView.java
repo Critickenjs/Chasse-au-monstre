@@ -7,6 +7,7 @@ import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.controller.MHMonsterController;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
+import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
@@ -81,6 +82,8 @@ public class MHMonsterView implements Observer {
     private void draw() {
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();
+        ICoordinate exit = this.controller.getModel().getExit();
+        ICoordinate monsterPos = this.controller.getModel().getMonster().getCoord();
         
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < heigth; y++) {
@@ -101,35 +104,26 @@ public class MHMonsterView implements Observer {
 
                 if(this.controller.getModel().getMonster().estVisible(x,y)){
                     cell.setOpacity(1);
-                    switch (this.controller.getModel().getMaze()[x][y]) {
-                        case WALL:
-                            cell.setFill(wall);
-                            break;
-                        case EMPTY:
-                            if (this.controller.getModel().getMonster().isVisited(x, y)) {
+                    if (this.controller.getModel().getMaze()[x][y]) {
+                        if (this.controller.getModel().getMonster().isVisited(x, y)) {
+                            if (monsterPos.getRow() == x && monsterPos.getCol() == y) {
+                                cell.setFill(patternInRectangle);
+                            } else {
                                 cell.setFill(Color.web("#1bde243c"));
                                 int turn = this.controller.getModel().getMonster().getVisitedTurn(x, y);
                                 if (turn > 0)
-                                    text.setText("" + turn);
-                            } else
-                                cell.setFill(Color.WHITE);
-                            break;
-                        case EXIT:
-                            cell.setFill(Color.GREEN);
-                            break;
-                        case MONSTER:
-                            System.out.println("MONSTER " + x + " " + y);
-                            cell.setFill(Color.web("#1bde243c"));
-                            if (!(cell.getFill().equals(patternInRectangle))) { 
-                                cell.setFill(patternInRectangle
-                                );
+                                text.setText("" + turn);
                             }
-                            break;
-                        default:
-                            break;
+                        } else
+                            cell.setFill(Color.WHITE);
+                        if (exit.getRow() == x && exit.getCol() == y) {
+                            if (!(monsterPos.getRow() == x && monsterPos.getCol() == y))
+                                cell.setFill(Color.GREEN);
+                        } 
+                    } else {
+                        cell.setFill(wall);
                     }
                 }
-                
 
                 stack.getChildren().addAll(cell, text);
                 this.maze.add(stack, x, y);
