@@ -26,6 +26,8 @@
 ## Semaine 46
 
 **Karim Aoulad-Tayab** :
+- Mettre une taille de labyrinthe s'adaptant a la taille des cellules
+- Chargement d'un labyrinthe prédéfini
 
 **Anas Ouhdda** :
 - Correction des bugs de changement de taille du labyrinthe
