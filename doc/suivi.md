@@ -21,7 +21,7 @@
 
 **Yliess El atifi** :
 
--Ajout de la methode estvisible qui change la vue du monstre, il ne voit plus que 2 case autout de lui.
+-Ajout de la methode estvisible qui change la vue du monstre, il ne voit plus que 2 case autout de lui.+ monstre apparait aleatoirement.
 
 ## Semaine 46
 
@@ -35,4 +35,5 @@
 
 **Selim Hamza** :
 
-**Yliess El atifi** :
+**Yliess El atifi** : 
+- Documentation et test de a*
