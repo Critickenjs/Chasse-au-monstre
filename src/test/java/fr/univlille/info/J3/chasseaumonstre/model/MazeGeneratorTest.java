@@ -2,7 +2,6 @@ package fr.univlille.info.J3.chasseaumonstre.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MazeGeneratorTest {
@@ -27,20 +26,24 @@ public class MazeGeneratorTest {
 
     @Test
     public void testCellInfoConversion() {
-        CellInfo[][] cellInfo = generator.toCellInfo();
+        final int EMPTY = 0;
+        final int WALL = 1;
+        final int MONSTER = 2;
+        final int EXIT = 4;
+        int[][] cellInfoInt = generator.getMaze();
         int[][] maze = generator.getMaze();
         MazeValidator mazeValidator = new MazeValidator(10, 10, maze);
         if (mazeValidator.isValid()) {
-        assertEquals(CellInfo.MONSTER, cellInfo[generator.getEntranceRow()][0]);
-        assertEquals(CellInfo.EXIT, cellInfo[generator.getExitRow()][9]);
+        assertEquals(MONSTER, cellInfoInt[generator.getEntranceRow()][0]);
+        assertEquals(EXIT, cellInfoInt[generator.getExitRow()][9]);
         boolean foundEmpty = false;
         boolean foundWall = false;
 
         for (int y = 0; y < 10; y++) {
             for (int x = 0; x < 10; x++) {
-                if (cellInfo[x][y] == CellInfo.WALL) {
+                if (cellInfoInt[x][y] == WALL) {
                     foundWall = true;
-                } else if (cellInfo[x][y] == CellInfo.EMPTY) {
+                } else if (cellInfoInt[x][y] == EMPTY) {
                     foundEmpty = true;
                 }
             }
