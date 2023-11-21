@@ -110,11 +110,7 @@ public class MHHunterView implements Observer {
                         }
                     }
                 } else {
-                    if (MHHunterView.isOnBorder(x, y, width - 1, heigth - 1)) {
-                        cell.setFill(Color.BLACK);
-                    } else {
-                        cell.setFill(Color.WHITE);
-                    }
+                    cell.setFill(Color.WHITE);
                 }
                 
                 stack.getChildren().addAll(cell,text);

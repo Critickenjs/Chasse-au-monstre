@@ -91,10 +91,11 @@ public class MHMonsterController extends MHPlayerController {
      */
     private boolean advance(int moveX, int moveY) {
         if (model.getMonster().estAdjacente(moveX, moveY)) {
+            /* -----> Décommenter pour ne plus pouvoir revenir sur ses pas
             if (model.getMonster().isVisited(moveX, moveY)) {
                 visitedAlert(moveX, moveY);
                 return false;
-            }
+            }*/
             moved = true;
             skipTurn.setDisable(false);
             model.getMonster().setCoord(moveX, moveY, model.getTurn());
@@ -165,17 +166,18 @@ public class MHMonsterController extends MHPlayerController {
         this.alertHeader.setTextFill(Color.RED);
     }
 
-    /*
+    /* -----> Décommenter pour ne plus pouvoir revenir sur ses pas
      * Alerte le joueur que la case visée a déjà été visitée
      * 
      * @param cellX : la coordonnée X de la case visée
      * @param cellY : la coordonnée Y de la case visée
-     */
+     
     private void visitedAlert(int cellX, int cellY) {
         this.alertHeader.setText("Vous avez déjà marché sur cette case.");
         this.alertBody.setText("Coordonnées: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.ORANGE);
     }
+    */
 
     /*
      * Alerte le joueur que la case visée est trop loin
