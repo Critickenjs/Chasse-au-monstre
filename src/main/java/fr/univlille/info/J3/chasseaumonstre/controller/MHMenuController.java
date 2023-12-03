@@ -243,6 +243,42 @@ public class MHMenuController  {
         stageParameter.show();
     }
 
+    // @FXML
+    // private void onPVPMulti() {
+    //     Stage stageMulti = new Stage();
+    //     VBox vbox = new VBox();
+
+    //     HBox hbox = new HBox();
+    //     Label label = new Label("Nom du joueur");
+    //     TextField nom_joueur = new TextField();
+    //     hbox.getChildren().addAll(label, nom_joueur);
+    //     HBox.setMargin(label, new Insets(10, 10, 10, 10));
+    //     HBox.setMargin(nom_joueur, new Insets(10, 10, 10, 10));
+        
+    //     HBox hbox2 = new HBox();
+    //     Label label2 = new Label("IP[:port]");
+    //     TextField ip = new TextField();
+    //     hbox2.getChildren().addAll(label2, ip);
+    //     HBox.setMargin(label2, new Insets(10, 10, 10, 10));
+    //     HBox.setMargin(ip, new Insets(10, 10, 10, 52));
+        
+    //     Button button = new Button("Se connecter au lobby");
+    //     button.setStyle("-fx-background-color: lightgrey;");
+    //     VBox.setMargin(button, new Insets(10, 10, 10, 10));
+
+    //     button.setOnAction(e -> {
+    //         String username = nom_joueur.getText();
+    //         String server = ip.getText();
+    //     });
+        
+    //     vbox.getChildren().addAll(hbox, hbox2, button);
+    //     stageMulti.setTitle("Connexion à un serveur");
+    //     stage.setResizable(false);
+    //     stageMulti.initModality(Modality.WINDOW_MODAL);
+    //     stageMulti.setScene(new Scene(vbox, 350, 140));
+    //     stageMulti.show();
+    // }
+
     /*
      * Initialise le contrôleur, affiche le fond d'écran et initialise le style des boutons
      */
