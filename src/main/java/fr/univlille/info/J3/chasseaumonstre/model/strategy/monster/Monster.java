@@ -8,8 +8,11 @@ import java.util.*;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.AStar;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Algorithm;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
+import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
 /*
  * Réprésente le monstre et sa stratégie
@@ -243,91 +246,6 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         App.PREFERENCES.putInt("monsterFov", fov);
     }
 
-    private List<Coordinate> aStar() {
-        if (entry == null || exit == null || maze == null) {
-            return null;
-        }
-
-        PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingInt(Node::getFScore));
-        Map<Coordinate, Integer> gScore = new HashMap<>();
-        Map<Coordinate, Coordinate> cameFrom = new HashMap<>();
-
-        openSet.offer(new Node(entry, 0, heuristicCost(entry, exit)));
-        gScore.put(entry, 0);
-
-        while (!openSet.isEmpty()) {
-            Node current = openSet.poll();
-
-            if (current.getCoordinate().equals(exit)) {
-                return reconstructPath(cameFrom, current.getCoordinate());
-            }
-
-            for (Coordinate neighbor : getNeighbors(current.getCoordinate())) {
-                int tentativeGScore = gScore.getOrDefault(current.getCoordinate(), Integer.MAX_VALUE) + 1;
-
-                if (tentativeGScore < gScore.getOrDefault(neighbor, Integer.MAX_VALUE)) {
-                    cameFrom.put(neighbor, current.getCoordinate());
-                    gScore.put(neighbor, tentativeGScore);
-
-                    int fScore = tentativeGScore + heuristicCost(neighbor, exit);
-                    Node neighborNode = new Node(neighbor, tentativeGScore, fScore);
-                    openSet.offer(neighborNode);
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private List<Coordinate> reconstructPath(Map<Coordinate, Coordinate> cameFrom, Coordinate current) {
-        List<Coordinate> totalPath = new ArrayList<>();
-        totalPath.add(current);
-
-        while (cameFrom.containsKey(current)) {
-            current = cameFrom.get(current);
-            totalPath.add(0, current);
-        }
-
-        return totalPath;
-    }
-
-    private int heuristicCost(Coordinate a, Coordinate b) {
-        // Heuristique : distance de Manhattan entre les deux points
-        return Math.abs(a.getRow() - b.getRow()) + Math.abs(a.getCol() - b.getCol());
-    }
-
-    private List<Coordinate> getNeighbors(Coordinate current) {
-        List<Coordinate> neighbors = new ArrayList<>();
-
-        for (int i = 0; i < 4; i++) {
-            int row = current.getRow();
-            int col = current.getCol();
-
-            switch (i) {
-                case 0:
-                    row--;
-                    break;
-                case 1:
-                    row++;
-                    break;
-                case 2:
-                    col--;
-                    break;
-                case 3:
-                    col++;
-                    break;
-            }
-
-            if (row >= 0 && row < maze.length && col >= 0 && col < maze[0].length && maze[row][col]) {
-                neighbors.add(new Coordinate(row, col));
-            }
-        }
-
-        return neighbors;
-    }
-
-    
-
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.writeObject(this.exit);
         oos.writeObject(this.entry);
@@ -359,13 +277,15 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         monster.setEntry(1, 1);
         monster.setExit(3, 3);
 
-        List<Coordinate> path = monster.aStar();
+        Algorithm algorithm = new AStar(monster.getEntry(), monster.getExit(), maze);
+        List<ICoordinate> path = algorithm.execute();
 
         if (path != null) {
             System.out.println("Chemin trouvé : ");
-            for (Coordinate coord : path) {
-                System.out.println(coord);
+            for (ICoordinate coord : path) {
+                System.out.println((Coordinate)coord);
             }
+            System.out.println("Temps d'exécution : " + algorithm.getTime() + "ms");
         } else {
             System.out.println("Aucun chemin trouvé.");
         }

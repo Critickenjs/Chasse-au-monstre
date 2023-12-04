@@ -1,9 +1,10 @@
-package fr.univlille.info.J3.chasseaumonstre.model.strategy.monster;
+package fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm;
 
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
+import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
 /*
- * Node représente un noeud dans l'algorithme A*
+ * Node représente un noeud dans l'algorithme
  * 
  * @see Coordinate
  * @autor Anas Ouhdda
@@ -14,17 +15,17 @@ import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
  */
 @SuppressWarnings("unused")
 public class Node {
-        private final Coordinate coordinate;
+        private final ICoordinate coordinate;
         private final int gScore; 
         private final int fScore; 
 
-        public Node(Coordinate coordinate, int gScore, int fScore) {
+        public Node(ICoordinate coordinate, int gScore, int fScore) {
             this.coordinate = coordinate;
             this.gScore = gScore;
             this.fScore = fScore;
         }
 
-        public Coordinate getCoordinate() {
+        public ICoordinate getCoordinate() {
             return coordinate;
         }
 
