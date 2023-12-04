@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.*;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
-import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
 /*
  * Réprésente le monstre et sa stratégie
@@ -22,17 +22,16 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @author Yliess El Atifi
 */
 public class Monster extends Subject implements IMonsterStrategy, Serializable {
-    private ICoordinate exit;
-    private ICoordinate entry;
-    private ICoordinate coord;
-    private boolean[][] visited;
+    private Coordinate exit;
+    private Coordinate entry;
+    private Coordinate coord;
+    private boolean[][] maze;
     private Integer[][] visitedTurn;
 
     public Monster() {
         this.exit = null;
         this.entry = null;
         this.coord = null;
-        this.visited = null;
         this.visitedTurn = null;
     }
 
@@ -53,11 +52,11 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * @param col la colonne de la cellule
      */
     public void initialize(boolean[][] locations) {
-        this.visited = locations;
+        this.maze = locations;
         this.visitedTurn = new Integer[locations.length][locations[0].length];
     }
 
-    public ICoordinate getExit() {
+    public Coordinate getExit() {
         return exit;
     }
 
@@ -72,17 +71,17 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         setExit(new Coordinate(row, col));
     }
 
-    private void setExit(ICoordinate exit) {
+    private void setExit(Coordinate exit) {
         this.exit = exit;
     }
 
-    public ICoordinate getEntry() {
+    public Coordinate getEntry() {
         return entry;
     }
     
 
     public boolean[][] getVisited() {
-        return visited;
+        return null;
     }
 
     /*
@@ -96,15 +95,15 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         setEntry(new Coordinate(row, col));
     }
 
-    private void setEntry(ICoordinate entry) {
+    private void setEntry(Coordinate entry) {
         this.entry = entry;
     }
 
-    public ICoordinate getCoord() {
+    public Coordinate getCoord() {
         return coord;
     }
 
-    public void setCoord(ICoordinate coord) {
+    public void setCoord(Coordinate coord) {
         this.coord = coord;
     }
 
@@ -112,7 +111,6 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         checkCoord(row, col);
         setCoord(new Coordinate(row, col));
         visitedTurn[row][col] = turn;
-        setVisited(row, col);
         this.notifyObservers();
     }
 
@@ -125,23 +123,10 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     public boolean isVisited(int row, int col) {
         try {
             checkCoord(row, col);
-            return visited[row][col];
+            return visitedTurn[row][col] != null;
         } catch (ArrayIndexOutOfBoundsException e) {
             return false;
         }
-    }
-
-    /*
-     * Vérifie si le monstre a déjà visité une cellule
-     * 
-     * @param row la ligne de la cellule
-     * @param col la colonne de la cellule
-     * @return true si le monstre a déjà visité la cellule, false sinon
-     */
-    public void setVisited(int row, int col) throws ArrayIndexOutOfBoundsException {
-        checkCoord(row, col);
-        visited[row][col] = true;
-        this.notifyObservers();
     }
 
     /*
@@ -179,13 +164,13 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * @param row la ligne de la cellule
      * @param col la colonne de la cellule
      */
-    public void setVisited(ICoordinate coord) {
-        setVisited(coord.getRow(), coord.getCol());
+    public void setVisited(Coordinate coord, int turn) {
+        setVisited(coord.getRow(), coord.getCol(), turn);
     }
 
     private void checkCoord(int row, int col) throws ArrayIndexOutOfBoundsException {
-        if ((row < 0 || row >= visited.length) || (col < 0 || col >= visited[0].length)) {
-            throw new ArrayIndexOutOfBoundsException("Row " + row + "/" + visited.length + " or column " + col + "/" + visited[0].length);
+        if ((row < 0 || row >= maze.length) || (col < 0 || col >= maze[0].length)) {
+            throw new ArrayIndexOutOfBoundsException("Row " + row + "/" + maze.length + " or column " + col + "/" + maze[0].length);
         }
     }
 
@@ -208,7 +193,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * Joue un tour du monstre
      */
     @Override
-    public ICoordinate play() {
+    public Coordinate play() {
         // TODO (partie 2 - implémentation de l'IA du monstre)
         throw new UnsupportedOperationException("Unimplemented method 'play'");
     }
@@ -221,16 +206,20 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     public void update(ICellEvent event) {
         switch (event.getState()) {
             case MONSTER:
-                setCoord(event.getCoord());
+                setCoord(new Coordinate(event.getCoord()));
             case EXIT:
-                setExit(event.getCoord());
+                setExit(new Coordinate(event.getCoord()));
             case WALL:
-                setEntry(event.getCoord());
+                setEntry(new Coordinate(event.getCoord()));
                 break;
             default:
-                setVisited(event.getCoord());
+                setVisited(new Coordinate(event.getCoord()), event.getTurn());
                 break;
         }
+    }
+
+    public void setVisited(int row, int col, int turn) {
+        visitedTurn[row][col] = turn;
     }
 
     /*
@@ -254,19 +243,131 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         App.PREFERENCES.putInt("monsterFov", fov);
     }
 
+    private List<Coordinate> aStar() {
+        if (entry == null || exit == null || maze == null) {
+            return null;
+        }
+
+        PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingInt(Node::getFScore));
+        Map<Coordinate, Integer> gScore = new HashMap<>();
+        Map<Coordinate, Coordinate> cameFrom = new HashMap<>();
+
+        openSet.offer(new Node(entry, 0, heuristicCost(entry, exit)));
+        gScore.put(entry, 0);
+
+        while (!openSet.isEmpty()) {
+            Node current = openSet.poll();
+
+            if (current.getCoordinate().equals(exit)) {
+                return reconstructPath(cameFrom, current.getCoordinate());
+            }
+
+            for (Coordinate neighbor : getNeighbors(current.getCoordinate())) {
+                int tentativeGScore = gScore.getOrDefault(current.getCoordinate(), Integer.MAX_VALUE) + 1;
+
+                if (tentativeGScore < gScore.getOrDefault(neighbor, Integer.MAX_VALUE)) {
+                    cameFrom.put(neighbor, current.getCoordinate());
+                    gScore.put(neighbor, tentativeGScore);
+
+                    int fScore = tentativeGScore + heuristicCost(neighbor, exit);
+                    Node neighborNode = new Node(neighbor, tentativeGScore, fScore);
+                    openSet.offer(neighborNode);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private List<Coordinate> reconstructPath(Map<Coordinate, Coordinate> cameFrom, Coordinate current) {
+        List<Coordinate> totalPath = new ArrayList<>();
+        totalPath.add(current);
+
+        while (cameFrom.containsKey(current)) {
+            current = cameFrom.get(current);
+            totalPath.add(0, current);
+        }
+
+        return totalPath;
+    }
+
+    private int heuristicCost(Coordinate a, Coordinate b) {
+        // Heuristique : distance de Manhattan entre les deux points
+        return Math.abs(a.getRow() - b.getRow()) + Math.abs(a.getCol() - b.getCol());
+    }
+
+    private List<Coordinate> getNeighbors(Coordinate current) {
+        List<Coordinate> neighbors = new ArrayList<>();
+
+        for (int i = 0; i < 4; i++) {
+            int row = current.getRow();
+            int col = current.getCol();
+
+            switch (i) {
+                case 0:
+                    row--;
+                    break;
+                case 1:
+                    row++;
+                    break;
+                case 2:
+                    col--;
+                    break;
+                case 3:
+                    col++;
+                    break;
+            }
+
+            if (row >= 0 && row < maze.length && col >= 0 && col < maze[0].length && maze[row][col]) {
+                neighbors.add(new Coordinate(row, col));
+            }
+        }
+
+        return neighbors;
+    }
+
+    
+
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.writeObject(this.exit);
         oos.writeObject(this.entry);
         oos.writeObject(this.coord);
-        oos.writeObject(this.visited);
+        oos.writeObject(this.maze);
         oos.writeObject(this.visitedTurn);
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-        this.exit = (ICoordinate)ois.readObject();
-        this.entry = (ICoordinate)ois.readObject();
-        this.coord = (ICoordinate)ois.readObject();
-        this.visited = (boolean[][])ois.readObject();
+        this.exit = (Coordinate)ois.readObject();
+        this.entry = (Coordinate)ois.readObject();
+        this.coord = (Coordinate)ois.readObject();
+        this.maze = (boolean[][])ois.readObject();
         this.visitedTurn = (Integer[][])ois.readObject();
+    }
+
+    public static void main(String[] args) {
+        boolean[][] maze = {
+            {false, false, false, false, false},
+            {false, true, true, true, false},
+            {false, false, false, true, false},
+            {false, true, true, true, false},
+            {false, false, false, false, false}
+        };        
+
+        Monster monster = new Monster();
+        monster.initialize(maze);
+
+        monster.setEntry(1, 1);
+        monster.setExit(3, 3);
+
+        List<Coordinate> path = monster.aStar();
+
+        if (path != null) {
+            System.out.println("Chemin trouvé : ");
+            for (Coordinate coord : path) {
+                System.out.println(coord);
+            }
+        } else {
+            System.out.println("Aucun chemin trouvé.");
+        }
     }
 }
