@@ -2,8 +2,6 @@
 
 ## Semaine 45
 
-Bien sûr, voici un résumé des modifications effectuées par chaque personne dans le journal Git que vous avez fourni pour la semaine, sans préciser les hachages des commits :
-
 **Karim Aoulad-Tayab** :
 - Mise à jour du fichier "Rapport_Analyse_1.md".
 - Ajout de nouveaux fichiers, réorganisation de certains dossiers, mise à jour de la documentation et de l'UML du projet.
@@ -23,4 +21,19 @@ Bien sûr, voici un résumé des modifications effectuées par chaque personne d
 
 **Yliess El atifi** :
 
--Ajout de la methode estvisible qui change la vue du monstre, il ne voit plus que 2 case autout de lui.
+-Ajout de la methode estvisible qui change la vue du monstre, il ne voit plus que 2 case autout de lui.+ monstre apparait aleatoirement.
+
+## Semaine 46
+
+**Karim Aoulad-Tayab** :
+- Mettre une taille de labyrinthe s'adaptant a la taille des cellules
+- Chargement d'un labyrinthe prédéfini
+
+**Anas Ouhdda** :
+- Correction des bugs de changement de taille du labyrinthe
+- Utilisation de Preferences pour sauvegarder les paramètres du jeu (largeur, hauteur)
+
+**Selim Hamza** :
+
+**Yliess El atifi** : 
+- Documentation et test de a*
