@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import SubjectObserver.Subject;
+import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
@@ -73,8 +74,49 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
      */
     @Override
     public ICoordinate play() {
-        throw new UnsupportedOperationException("Unimplemented method 'play'");
+
+        //throw new UnsupportedOperationException("Unimplemented method 'play'");
+        
+            // Parcours des emplacements possibles pour le tir
+    for (int i = 0; i < shootLocations.length; i++) 
+    {
+        for (int j = 0; j < shootLocations[0].length; j++) 
+        {
+            // Vérifie si la case n'a pas déjà été explorée
+            if (!hasShot(i, j)) 
+            {
+                // Vérifie si la case n'a pas été visitée par le monstre ou ses voisines
+                if (!isVisitedByMonsterOrNeighbors(i, j)) 
+                {
+                    // Si la case est valide, effectue le tir
+                    shoot(i, j);
+                    // Retourne les coordonnées de la case tirée
+                    return new Coordinate(i,j);
+                        
+                }
+            }
+        }
     }
+
+    return null;
+
+    }
+
+
+    private boolean isVisitedByMonsterOrNeighbors(int x, int y) {
+        // Vérifie si la case elle-même ou ses voisines ont été visitées par le monstre
+        for (int i = Math.max(0, x - 1); i <= Math.min(shootLocations.length - 1, x + 1); i++) {
+            for (int j = Math.max(0, y - 1); j <= Math.min(shootLocations[0].length - 1, y + 1); j++) {
+                if (isVisited(i, j)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    
+
 
     /*
      * Met à jour les coordonnées des tirs du chasseur
