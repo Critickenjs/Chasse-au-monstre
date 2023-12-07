@@ -32,12 +32,30 @@ public class Coordinate implements ICoordinate, Serializable {
         this.col = col;
     }
 
+    public Coordinate(ICoordinate coord) {
+        this(coord.getRow(), coord.getCol());
+    }
+
     public int getRow() {
         return this.row;
     }
 
     public int getCol() {
         return this.col;
+    }
+
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Coordinate)) {
+            return false;
+        }
+        Coordinate coord = (Coordinate) o;
+        return row == coord.row && col == coord.col;
+    }
+
+    public String toString() {
+        return "(" + row + ", " + col + ")";
     }
 
     private void writeObject(ObjectOutputStream oos) throws IOException {

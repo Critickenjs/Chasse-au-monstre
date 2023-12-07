@@ -37,7 +37,7 @@ public class MonsterTest {
     @Test
     public void testIsVisited() {
         assertFalse(monster.isVisited(2, 3)); 
-        monster.setVisited(2, 3); 
+        monster.setVisited(2, 3, 5); 
         assertTrue(monster.isVisited(2, 3)); 
     }
 

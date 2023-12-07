@@ -44,11 +44,10 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     }
 
     public void initialize() {
-        this.monster.initialize(new boolean[getWidth()][getHeight()]);
-        this.hunter.initialize(new boolean[getWidth()][getHeight()]);
+        this.initializeMaze();
+        this.initializePlayers();
         this.monster.attach(this);
         this.hunter.attach(this);
-        this.initializeMaze();
     }
 
     public String getMonsterName() {
@@ -112,7 +111,10 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     }
 
     public void initializePlayers() {
-        this.monster.initialize(new boolean[getWidth()][getHeight()]);
+        this.monster.initialize(this.maze);
+        monster.setExit(exit.getRow(), exit.getCol());
+        monster.setEntry(entrance.getRow(), entrance.getCol());
+        monster.setCoord(entrance.getRow(), entrance.getCol(), 0);
         this.hunter.initialize(new boolean[getWidth()][getHeight()]);
     }
 
@@ -135,8 +137,6 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
             }
             entrance = mazeGenerator.getEntranceCoordinate();
             exit = mazeGenerator.getExitCoordinate();
-            monster.setCoord(entrance.getRow(), entrance.getCol(), 0);
-
             this.maze = mazeGenerator.toBoolean();
         }
     }
@@ -196,7 +196,11 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     
     @Override
     public void update(Subject subj, Object data) {
-        this.update(subj);
+        if (data instanceof Monster) {
+            this.notifyObservers(data);
+        } else {
+            this.notifyObservers();
+        }
     }
 
     private void writeObject(ObjectOutputStream oos) throws IOException {

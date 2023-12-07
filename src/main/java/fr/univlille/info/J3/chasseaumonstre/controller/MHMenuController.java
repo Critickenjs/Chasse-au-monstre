@@ -81,7 +81,10 @@ public class MHMenuController  {
      */
     @FXML
     private void onHunterVAi() {
-        
+        cviBtn.setOnMouseClicked(e -> {
+            JVJController controller = new JVJController(stage, model, false, true);
+            new JVJView(stage, controller);
+        });
     }
 
     /*

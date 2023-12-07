@@ -35,11 +35,18 @@ public class JVJController {
     private MonsterHunterModel model;
     private MHHunterView hunterView;
     private MHMonsterView monsterView;
+    private boolean hunterAI, monsterAI;
 
     public JVJController(Stage stage, MonsterHunterModel model) {
+        this(stage, model, false, false);
+    }
+
+    public JVJController(Stage stage, MonsterHunterModel model, boolean hunterAI, boolean monsterAI) {
         this.stage = stage;
         this.model = model;
         this.startGameButton = new Button();
+        this.hunterAI = hunterAI;
+        this.monsterAI = monsterAI;
     }
 
     /*
@@ -55,11 +62,18 @@ public class JVJController {
         model.setMonsterName(j2.getText());
         MHMonsterController mc = new MHMonsterController(stage, model);
         this.monsterView = new MHMonsterView(stage, mc);
+        mc.setMonsterView(monsterView);
         MHHunterController hc = new MHHunterController(stage, model);
         this.hunterView = new MHHunterView(stage, hc);
+        hc.setHunterView(this.hunterView);
         mc.setHunterView(hunterView);
         hc.setMonsterView(monsterView);
+        mc.setMonsterView(monsterView);
         model.initialize();
+        if (monsterAI)
+            model.getMonster().setAi(monsterAI);
+        // if (hunterAI)
+            // model.getHunter().setAi(hunterAI);
         this.hunterView.render();
     }
 
