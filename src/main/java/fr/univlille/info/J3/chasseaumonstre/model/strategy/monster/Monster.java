@@ -33,6 +33,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     private Integer[][] visitedTurn;
     private boolean ai;
     private List<ICoordinate> path;
+    private int turn;
 
     public Monster() {
         this.exit = null;
@@ -41,6 +42,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.visitedTurn = null;
         this.ai = false;
         this.path = new ArrayList<>();
+        this.turn = 0;
     }
 
     /*
@@ -225,7 +227,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
             if (this.path != null && !this.path.isEmpty()) {
                 ICoordinate move = this.path.get(0);
                 this.path.remove(move);
-                this.setCoord(move.getRow(), move.getCol(), 99);
+                this.setCoord(move.getRow(), move.getCol(), this.turn++);
                 return new Coordinate(move);
             }
         }
