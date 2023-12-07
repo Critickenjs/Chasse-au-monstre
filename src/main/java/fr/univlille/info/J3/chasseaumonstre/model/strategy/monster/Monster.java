@@ -8,6 +8,7 @@ import java.util.*;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
+import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.AStar;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Algorithm;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
@@ -30,12 +31,16 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     private Coordinate coord;
     private boolean[][] maze;
     private Integer[][] visitedTurn;
+    private boolean ai;
+    private List<ICoordinate> path;
 
     public Monster() {
         this.exit = null;
         this.entry = null;
         this.coord = null;
         this.visitedTurn = null;
+        this.ai = false;
+        this.path = new ArrayList<>();
     }
 
     /*
@@ -61,6 +66,22 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
 
     public Coordinate getExit() {
         return exit;
+    }
+
+    public boolean isAi() {
+        return ai;
+    }
+
+    public void setAi(boolean ai) {
+        if (ai && (this.path == null || this.path.isEmpty())) {
+            this.executeAlgorithm();
+        }
+        this.ai = ai;
+    }
+
+    private void executeAlgorithm() {
+        Algorithm algorithm = new AStar(this.entry, this.exit, this.maze);
+        this.path = algorithm.execute();
     }
 
     /*
@@ -114,7 +135,10 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         checkCoord(row, col);
         setCoord(new Coordinate(row, col));
         visitedTurn[row][col] = turn;
-        this.notifyObservers();
+        if (exit.equals(coord))
+            this.notifyObservers(this);
+        else
+            this.notifyObservers();
     }
 
     /*
@@ -193,12 +217,19 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     }
 
     /*
-     * Joue un tour du monstre
+     * Joue un tour du monstre si celui-ci est dirigé par IA
      */
     @Override
-    public Coordinate play() {
-        // TODO (partie 2 - implémentation de l'IA du monstre)
-        throw new UnsupportedOperationException("Unimplemented method 'play'");
+    public ICoordinate play() {
+        if (this.ai) {
+            if (this.path != null && !this.path.isEmpty()) {
+                ICoordinate move = this.path.get(0);
+                this.path.remove(move);
+                this.setCoord(move.getRow(), move.getCol(), 99);
+                return new Coordinate(move);
+            }
+        }
+        return null;
     }
 
     /*
@@ -263,19 +294,14 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     }
 
     public static void main(String[] args) {
-        boolean[][] maze = {
-            {false, false, false, false, false},
-            {false, true, true, true, false},
-            {false, false, false, true, false},
-            {false, true, true, true, false},
-            {false, false, false, false, false}
-        };        
-
-        Monster monster = new Monster();
+        MonsterHunterModel model = new MonsterHunterModel();
+        Monster monster = model.getMonster();
+        model.initialize();
+        boolean[][] maze = model.getMaze();
         monster.initialize(maze);
 
-        monster.setEntry(1, 1);
-        monster.setExit(3, 3);
+        monster.setEntry(model.getEntrance());
+        monster.setExit(model.getExit());
 
         Algorithm algorithm = new AStar(monster.getEntry(), monster.getExit(), maze);
         List<ICoordinate> path = algorithm.execute();

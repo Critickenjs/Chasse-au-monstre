@@ -194,10 +194,20 @@ public class MHMonsterController extends MHPlayerController {
     /*
      * Alerte le joueur que le monstre a gagné
      */
-    protected void winAlert() {
+    public void winAlert() {
         this.winAlert.setTitle("Victoire du MONSTRE");
         this.winAlert.setHeaderText(null);
         this.winAlert.setContentText("Le Monstre a atteint la sortie du Labyrinthe. Le Monstre gagne !");
+        this.winAlert.showAndWait();
+
+        alertOnClose();
+    }
+
+    public void hunterWinAlert() {
+        UtilsController.playSound(UtilsController.MONSTERKILL_SOUND_PATH, VOLUME);
+        this.winAlert.setTitle("Victoire du CHASSEUR");
+        this.winAlert.setHeaderText(null);
+        this.winAlert.setContentText("Le Chasseur a abattu le Monstre. Le Chasseur gagne !");
         this.winAlert.showAndWait();
 
         alertOnClose();

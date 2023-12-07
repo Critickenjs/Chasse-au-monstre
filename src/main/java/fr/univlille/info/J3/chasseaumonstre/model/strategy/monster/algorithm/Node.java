@@ -32,4 +32,9 @@ public class Node {
         public int getFScore() {
             return fScore;
         }
+
+        @Override
+        public String toString() {
+            return coordinate.toString();
+        }
     }

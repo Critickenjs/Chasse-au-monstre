@@ -49,6 +49,7 @@ public class MHMonsterView implements Observer {
         this.controller = controller;
         this.maze = new GridPane();
         // Connecter la Vue au Controller
+        this.controller.getModel().attach(this);
         this.controller.setVue(this);
     }
 

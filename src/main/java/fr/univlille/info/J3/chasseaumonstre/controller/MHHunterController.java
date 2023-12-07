@@ -58,7 +58,13 @@ public class MHHunterController extends MHPlayerController {
     @FXML
     public void onSkipTurn() {
         shot = false;
-        this.monsterView.render();
+        if (model.getMonster().isAi()) {
+            this.model.getMonster().play();
+            this.hunterView.render();
+            this.model.nextTurn();
+        } else {
+            this.monsterView.render();
+        }
     }
 
     /*
@@ -143,11 +149,20 @@ public class MHHunterController extends MHPlayerController {
     /*
      * Alerte le joueur que le monstre a été tué et qu'il a gagné
      */
-    protected void winAlert() {
+    public void winAlert() {
         UtilsController.playSound(UtilsController.MONSTERKILL_SOUND_PATH, VOLUME);
         this.winAlert.setTitle("Victoire du CHASSEUR");
         this.winAlert.setHeaderText(null);
         this.winAlert.setContentText("Le Chasseur a abattu le Monstre. Le Chasseur gagne !");
+        this.winAlert.showAndWait();
+
+        alertOnClose();
+    }
+
+    public void monsterWinAlert() {
+        this.winAlert.setTitle("Victoire du MONSTRE");
+        this.winAlert.setHeaderText(null);
+        this.winAlert.setContentText("Le Monstre a atteint la sortie du Labyrinthe. Le Monstre gagne !");
         this.winAlert.showAndWait();
 
         alertOnClose();
