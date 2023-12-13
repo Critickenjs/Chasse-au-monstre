@@ -185,7 +185,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
 
             }
         }
-        monster.setCoord(new Coordinate(entranceY, entranceX));
+        monster.setCoord(entranceX, entranceY, 0);
         this.maze = labyrinth;
     }
 
@@ -207,11 +207,13 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     @Override
     public void update(Subject subj, Object data) {
         Coordinate coordinates = (Coordinate)data;
+        System.out.println("Update : " + coordinates);
         if (subj instanceof Monster) {
             if (coordinates.equals(exit)) {
                 this.notifyObservers("WIN");
             } else {
                 this.notifyObservers(coordinates);
+                nextTurn();
             }
         } else {
             if (coordinates.equals(getMonster().getCoord())) {

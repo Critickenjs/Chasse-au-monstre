@@ -129,10 +129,6 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         return coord;
     }
 
-    public void setCoord(Coordinate coord) {
-        this.coord = coord;
-    }
-
     /*
      * Définit les coordonnées actuelles du monstre dans sa mémoire, et notifie le modèle principal
      * 
@@ -143,9 +139,10 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      */
     public void setCoord(int row, int col, int turn) throws ArrayIndexOutOfBoundsException {
         checkCoord(row, col);
-        setCoord(new Coordinate(row, col));
-        visitedTurn[row][col] = turn;
-        this.notifyObservers(new Coordinate(row, col));
+        Coordinate coord = new Coordinate(row, col);
+        this.coord = coord;
+        setVisited(row, col, turn);
+        this.notifyObservers(coord);
     }
 
     /*
@@ -247,7 +244,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     public void update(ICellEvent event) {
         switch (event.getState()) {
             case MONSTER:
-                setCoord(new Coordinate(event.getCoord()));
+                setCoord(event.getCoord().getRow(), event.getCoord().getCol(), event.getTurn());
             case EXIT:
                 setExit(new Coordinate(event.getCoord()));
             case WALL:

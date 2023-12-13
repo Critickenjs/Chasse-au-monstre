@@ -70,11 +70,16 @@ public class JVJController {
         hc.setMonsterView(monsterView);
         mc.setMonsterView(monsterView);
         model.initialize();
-        if (monsterAI)
+        if (monsterAI){
             model.getMonster().setAi(monsterAI);
-        // if (hunterAI)
-            // model.getHunter().setAi(hunterAI);
-        this.hunterView.render();
+            this.hunterView.render();
+        } else if (hunterAI){
+            model.getHunter().setAi(hunterAI);
+            model.getHunter().play();
+            this.monsterView.render();
+        } else {
+            this.hunterView.render();
+        }
     }
 
     /*
