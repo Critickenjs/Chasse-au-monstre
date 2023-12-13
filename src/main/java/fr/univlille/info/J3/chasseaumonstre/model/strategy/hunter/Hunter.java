@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import SubjectObserver.Subject;
@@ -105,43 +107,32 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
     }
     */
 
+    /*
+     * Genere coordonnées d'une case aleatoirement
+     * Verifie si elle a déja été ciblé
+     * Tire dessus si non 
+     * Retourne les coordonnées de la case tirée
+     */
     @Override
 public ICoordinate play() {
     Random random = new Random();
     int row, col;
 
-    // Tant que la case générée aléatoirement a déjà été tirée, générez une nouvelle case
     while (true) 
     {
         row = random.nextInt(shootLocations.length);
         col = random.nextInt(shootLocations[0].length);
 
-        // Vérifie si la case n'a pas encore été tirée
         if (!hasShot(row, col)) {
-            // Effectuer le tir
+        
             shoot(row, col);
 
-            // Retourner les coordonnées de la case tirée
             return new Coordinate(row,col);
         }
         // Sinon, répéter le processus pour générer de nouvelles coordonnées
     }
 }
 
-
-    private boolean isVisitedByMonsterOrNeighbors(int x, int y) {
-        // Vérifie si la case elle-même ou ses voisines ont été visitées par le monstre
-        for (int i = Math.max(0, x - 1); i <= Math.min(shootLocations.length - 1, x + 1); i++) {
-            for (int j = Math.max(0, y - 1); j <= Math.min(shootLocations[0].length - 1, y + 1); j++) {
-                if (isVisited(i, j)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    
 
 
     /*
