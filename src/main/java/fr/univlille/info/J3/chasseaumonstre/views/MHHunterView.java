@@ -72,7 +72,6 @@ public class MHHunterView implements Observer {
     }
 
     private void draw() {
-        System.out.println("draw");
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();
 
@@ -85,7 +84,6 @@ public class MHHunterView implements Observer {
 
                 cell.setOnMouseClicked(e -> {
                     if (this.controller.hasShot()) {
-                        System.out.println("Vous avez déjà tiré");
                         return;
                     }
                     int cellX = GridPane.getColumnIndex(stack);
@@ -98,11 +96,11 @@ public class MHHunterView implements Observer {
                         if (this.controller.getModel().getMonster().isVisited(cellX, cellY)) {
                             int visitedTurn = this.controller.getModel().getMonster().getVisitedTurn(cellX, cellY);
                             this.controller.getModel().getHunter().setVisited(cellX, cellY, visitedTurn);
-                            System.out.println("visitedTurn : " + visitedTurn);
                             text.setText("" + visitedTurn);
-                            System.out.println("text : " + text.getText());
                         }
                     }
+                    this.maze.getChildren().remove(stack);
+                    this.maze.add(stack, cellX, cellY);
                 });
 
                 if (this.controller.getModel().getHunter().hasShot(x, y)) {
