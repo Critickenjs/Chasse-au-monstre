@@ -64,9 +64,15 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         return this.shootLocations[x][y];
     }
 
+    /*
+     * Effectue un tir sur une cellule et en informe le modèle principal
+     * 
+     * @param x la ligne de la cellule
+     * @param y la colonne de la cellule
+     */
     public void shoot(int x, int y) {
         this.shootLocations[x][y] = true;
-        this.notifyObservers();
+        this.notifyObservers(new Coordinate(x, y));
     }
 
     /*

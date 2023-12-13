@@ -138,7 +138,7 @@ public class MHHunterView implements Observer {
     }
 
     /*
-     * Met à jour la vue du Chasseur
+     * Met à jour la vue
      */
     public void update() {
         this.maze.getChildren().clear();
@@ -150,12 +150,26 @@ public class MHHunterView implements Observer {
         this.update();
     }
 
+    /*
+     * Reçoit une notification du modèle principal,
+     * obj étant soit des coordonnées, soit une chaîne de caractères "WIN".
+     * Si obj est une chaîne de caractères "WIN", on affiche une alerte de victoire.
+     * Sinon, on met à jour la vue.
+     * 
+     * @param subj : le sujet
+     * @param obj : l'objet
+     */
     @Override
     public void update(Subject subj, Object obj) {
-        this.update();
-        System.out.println(obj);
-        if (obj instanceof Monster) {
-            this.controller.monsterWinAlert();
+        System.out.println(subj + " " + obj);
+        if (obj.equals("WIN")) {
+            if (subj instanceof Monster) {
+                controller.monsterWinAlert();
+            } else {
+                controller.winAlert();
+            }
+        } else {
+            this.update();
         }
     }
 }
