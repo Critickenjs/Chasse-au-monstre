@@ -25,6 +25,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
     private String name;
     private boolean[][] visited;
     private int[][] visitedTurn;
+    private boolean ai;
 
     /*
      * Constructeur de Hunter
@@ -67,6 +68,14 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
     public void shoot(int x, int y) {
         this.shootLocations[x][y] = true;
         this.notifyObservers();
+    }
+
+    public boolean isAi() {
+        return ai;
+    }
+
+    public void setAi(boolean ai) {
+        this.ai = ai;
     }
 
     /*
