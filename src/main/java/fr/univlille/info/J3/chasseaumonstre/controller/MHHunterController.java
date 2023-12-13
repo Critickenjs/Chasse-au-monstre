@@ -85,7 +85,6 @@ public class MHHunterController extends MHPlayerController {
         if (hit) {
             monsterAlert(shotX, shotY);
             this.updateHistory();
-            winAlert();
         } else if (isWall) {
             wallAlert(shotX, shotY);
             this.updateHistory();
