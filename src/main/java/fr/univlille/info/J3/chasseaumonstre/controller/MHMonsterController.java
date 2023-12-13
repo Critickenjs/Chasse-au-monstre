@@ -84,6 +84,7 @@ public class MHMonsterController extends MHPlayerController {
         } else {
             this.hunterView.render();
         }
+        model.nextTurn();
     }
 
     /*
