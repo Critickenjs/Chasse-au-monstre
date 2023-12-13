@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Random;
+
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
@@ -77,7 +79,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
 
     /*
      * Joue un tour du chasseur
-     */
+     
     @Override
     public ICoordinate play() {
 
@@ -107,6 +109,30 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
     return null;
 
     }
+    */
+
+    @Override
+public ICoordinate play() {
+    Random random = new Random();
+    int row, col;
+
+    // Tant que la case générée aléatoirement a déjà été tirée, générez une nouvelle case
+    while (true) 
+    {
+        row = random.nextInt(shootLocations.length);
+        col = random.nextInt(shootLocations[0].length);
+
+        // Vérifie si la case n'a pas encore été tirée
+        if (!hasShot(row, col)) {
+            // Effectuer le tir
+            shoot(row, col);
+
+            // Retourner les coordonnées de la case tirée
+            return new Coordinate(row,col);
+        }
+        // Sinon, répéter le processus pour générer de nouvelles coordonnées
+    }
+}
 
 
     private boolean isVisitedByMonsterOrNeighbors(int x, int y) {
