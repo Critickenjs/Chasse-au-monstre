@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
@@ -30,6 +31,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
     private boolean[][] visited;
     private int[][] visitedTurn;
     private boolean ai;
+    private Stack<ICoordinate> neighboursCellsExploration;
 
     /*
      * Constructeur de Hunter
@@ -45,6 +47,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
                 visitedTurn[i][j] = -1;
             }
         }
+        this.neighboursCellsExploration = new Stack<>();
     }
 
     /*
@@ -88,39 +91,30 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         this.ai = ai;
     }
 
-    /*
-     * Joue un tour du chasseur
-     
-    @Override
-    public ICoordinate play() {
-
-        //throw new UnsupportedOperationException("Unimplemented method 'play'");
-        
-            // Parcours des emplacements possibles pour le tir
-    for (int i = 0; i < shootLocations.length; i++) 
-    {
-        for (int j = 0; j < shootLocations[0].length; j++) 
-        {
-            // Vérifie si la case n'a pas déjà été explorée
-            if (!hasShot(i, j)) 
-            {
-                // Vérifie si la case n'a pas été visitée par le monstre ou ses voisines
-                if (!isVisitedByMonsterOrNeighbors(i, j)) 
-                {
-                    // Si la case est valide, effectue le tir
-                    shoot(i, j);
-                    // Retourne les coordonnées de la case tirée
-                    return new Coordinate(i,j);
-                        
-                }
-            }
+    private List<ICoordinate> getNeighbours(ICoordinate coordinate) {
+        List<ICoordinate> coordinates = new ArrayList<>();
+        Integer x = coordinate.getCol();
+        Integer y = coordinate.getRow();
+        // ---
+        coordinates.add(new Coordinate(y,x-1));
+        coordinates.add(new Coordinate(y,x+1));
+        // ---
+        coordinates.add(new Coordinate(y-1,x-1));
+        coordinates.add(new Coordinate(y-1,x));
+        coordinates.add(new Coordinate(y-1,x+1));
+        // ---
+        coordinates.add(new Coordinate(y+1,x-1));
+        coordinates.add(new Coordinate(y+1,x));
+        coordinates.add(new Coordinate(y+1,x+1));
+        java.util.Iterator<ICoordinate> it = coordinates.iterator();
+        ICoordinate c;
+        while(it.hasNext()) {
+            c = it.next();
+            if(!((c.getCol() >= 0 && c.getCol() < this.visited[0].length) && (c.getRow() >= 0 && c.getRow() < this.visited.length)))
+                it.remove();
         }
+        return coordinates;
     }
-
-    return null;
-
-    }
-    */
 
     /*
      * Genere coordonnées d'une case aleatoirement
@@ -129,26 +123,28 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
      * Retourne les coordonnées de la case tirée
      */
     @Override
-public ICoordinate play() {
-    Random random = new Random();
-    int row, col;
-
-    while (true) 
-    {
-        row = random.nextInt(shootLocations.length);
-        col = random.nextInt(shootLocations[0].length);
-
-        if (!hasShot(row, col)) {
-        
-            shoot(row, col);
-
-            return new Coordinate(row,col);
+    public ICoordinate play() {
+        ICoordinate coordinate;
+        if(!this.neighboursCellsExploration.isEmpty()) {
+            coordinate = this.neighboursCellsExploration.pop();
+            List<ICoordinate> neighbours = this.getNeighbours(coordinate);
+            for(ICoordinate c : neighbours) {
+                if(!this.hasShot(c.getRow(), c.getCol()) && this.isVisited(c.getRow(), c.getCol())) {
+                    this.shoot(c.getRow(), c.getCol());
+                    this.neighboursCellsExploration.push(c);
+                    return c;
+                }
+            }
         }
-        // Sinon, répéter le processus pour générer de nouvelles coordonnées
+        Random r = new Random();
+        ICoordinate shuffleCoordinate = new Coordinate(r.nextInt(this.visited.length), r.nextInt(this.visited[0].length));
+        while(this.hasShot(shuffleCoordinate.getRow(), shuffleCoordinate.getCol())) {
+            shuffleCoordinate = new Coordinate(r.nextInt(this.visited.length), r.nextInt(this.visited[0].length));
+        }
+        this.shoot(shuffleCoordinate.getRow(), shuffleCoordinate.getCol());
+        this.neighboursCellsExploration.push(shuffleCoordinate);
+        return shuffleCoordinate;
     }
-}
-
-
 
     /*
      * Met à jour les coordonnées des tirs du chasseur
