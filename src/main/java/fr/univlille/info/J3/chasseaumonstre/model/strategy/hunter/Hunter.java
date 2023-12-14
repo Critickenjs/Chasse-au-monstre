@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
@@ -64,14 +68,20 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         return this.shootLocations[x][y];
     }
 
+    /*
+     * Effectue un tir sur une cellule et en informe le modèle principal
+     * 
+     * @param x la ligne de la cellule
+     * @param y la colonne de la cellule
+     */
     public void shoot(int x, int y) {
         this.shootLocations[x][y] = true;
-        this.notifyObservers();
+        this.notifyObservers(new Coordinate(x, y));
     }
 
     /*
      * Joue un tour du chasseur
-     */
+     
     @Override
     public ICoordinate play() {
 
@@ -101,21 +111,34 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
     return null;
 
     }
+    */
 
+    /*
+     * Genere coordonnées d'une case aleatoirement
+     * Verifie si elle a déja été ciblé
+     * Tire dessus si non 
+     * Retourne les coordonnées de la case tirée
+     */
+    @Override
+public ICoordinate play() {
+    Random random = new Random();
+    int row, col;
 
-    private boolean isVisitedByMonsterOrNeighbors(int x, int y) {
-        // Vérifie si la case elle-même ou ses voisines ont été visitées par le monstre
-        for (int i = Math.max(0, x - 1); i <= Math.min(shootLocations.length - 1, x + 1); i++) {
-            for (int j = Math.max(0, y - 1); j <= Math.min(shootLocations[0].length - 1, y + 1); j++) {
-                if (isVisited(i, j)) {
-                    return true;
-                }
-            }
+    while (true) 
+    {
+        row = random.nextInt(shootLocations.length);
+        col = random.nextInt(shootLocations[0].length);
+
+        if (!hasShot(row, col)) {
+        
+            shoot(row, col);
+
+            return new Coordinate(row,col);
         }
-        return false;
+        // Sinon, répéter le processus pour générer de nouvelles coordonnées
     }
+}
 
-    
 
 
     /*

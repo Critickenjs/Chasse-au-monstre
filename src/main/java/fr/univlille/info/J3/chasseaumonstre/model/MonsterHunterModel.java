@@ -191,15 +191,34 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
 
     @Override
     public void update(Subject subj) {
-        this.notifyObservers();
+        
     }
     
+    /*
+     * Notification reçue par Monster ou Hunter, qui notifie les vues
+     * avec les coordonnées du joueur qui a joué, ou "WIN" si le joueur a gagné
+     * 
+     * @param subj le sujet qui a notifié
+     * @param data les données envoyées par le sujet
+     * @see Coordinate
+     * @see Monster
+     * @see Hunter
+     */
     @Override
     public void update(Subject subj, Object data) {
-        if (data instanceof Monster) {
-            this.notifyObservers(data);
+        Coordinate coordinates = (Coordinate)data;
+        if (subj instanceof Monster) {
+            if (coordinates.equals(exit)) {
+                this.notifyObservers("WIN");
+            } else {
+                this.notifyObservers(coordinates);
+            }
         } else {
-            this.notifyObservers();
+            if (coordinates.equals(getMonster().getCoord())) {
+                this.notifyObservers("WIN");
+            } else {
+                this.notifyObservers(coordinates);
+            }
         }
     }
 

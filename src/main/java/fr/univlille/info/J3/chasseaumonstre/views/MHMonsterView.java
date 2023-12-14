@@ -7,6 +7,8 @@ import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.controller.MHMonsterController;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.Monster;
+import fr.univlille.iutinfo.cam.player.IStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
@@ -40,7 +42,8 @@ public class MHMonsterView implements Observer {
     private GridPane maze;
     private Image otherImage = new Image("https://media.tenor.com/dPsOXgYjb30AAAAi/pixel-pixelart.gif");
     private ImagePattern patternInRectangle = new ImagePattern(otherImage);
-    private Image mur = new Image("https://cdn.discordapp.com/attachments/1159749679353974806/1172539649072304219/image.png?ex=6560afa5&is=654e3aa5&hm=d18c0f8879f791c7bad3e76b97cd6ba430b24b9c24f0dfa9961c83bce50174b6&");
+    private Image mur = new Image(
+            "https://cdn.discordapp.com/attachments/1159749679353974806/1172539649072304219/image.png?ex=6560afa5&is=654e3aa5&hm=d18c0f8879f791c7bad3e76b97cd6ba430b24b9c24f0dfa9961c83bce50174b6&");
     private ImagePattern wall = new ImagePattern(mur);
 
     public MHMonsterView(Stage stage, MHMonsterController controller) {
@@ -85,11 +88,11 @@ public class MHMonsterView implements Observer {
         int heigth = this.controller.getModel().getHeight();
         ICoordinate exit = this.controller.getModel().getExit();
         ICoordinate monsterPos = this.controller.getModel().getMonster().getCoord();
-        
+
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < heigth; y++) {
                 StackPane stack = new StackPane();
-                Rectangle cell = new Rectangle(1050/width, 850/heigth);
+                Rectangle cell = new Rectangle(1050 / width, 850 / heigth);
                 cell.setOpacity(0);
                 Text text = new Text();
                 cell.setStroke(Color.BLACK);
@@ -103,7 +106,7 @@ public class MHMonsterView implements Observer {
                     controller.handleMove(cellX, cellY);
                 });
 
-                if(this.controller.getModel().getMonster().estVisible(x,y)){
+                if (this.controller.getModel().getMonster().estVisible(x, y)) {
                     cell.setOpacity(1);
                     if (this.controller.getModel().getMaze()[x][y]) {
                         if (this.controller.getModel().getMonster().isVisited(x, y)) {
@@ -113,14 +116,14 @@ public class MHMonsterView implements Observer {
                                 cell.setFill(Color.web("#1bde243c"));
                                 int turn = this.controller.getModel().getMonster().getVisitedTurn(x, y);
                                 if (turn > 0)
-                                text.setText("" + turn);
+                                    text.setText("" + turn);
                             }
                         } else
                             cell.setFill(Color.WHITE);
                         if (exit.getRow() == x && exit.getCol() == y) {
                             if (!(monsterPos.getRow() == x && monsterPos.getCol() == y))
                                 cell.setFill(Color.GREEN);
-                        } 
+                        }
                     } else {
                         cell.setFill(wall);
                     }
@@ -133,7 +136,7 @@ public class MHMonsterView implements Observer {
     }
 
     /*
-     * Mettre à jour la vue du Monstre
+     * Mettre à jour la vue
      */
     public void update() {
         this.maze.getChildren().clear();
@@ -145,8 +148,26 @@ public class MHMonsterView implements Observer {
         this.update();
     }
 
+    /*
+     * Reçoit une notification du modèle principal,
+     * obj étant soit des coordonnées, soit une chaîne de caractères "WIN".
+     * Si obj est une chaîne de caractères "WIN", on affiche une alerte de victoire.
+     * Sinon, on met à jour la vue.
+     * 
+     * @param subj : le sujet
+     * @param obj : l'objet
+     */
     @Override
     public void update(Subject subj, Object obj) {
-        this.update(subj);
+        System.out.println(subj + " " + obj);
+        if (obj instanceof IStrategy) {
+            if (obj instanceof Monster) {
+                controller.winAlert();
+            } else {
+                controller.hunterWinAlert();
+            }
+        } else {
+            this.update();
+        }
     }
 }

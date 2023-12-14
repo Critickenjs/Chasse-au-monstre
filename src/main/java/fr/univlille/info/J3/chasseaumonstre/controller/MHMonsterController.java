@@ -125,7 +125,6 @@ public class MHMonsterController extends MHPlayerController {
         } else if (exit.getRow() == moveX && exit.getCol() == moveY) {
             if (advance(moveX, moveY)) {
                 this.updateHistory();
-                winAlert();
             }
             return CellInfo.EXIT;
         } else {

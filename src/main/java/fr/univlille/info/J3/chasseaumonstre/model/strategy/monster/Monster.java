@@ -133,14 +133,19 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.coord = coord;
     }
 
+    /*
+     * Définit les coordonnées actuelles du monstre dans sa mémoire, et notifie le modèle principal
+     * 
+     * @param row la ligne de la cellule
+     * @param col la colonne de la cellule
+     * @param turn le tour auquel le monstre a visité la cellule
+     * @see MonsterHunterModel
+     */
     public void setCoord(int row, int col, int turn) throws ArrayIndexOutOfBoundsException {
         checkCoord(row, col);
         setCoord(new Coordinate(row, col));
         visitedTurn[row][col] = turn;
-        if (exit.equals(coord))
-            this.notifyObservers(this);
-        else
-            this.notifyObservers();
+        this.notifyObservers(new Coordinate(row, col));
     }
 
     /*

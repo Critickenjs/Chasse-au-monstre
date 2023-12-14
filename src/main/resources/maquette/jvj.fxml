@@ -48,6 +48,11 @@
                </font>
                Commencer la partie
             </Button>
+            <Button fx:id="btnReturn" layoutX="53.0" layoutY="506.0" mnemonicParsing="false" onAction="#startGameButton" onMouseClicked="#returnToMenu" prefHeight="30.0" prefWidth="116.0" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;" text="Retour au Menu" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>
