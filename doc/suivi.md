@@ -23,6 +23,7 @@
 
 **Yliess El atifi** :
 - Ajout de la methode estvisible qui change la vue du monstre, il ne voit plus que 2 case autout de lui.+ monstre apparait aleatoirement.
+- Test sur tout les models disponibles
 
 **Atilla Tas** :
 - Modifications du style des alertes.
@@ -50,25 +51,6 @@
 **Atilla Tas** :
 - 
 
-## Semaine 47
-
-20 Novembre - 26 Novembre 2023
-
-**Karim Aoulad-Tayab** :
-- 
-
-**Anas Ouhdda** :
-- 
-
-**Selim Hamza** :
-- 
-
-**Yliess El atifi** : 
-
-
-**Atilla Tas** :
-- 
-
 ## Semaine 49
 
 4 Décembre - 10 Décembre 2023
@@ -83,7 +65,7 @@
 - 
 
 **Yliess El atifi** : 
-
+- Création de la branche astar avec  un debut implementation de a*
 
 **Atilla Tas** :
 - Fixe bug sur la méthode d'importation d'un labyrinthe
@@ -103,7 +85,9 @@
 - 
 
 **Yliess El atifi** : 
-
+- Continuation de l'implementation de a*
+- fixe le MazeValidator pour exécuter l'algorithme AStar afin de verifier qu'il y a bien un chemin
+- refactor + test
 
 **Atilla Tas** :
 - Ajout d'un bouton retour dans la vue `jvj`
