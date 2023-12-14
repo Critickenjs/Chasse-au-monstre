@@ -36,6 +36,14 @@ public class MazeGenerator {
         this.maze = new int[width][height];
         this.random = new Random();
     }
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
 
     public int[][] getMaze() {
         return this.maze;

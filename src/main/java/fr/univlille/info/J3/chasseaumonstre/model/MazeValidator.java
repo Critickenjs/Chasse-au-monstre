@@ -1,5 +1,10 @@
 package fr.univlille.info.J3.chasseaumonstre.model;
 
+import java.util.List;
+
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.AStar;
+import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
+
 /*
  * MazeValidator valide un labyrinthe généré, s'il contient bien un chemin entre l'entrée et la sortie
  * 
@@ -15,6 +20,7 @@ public class MazeValidator {
     private final int height;
     private int[][] maze;
     private final boolean[][] visited;
+    private MazeGenerator mazeGenerator;
 
     /*
      * Constructeur de MazeValidator
@@ -23,11 +29,12 @@ public class MazeValidator {
      * @param height la hauteur du labyrinthe
      * @param maze le labyrinthe généré
      */
-    public MazeValidator(int width, int height, int[][] maze) {
-        this.width = width;
-        this.height = height;
-        this.maze = maze;
+    public MazeValidator(MazeGenerator mazeGenerator) {
+        this.width = mazeGenerator.getWidth();
+        this.height = mazeGenerator.getHeight();
+        this.maze = mazeGenerator.getMaze();
         this.visited = new boolean[width][height];
+        this.mazeGenerator = mazeGenerator;
     }
 
     public void setMaze(int[][] maze) {
@@ -44,11 +51,11 @@ public class MazeValidator {
                 visited[x][y] = false;
     }
 
-    private int getEntrance() {
-        for(int i = 0; i < this.width; i++)
-            if (maze[i][0] == 0)
-                return i;
-        return -1;
+    private Coordinate getEntrance() {
+        return this.mazeGenerator.getEntranceCoordinate();
+    }
+    private Coordinate getExit() {
+        return this.mazeGenerator.getExitCoordinate();
     }
 
     /*
@@ -57,11 +64,14 @@ public class MazeValidator {
      * @return true si le labyrinthe contient un chemin entre l'entrée et la sortie, false sinon
      */
     public boolean isValid() {
+        List<ICoordinate> astar = new AStar(this.getEntrance(), this.getExit(), this.mazeGenerator.toBoolean()).execute();
         this.initializeVisited();
-        int entranceX = this.getEntrance();
-        return entranceX == -1 ? false : dfs(entranceX, 0);
+        if(astar == null) {
+            return false;
+        }
+        return true;
     }
-
+/*
     private boolean dfs(int x, int y) {
         if (x < 0 || x >= width || y < 0 || y >= height || maze[x][y] == 1 || visited[x][y])
             return false;
@@ -73,5 +83,8 @@ public class MazeValidator {
 
         return dfs(x - 1, y) || dfs(x + 1, y) || dfs(x, y - 1) || dfs(x, y + 1);
     }
+*/
 }
+
+
 
