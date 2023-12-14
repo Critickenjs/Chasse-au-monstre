@@ -5,10 +5,10 @@ import java.net.URL;
 import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.controller.MHAIController;
-import fr.univlille.info.J3.chasseaumonstre.controller.MHHunterController;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.Monster;
+import fr.univlille.iutinfo.cam.player.IStrategy;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
@@ -96,7 +96,11 @@ public class MHAIView implements Observer {
                         cell.setFill(Color.web("#de1b1b3c"));
                     }
                 } else {
-                    cell.setFill(Color.WHITE);
+                    if (this.controller.getModel().getExit().equals(new Coordinate(x, y))) {
+                        cell.setFill(Color.GREEN);
+                    } else {
+                        cell.setFill(Color.WHITE);
+                    }
                 }
                 
                 if (this.controller.getModel().getMonster().getCoord().equals(new Coordinate(x, y))) {
@@ -140,8 +144,8 @@ public class MHAIView implements Observer {
 
     /*
      * Reçoit une notification du modèle principal,
-     * obj étant soit des coordonnées, soit une chaîne de caractères "WIN".
-     * Si obj est une chaîne de caractères "WIN", on affiche une alerte de victoire.
+     * obj étant soit des coordonnées, soit une stratégie.
+     * Si obj est une stratégie, on affiche une alerte de victoire.
      * Sinon, on met à jour la vue.
      * 
      * @param subj : le sujet
@@ -149,18 +153,12 @@ public class MHAIView implements Observer {
      */
     @Override
     public void update(Subject subj, Object obj) {
-        if (obj.equals("WIN")) {
+        if (obj instanceof IStrategy) {
             if (subj instanceof Monster) {
                 controller.monsterWinAlert();
             } else {
-                controller.winAlert();
+                controller.hunterWinAlert();
             }
-        } else {
-            if (subj instanceof Monster) {
-                controller.getModel().getHunter().play();
-            } else {
-                controller.getModel().getMonster().play();
-            }
-        }
+        } 
     }
 }

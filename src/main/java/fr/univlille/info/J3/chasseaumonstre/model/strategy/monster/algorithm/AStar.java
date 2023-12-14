@@ -57,7 +57,6 @@ public class AStar implements Algorithm {
         if (entry == null || exit == null || maze == null) {
             return null;
         }
-        System.out.println(entry +" "+ exit +" "+ maze);
         time = System.currentTimeMillis();
 
         PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingInt(Node::getFScore));

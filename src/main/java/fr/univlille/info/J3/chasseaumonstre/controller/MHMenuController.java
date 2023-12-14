@@ -270,6 +270,7 @@ public class MHMenuController  {
             model.getHunter().setAi(hunterAI);
             MHAIController aiController = new MHAIController(stage, model);
             MHAIView aiView = new MHAIView(stage, aiController);
+            aiController.setView(aiView);
             aiView.render();
         } else if (monsterAI) {
             model.getMonster().setAi(monsterAI);
