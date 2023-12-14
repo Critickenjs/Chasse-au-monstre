@@ -23,6 +23,8 @@ import java.io.IOException;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.views.JVJView;
+import fr.univlille.info.J3.chasseaumonstre.views.MHHunterView;
+import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
 
 /*
  * Classe représentant le contrôleur du menu principal
@@ -53,6 +55,8 @@ public class MHMenuController  {
 
     private Stage stage;
     private MonsterHunterModel model;
+    private MHHunterView hunterView;
+    private MHMonsterView monsterView;
 
     public MHMenuController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
@@ -73,7 +77,6 @@ public class MHMenuController  {
             JVJController controller = new JVJController(stage, model);
             new JVJView(stage, controller);
         });
-       
     }
 
     /*
@@ -82,8 +85,7 @@ public class MHMenuController  {
     @FXML
     private void onHunterVAi() {
         cviBtn.setOnMouseClicked(e -> {
-            JVJController controller = new JVJController(stage, model, false, true);
-            new JVJView(stage, controller);
+            startGame(false, true);
         });
     }
 
@@ -93,8 +95,7 @@ public class MHMenuController  {
     @FXML
     private void onMonsterVAi() {
         mviBtn.setOnMouseClicked(e -> {
-            JVJController controller = new JVJController(stage, model, true, false);
-            new JVJView(stage, controller);
+            startGame(true, false);
         });
     }
 
@@ -247,6 +248,29 @@ public class MHMenuController  {
         stageParameter.initModality(Modality.WINDOW_MODAL);
 
         stageParameter.show();
+    }
+
+    private void startGame(boolean hunterAI, boolean monsterAI) {
+        MHMonsterController mc = new MHMonsterController(stage, model);
+        this.monsterView = new MHMonsterView(stage, mc);
+        mc.setMonsterView(monsterView);
+        MHHunterController hc = new MHHunterController(stage, model);
+        this.hunterView = new MHHunterView(stage, hc);
+        hc.setHunterView(this.hunterView);
+        mc.setHunterView(hunterView);
+        hc.setMonsterView(monsterView);
+        mc.setMonsterView(monsterView);
+        model.initialize();
+        if (monsterAI){
+            model.getMonster().setAi(monsterAI);
+            this.hunterView.render();
+        } else if (hunterAI){
+            model.getHunter().setAi(hunterAI);
+            model.getHunter().play();
+            this.monsterView.render();
+        } else {
+            this.hunterView.render();
+        }
     }
 
     /*
