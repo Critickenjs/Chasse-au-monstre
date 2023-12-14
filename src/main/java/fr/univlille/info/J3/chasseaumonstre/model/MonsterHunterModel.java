@@ -209,17 +209,16 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         Coordinate coordinates = (Coordinate)data;
         if (subj instanceof Monster) {
             if (coordinates.equals(exit)) {
-                this.notifyObservers("WIN");
+                this.notifyObservers(monster);
             } else {
                 this.notifyObservers(coordinates);
                 if (monster.isAi()){
-                    System.out.println("AI");
                     nextTurn();
                 }
             }
         } else {
             if (coordinates.equals(getMonster().getCoord())) {
-                this.notifyObservers("WIN");
+                this.notifyObservers(hunter);
             } else {
                 this.notifyObservers(coordinates);
             }
