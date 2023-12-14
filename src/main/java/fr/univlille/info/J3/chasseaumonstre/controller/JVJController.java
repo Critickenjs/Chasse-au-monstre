@@ -3,11 +3,11 @@ package fr.univlille.info.J3.chasseaumonstre.controller;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.views.MHHunterView;
+import fr.univlille.info.J3.chasseaumonstre.views.MHMenuView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -22,14 +22,17 @@ import javafx.stage.Stage;
  * @author Yliess El Atifi
  */
 public class JVJController {
-    
+
     @FXML
     private Button startGameButton;
-    
+
     @FXML
-    private TextField j1; 
+    private TextField j1;
     @FXML
-    private TextField j2; 
+    private TextField j2;
+
+    @FXML
+    private Button btnReturn;
 
     private Stage stage;
     private MonsterHunterModel model;
@@ -50,11 +53,15 @@ public class JVJController {
     }
 
     /*
-     * Configure la partie, les vues/contrôleurs et lance la partie en affichant la vue du chasseur.
+     * Configure la partie, les vues/contrôleurs et lance la partie en affichant la
+     * vue du chasseur.
      * 
      * @see chasseaumonstre.views.MHHunterView
+     * 
      * @see chasseaumonstre.views.MHMonsterView
+     * 
      * @see chasseaumonstre.controller.MHHunterController
+     * 
      * @see chasseaumonstre.controller.MHMonsterController
      */
     private void startGame() {
@@ -89,19 +96,26 @@ public class JVJController {
     @FXML
     private void startGameButton() {
         startGameButton.setOnMouseClicked(e -> {
-                if (j1.getText().isEmpty()) {
-                    j1.setStyle("-fx-border-color: red");
-                    return;
-                }
-                j1.setStyle("-fx-border-color: none");
-                if (j2.getText().isEmpty()) {
-                    j2.setStyle("-fx-border-color: red");
-                    return;
-                }
-                j2.setStyle("-fx-border-color: none");
+            if (arePlayerNamesSet()) {
                 startGame();
-    });
+            }
+        });
+    }
 
+    private boolean arePlayerNamesSet() {
+        if (j1.getText().isEmpty()) {
+            j1.setStyle("-fx-border-color: red");
+            return false;
+        }
+        j1.setStyle("-fx-border-color: none");
+
+        if (j2.getText().isEmpty()) {
+            j2.setStyle("-fx-border-color: red");
+            return false;
+        }
+        j2.setStyle("-fx-border-color: none");
+
+        return true;
     }
 
     /*
@@ -110,12 +124,26 @@ public class JVJController {
      */
     @FXML
     private void startGame(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            startGame();
+        switch (event.getCode()) {
+            case ENTER:
+                if (arePlayerNamesSet()) {
+                    startGame();
+                }
+                break;
+            case BACK_SPACE:
+                returnToMenu();
+            default:
+                break;
         }
     }
+
+    @FXML
+    private void returnToMenu() {
+        new MHMenuView(stage, new MHMenuController(stage, model));
+    }
+
     public void initialize() {
         UtilsController.hovereffect(startGameButton);
-        
+        UtilsController.hovereffect(btnReturn);
     }
 }
