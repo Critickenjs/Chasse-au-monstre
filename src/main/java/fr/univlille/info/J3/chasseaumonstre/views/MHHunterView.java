@@ -72,7 +72,6 @@ public class MHHunterView implements Observer {
     }
 
     private void draw() {
-
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();
 
@@ -100,6 +99,8 @@ public class MHHunterView implements Observer {
                             text.setText("" + visitedTurn);
                         }
                     }
+                    this.maze.getChildren().remove(stack);
+                    this.maze.add(stack, cellX, cellY);
                 });
 
                 if (this.controller.getModel().getHunter().hasShot(x, y)) {
@@ -161,7 +162,6 @@ public class MHHunterView implements Observer {
      */
     @Override
     public void update(Subject subj, Object obj) {
-        System.out.println(subj + " " + obj);
         if (obj.equals("WIN")) {
             if (subj instanceof Monster) {
                 controller.monsterWinAlert();

@@ -92,7 +92,10 @@ public class MHMenuController  {
      */
     @FXML
     private void onMonsterVAi() {
-        
+        mviBtn.setOnMouseClicked(e -> {
+            JVJController controller = new JVJController(stage, model, true, false);
+            new JVJView(stage, controller);
+        });
     }
 
     /*
