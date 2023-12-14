@@ -66,6 +66,7 @@ public class MazeValidator {
     public boolean isValid() {
         List<ICoordinate> astar = new AStar(this.getEntrance(), this.getExit(), this.mazeGenerator.toBoolean()).execute();
         this.initializeVisited();
+        System.out.println(astar);
         if(astar == null) {
             return false;
         }

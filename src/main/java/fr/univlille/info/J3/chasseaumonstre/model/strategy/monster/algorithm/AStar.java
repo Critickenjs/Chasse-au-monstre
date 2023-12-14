@@ -48,11 +48,6 @@ public class AStar implements Algorithm {
     }
 
     @Override
-    public double getTime() {
-        return time;
-    }
-
-    @Override
     public List<ICoordinate> execute() {
         if (entry == null || exit == null || maze == null) {
             return null;
@@ -64,29 +59,33 @@ public class AStar implements Algorithm {
         Map<ICoordinate, Integer> gScore = new HashMap<>();
         Map<ICoordinate, ICoordinate> cameFrom = new HashMap<>();
 
-        openSet.offer(new Node(entry, 0, heuristicCost(entry, exit)));
-        gScore.put(entry, 0);
+        try {
+            openSet.offer(new Node(entry, 0, heuristicCost(entry, exit)));
+            gScore.put(entry, 0);
 
-        while (!openSet.isEmpty()) {
-            Node current = openSet.poll();
+            while (!openSet.isEmpty()) {
+                Node current = openSet.poll();
 
-            if (current.getCoordinate().equals(exit)) {
-                time = System.currentTimeMillis() - time;
-                return reconstructPath(cameFrom, current.getCoordinate());
-            }
+                if (current.getCoordinate().equals(exit)) {
+                    time = System.currentTimeMillis() - time;
+                    return reconstructPath(cameFrom, current.getCoordinate());
+                }
 
-            for (ICoordinate neighbor : getNeighbors(current.getCoordinate())) {
-                int tentativeGScore = gScore.getOrDefault(current.getCoordinate(), Integer.MAX_VALUE) + 1;
+                for (ICoordinate neighbor : getNeighbors(current.getCoordinate())) {
+                    int tentativeGScore = gScore.getOrDefault(current.getCoordinate(), Integer.MAX_VALUE) + 1;
 
-                if (tentativeGScore < gScore.getOrDefault(neighbor, Integer.MAX_VALUE)) {
-                    cameFrom.put(neighbor, current.getCoordinate());
-                    gScore.put(neighbor, tentativeGScore);
+                    if (tentativeGScore < gScore.getOrDefault(neighbor, Integer.MAX_VALUE)) {
+                        cameFrom.put(neighbor, current.getCoordinate());
+                        gScore.put(neighbor, tentativeGScore);
 
-                    int fScore = tentativeGScore + heuristicCost(neighbor, exit);
-                    Node neighborNode = new Node(neighbor, tentativeGScore, fScore);
-                    openSet.offer(neighborNode);
+                        int fScore = tentativeGScore + heuristicCost(neighbor, exit);
+                        Node neighborNode = new Node(neighbor, tentativeGScore, fScore);
+                        openSet.offer(neighborNode);
+                    }
                 }
             }
+        } catch (OutOfMemoryError e) {
+            return null;
         }
 
         time = System.currentTimeMillis() - time;
@@ -142,5 +141,13 @@ public class AStar implements Algorithm {
 
         return neighbors;
     }
+
+    @Override
+    public double getTime() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTime'");
+    }
+
+    
 
 }
