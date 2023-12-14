@@ -23,6 +23,7 @@ import java.io.IOException;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.views.JVJView;
+import fr.univlille.info.J3.chasseaumonstre.views.MHAIView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHHunterView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
 
@@ -104,6 +105,9 @@ public class MHMenuController  {
      */
     @FXML
     private void onAiVAi() {
+        iviBtn.setOnMouseClicked(e -> {
+            startGame(true, true);
+        });
     }
 
     private void loadLabyrinth() {
@@ -261,7 +265,13 @@ public class MHMenuController  {
         hc.setMonsterView(monsterView);
         mc.setMonsterView(monsterView);
         model.initialize();
-        if (monsterAI){
+        if (monsterAI && hunterAI) {
+            model.getMonster().setAi(monsterAI);
+            model.getHunter().setAi(hunterAI);
+            MHAIController aiController = new MHAIController(stage, model);
+            MHAIView aiView = new MHAIView(stage, aiController);
+            aiView.render();
+        } else if (monsterAI) {
             model.getMonster().setAi(monsterAI);
             this.hunterView.render();
         } else if (hunterAI){
