@@ -63,7 +63,7 @@ public class AStar implements Algorithm {
             openSet.offer(new Node(entry, 0, heuristicCost(entry, exit)));
             gScore.put(entry, 0);
 
-            while (!openSet.isEmpty()) {
+            while (!openSet.isEmpty() && openSet.size() < this.maze.length * this.maze[0].length) {
                 Node current = openSet.poll();
 
                 if (current.getCoordinate().equals(exit)) {
