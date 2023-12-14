@@ -52,6 +52,8 @@ public class MHMenuController  {
     private Button iviBtn;
     @FXML
     private Button parametres;
+    @FXML
+    private Button quitter;
 
     private Stage stage;
     private MonsterHunterModel model;
@@ -250,6 +252,11 @@ public class MHMenuController  {
         stageParameter.show();
     }
 
+    @FXML
+    private void onQuit() {
+        this.stage.close();
+    }
+
     private void startGame(boolean hunterAI, boolean monsterAI) {
         MHMonsterController mc = new MHMonsterController(stage, model);
         this.monsterView = new MHMonsterView(stage, mc);
@@ -284,6 +291,7 @@ public class MHMenuController  {
         UtilsController.hovereffect(mviBtn);
         UtilsController.hovereffect(iviBtn);
         UtilsController.hovereffect(parametres);
+        UtilsController.hovereffect(quitter);
     }
     
 }
