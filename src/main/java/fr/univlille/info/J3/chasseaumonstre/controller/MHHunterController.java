@@ -59,7 +59,6 @@ public class MHHunterController extends MHPlayerController {
         if (model.getMonster().isAi()) {
             this.model.getMonster().play();
             this.hunterView.render();
-            this.model.nextTurn();
         } else {
             this.monsterView.render();
         }

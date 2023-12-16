@@ -76,8 +76,13 @@ public class MHMonsterController extends MHPlayerController {
     @FXML
     public void onSkipTurn() {
         moved = false;
-        this.model.nextTurn();
-        this.hunterView.render();
+        if (model.getHunter().isAi()) {
+            this.model.getHunter().play();
+            this.monsterView.render();
+        } else {
+            this.hunterView.render();
+        }
+        model.nextTurn();
     }
 
     /*

@@ -6,14 +6,19 @@ import java.util.List;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.views.GameEndView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHHunterView;
+import fr.univlille.info.J3.chasseaumonstre.views.MHMenuView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -29,6 +34,9 @@ import javafx.stage.Stage;
  * @author Yliess El Atifi
  */
 public abstract class MHPlayerController {
+    @FXML
+    protected HBox contentMain;
+
     @FXML
     protected VBox contentV;
 
@@ -101,12 +109,50 @@ public abstract class MHPlayerController {
     public GameEndView getGameEndView() {
         return this.gameEndView;
     }
+    
+    @FXML
+    private void onKeyPressedContentMain(KeyEvent event) {
+        if (event.getCode() == KeyCode.ESCAPE) {
+            pauseMenu();
+        }
+    }
+
+    private void pauseMenu() {
+        Stage stagePauseMenu = new Stage();
+
+        VBox vbox = new VBox();
+
+        Label title = new Label("Pause");
+
+        Button resume = new Button("Resume");
+        Button backtoMenu = new Button("Back to menu");
+
+        resume.setOnAction(e -> {
+            stagePauseMenu.close();
+        });
+
+        backtoMenu.setOnAction(e -> {
+            stagePauseMenu.close();
+            new MHMenuView(stage, new MHMenuController(stage, model));
+        });
+
+        vbox.getChildren().addAll(title, resume, backtoMenu);
+
+        Scene scene = new Scene(vbox, 120, 100);
+        stagePauseMenu.setScene(scene);
+        stagePauseMenu.setResizable(false);
+        stagePauseMenu.initOwner(this.stage);
+        stagePauseMenu.initModality(javafx.stage.Modality.WINDOW_MODAL);
+
+        stagePauseMenu.show();
+    }
 
     /*
      * Met à jour l'historique des actions
      */
     protected void updateHistory() {
-        Label action = new Label("Tour : " + model.getTurn() + "\n" + alertHeader.getText() + "\n" + alertBody.getText());
+        Label action = new Label(
+                "Tour : " + model.getTurn() + "\n" + alertHeader.getText() + "\n" + alertBody.getText());
         action.setTextFill(alertHeader.getTextFill());
         alerts.add(action);
         if(this instanceof MHMonsterController)
@@ -115,8 +161,8 @@ public abstract class MHPlayerController {
             gameEndView.setHunterHistory(alerts);
 
         showHistory();
-    }    
-    
+    }
+
     /*
      * Définit la vue du monstre
      * 
