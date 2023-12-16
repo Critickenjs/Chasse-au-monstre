@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
+import fr.univlille.info.J3.chasseaumonstre.views.GameEndView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHHunterView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
 import javafx.fxml.FXML;
@@ -58,6 +59,7 @@ public abstract class MHPlayerController {
     protected List<Label> alerts;
     protected MHMonsterView monsterView;
     protected MHHunterView hunterView;
+    protected GameEndView gameEndView;
 
     public MHPlayerController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
@@ -92,6 +94,14 @@ public abstract class MHPlayerController {
         return this.contentV;
     }
 
+    public VBox getContentAlerts() {
+        return this.contentAlerts;
+    }
+
+    public GameEndView getGameEndView() {
+        return this.gameEndView;
+    }
+
     /*
      * Met à jour l'historique des actions
      */
@@ -99,6 +109,10 @@ public abstract class MHPlayerController {
         Label action = new Label("Tour : " + model.getTurn() + "\n" + alertHeader.getText() + "\n" + alertBody.getText());
         action.setTextFill(alertHeader.getTextFill());
         alerts.add(action);
+        if(this instanceof MHMonsterController)
+            gameEndView.setMonsterHistory(alerts);
+        if(this instanceof MHHunterController)
+            gameEndView.setHunterHistory(alerts);
 
         showHistory();
     }    
@@ -130,6 +144,10 @@ public abstract class MHPlayerController {
         for (Label action : alerts) {
             contentAlerts.getChildren().addAll(action, new Separator());
         }
+    }
+
+    public void setGameEndView(GameEndView gameEndView) {
+        this.gameEndView = gameEndView;
     }
     
     /*

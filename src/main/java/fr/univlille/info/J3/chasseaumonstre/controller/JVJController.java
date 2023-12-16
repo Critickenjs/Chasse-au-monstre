@@ -2,6 +2,7 @@ package fr.univlille.info.J3.chasseaumonstre.controller;
 
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
+import fr.univlille.info.J3.chasseaumonstre.views.GameEndView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHHunterView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHMenuView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
@@ -38,6 +39,7 @@ public class JVJController {
     private MonsterHunterModel model;
     private MHHunterView hunterView;
     private MHMonsterView monsterView;
+    private GameEndView gameEndView;
     private boolean hunterAI, monsterAI;
 
     public JVJController(Stage stage, MonsterHunterModel model) {
@@ -76,6 +78,16 @@ public class JVJController {
         mc.setHunterView(hunterView);
         hc.setMonsterView(monsterView);
         mc.setMonsterView(monsterView);
+
+        GameEndController gc = new GameEndController(stage, model);
+        this.gameEndView = new GameEndView(stage, gc);
+        gc.setGameEndView(gameEndView);
+        gc.setHunterView(hunterView);
+        gc.setMonsterView(monsterView);
+
+        hc.setGameEndView(gameEndView);
+        mc.setGameEndView(gameEndView);
+        
         model.initialize();
         if (monsterAI)
             model.getMonster().setAi(monsterAI);

@@ -131,6 +131,7 @@ public class MHMonsterView implements Observer {
 
                 stack.getChildren().addAll(cell, text);
                 this.maze.add(stack, x, y);
+                controller.getGameEndView().setMonsterMaze(maze);
             }
         }
     }

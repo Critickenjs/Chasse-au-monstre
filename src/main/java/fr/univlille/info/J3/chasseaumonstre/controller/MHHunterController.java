@@ -1,10 +1,8 @@
 package fr.univlille.info.J3.chasseaumonstre.controller;
 
-import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -171,7 +169,7 @@ public class MHHunterController extends MHPlayerController {
      * Retourne au menu principal lorsque la fenêtre est fermée
      */
     protected void alertOnClose() {
-        Platform.runLater(() -> {
+        /*Platform.runLater(() -> {
             try {
                 new App().start(new Stage());
                 this.stage.close();
@@ -179,6 +177,7 @@ public class MHHunterController extends MHPlayerController {
                 e.printStackTrace();
                 System.out.println(e.getMessage());
             }
-        });
+        }); */
+        gameEndView.render();
     }
 }
