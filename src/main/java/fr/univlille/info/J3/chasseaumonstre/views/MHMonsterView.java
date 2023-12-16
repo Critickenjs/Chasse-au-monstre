@@ -159,7 +159,6 @@ public class MHMonsterView implements Observer {
      */
     @Override
     public void update(Subject subj, Object obj) {
-        System.out.println(subj + " " + obj);
         if (obj instanceof IStrategy) {
             if (obj instanceof Monster) {
                 controller.winAlert();

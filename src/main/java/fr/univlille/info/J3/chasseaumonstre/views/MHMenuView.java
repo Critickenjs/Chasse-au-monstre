@@ -31,6 +31,7 @@ public class MHMenuView {
             Scene scene = new Scene(loader.load(), 1080, 600);
             this.stage.setTitle("Chasse au Monstre");
             this.stage.setScene(scene);
+            stage.centerOnScreen();
             this.stage.show();
         } catch (IOException e) {
             System.out.println(e);
