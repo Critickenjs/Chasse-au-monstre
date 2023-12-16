@@ -135,6 +135,7 @@ public class MazeGenerator {
     public Coordinate getExitCoordinate() {
         return exitCoordinate;
     }
+    
 
     public int getEntranceRow() { 
         return getEntranceCoordinate().getRow();
