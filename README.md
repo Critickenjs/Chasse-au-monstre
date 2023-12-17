@@ -12,7 +12,7 @@ Jeu vidéo graphique basé sur JavaFX, où l'on incarne un chasseur ou un monstr
 
 #### Lancement de l'application
 
-Décompressez le fichier 'ChasseAuMonstre.zip' et à l'intérieur du dossier décompressé éxecutez cette commande:
+Décompressez le fichier 'ChasseAuMonstre-V2.zip' (dernière version du jeu) dans le répertoire 'releases' et à l'intérieur du fichier décompressé éxecutez cette commande:
 
 ```
 java --module-path [CHEMIN_ABSOLU_VERS_LE_DOSSIER_LIB_DE_JAVAFX] --add-modules javafx.controls,javafx.fxml,javafx.media -jar ChasseAuMonstre.jar
