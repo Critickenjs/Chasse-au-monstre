@@ -196,7 +196,7 @@ public class MHMonsterController extends MHPlayerController {
     }
 
     /*
-     * Alerte le joueur que le monstre a gagné
+     * Alerte le joueur qu'il a atteint la sortie et a gagné
      */
     public void monsterWinAlert() {
         this.winAlert.setTitle("Victoire du MONSTRE");
@@ -207,6 +207,9 @@ public class MHMonsterController extends MHPlayerController {
         alertOnClose();
     }
 
+    /*
+     * Alerte le joueur qu'il a été tué et que le chasseur a gagné
+     */
     public void hunterWinAlert() {
         UtilsController.playSound(UtilsController.MONSTERKILL_SOUND_PATH, VOLUME);
         this.winAlert.setTitle("Victoire du CHASSEUR");

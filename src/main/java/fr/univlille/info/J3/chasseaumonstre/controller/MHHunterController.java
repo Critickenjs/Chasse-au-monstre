@@ -157,6 +157,9 @@ public class MHHunterController extends MHPlayerController {
         alertOnClose();
     }
 
+    /*
+     * Alerte le joueur que le monstre a atteint la sortie et qu'il a gagné
+     */
     public void monsterWinAlert() {
         this.winAlert.setTitle("Victoire du MONSTRE");
         this.winAlert.setHeaderText(null);
