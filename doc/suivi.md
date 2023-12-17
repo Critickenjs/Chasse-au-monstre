@@ -154,7 +154,7 @@
 - Suppression de l'affichage de débogage dans la méthode isValid() de MazeValidator.
 
 **Selim Hamza** :
-- Aucune contribution enregistrée cette semaine.
+- Ajout de l'archive JAR du jeu
 
 **Yliess El atifi** : 
 - Suite de l'implementation de a*
