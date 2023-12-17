@@ -196,7 +196,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     
     /*
      * Notification reçue par Monster ou Hunter, qui notifie les vues
-     * avec les coordonnées du joueur qui a joué, ou "WIN" si le joueur a gagné
+     * avec les coordonnées du joueur qui a joué, ou le joueur qui a gagné
      * 
      * @param subj le sujet qui a notifié
      * @param data les données envoyées par le sujet
@@ -209,17 +209,16 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         Coordinate coordinates = (Coordinate)data;
         if (subj instanceof Monster) {
             if (coordinates.equals(exit)) {
-                this.notifyObservers("WIN");
+                this.notifyObservers(monster);
             } else {
                 this.notifyObservers(coordinates);
                 if (monster.isAi()){
-                    System.out.println("AI");
                     nextTurn();
                 }
             }
         } else {
             if (coordinates.equals(getMonster().getCoord())) {
-                this.notifyObservers("WIN");
+                this.notifyObservers(hunter);
             } else {
                 this.notifyObservers(coordinates);
             }

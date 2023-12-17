@@ -195,11 +195,6 @@ public abstract class MHPlayerController {
     protected abstract void wallAlert(int cellX, int cellY);
 
     /*
-     * Alerte le joueur ayant gagné
-     */
-    protected abstract void winAlert();
-
-    /*
      * Retourne au menu principal
      */
     protected abstract void alertOnClose();

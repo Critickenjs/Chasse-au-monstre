@@ -23,6 +23,7 @@ import java.io.IOException;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.views.JVJView;
+import fr.univlille.info.J3.chasseaumonstre.views.MHAIView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHHunterView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
 
@@ -106,6 +107,9 @@ public class MHMenuController  {
      */
     @FXML
     private void onAiVAi() {
+        iviBtn.setOnMouseClicked(e -> {
+            startGame(true, true);
+        });
     }
 
     private void loadLabyrinth() {
@@ -258,20 +262,39 @@ public class MHMenuController  {
     }
 
     private void startGame(boolean hunterAI, boolean monsterAI) {
-        MHMonsterController mc = new MHMonsterController(stage, model);
-        this.monsterView = new MHMonsterView(stage, mc);
-        mc.setMonsterView(monsterView);
-        MHHunterController hc = new MHHunterController(stage, model);
-        this.hunterView = new MHHunterView(stage, hc);
-        hc.setHunterView(this.hunterView);
-        mc.setHunterView(hunterView);
-        hc.setMonsterView(monsterView);
-        mc.setMonsterView(monsterView);
+        MHMonsterController mc = null;
+        MHHunterController hc = null;
+    
         model.initialize();
-        if (monsterAI){
+        if (!monsterAI) {
+            mc = new MHMonsterController(stage, model);
+            this.monsterView = new MHMonsterView(stage, mc);
+            mc.setMonsterView(this.monsterView);
+        }
+
+        if (!hunterAI) {
+            hc = new MHHunterController(stage, model);
+            this.hunterView = new MHHunterView(stage, hc);
+            hc.setHunterView(this.hunterView);
+            hc.setMonsterView(this.monsterView);
+        }
+
+        if (mc != null) {
+            mc.setHunterView(this.hunterView);
+        }
+        
+        if (monsterAI && hunterAI) {
+            model.getMonster().setAi(monsterAI);
+            model.getHunter().setAi(hunterAI);
+    
+            MHAIController aiController = new MHAIController(stage, model);
+            MHAIView aiView = new MHAIView(stage, aiController);
+            aiController.setView(aiView);
+            aiView.render();
+        } else if (monsterAI) {
             model.getMonster().setAi(monsterAI);
             this.hunterView.render();
-        } else if (hunterAI){
+        } else if (hunterAI) {
             model.getHunter().setAi(hunterAI);
             model.getHunter().play();
             this.monsterView.render();
@@ -279,6 +302,7 @@ public class MHMenuController  {
             this.hunterView.render();
         }
     }
+    
 
     /*
      * Initialise le contrôleur, affiche le fond d'écran et initialise le style des boutons

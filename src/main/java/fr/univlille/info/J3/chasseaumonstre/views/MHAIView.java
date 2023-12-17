@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import SubjectObserver.Observer;
 import SubjectObserver.Subject;
-import fr.univlille.info.J3.chasseaumonstre.controller.MHHunterController;
+import fr.univlille.info.J3.chasseaumonstre.controller.MHAIController;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
-import fr.univlille.iutinfo.cam.player.IStrategy;
+import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -31,13 +32,18 @@ import javafx.stage.Stage;
  * @autor Selim Hamza
  * @autor Yliess El Atifi
  */
-public class MHHunterView implements Observer {
+public class MHAIView implements Observer {
     private Stage stage;
-    private MHHunterController controller;
+    private MHAIController controller;
     private GridPane maze;
     private static final String HUNTER_CROSSHAIR_PATH = "https://media.discordapp.net/attachments/1159749679353974806/1169753431930572870/7506753.png?ex=65568cc7&is=654417c7&hm=c5381360ebf9dcac106f92196dfa1e036710f61740b72c980cae199d8e0b395f&=";
-    
-    public MHHunterView(Stage stage, MHHunterController controller) {
+    private Image otherImage = new Image("https://media.tenor.com/dPsOXgYjb30AAAAi/pixel-pixelart.gif");
+    private ImagePattern patternInRectangle = new ImagePattern(otherImage);
+    private Image mur = new Image(
+            "https://cdn.discordapp.com/attachments/1159749679353974806/1172539649072304219/image.png?ex=6560afa5&is=654e3aa5&hm=d18c0f8879f791c7bad3e76b97cd6ba430b24b9c24f0dfa9961c83bce50174b6&");
+    private ImagePattern wall = new ImagePattern(mur);
+
+    public MHAIView(Stage stage, MHAIController controller) {
         // Fenêtre
         this.stage = stage;
         this.controller = controller;
@@ -62,7 +68,7 @@ public class MHHunterView implements Observer {
             Image image = new Image(HUNTER_CROSSHAIR_PATH);
             scene.setCursor(new ImageCursor(image));
                     
-            stage.setTitle("Tour du Chasseur");
+            stage.setTitle("IA contre IA");
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.show();
@@ -82,40 +88,27 @@ public class MHHunterView implements Observer {
                 cell.setStroke(Color.BLACK);
                 Text text = new Text();
 
-                cell.setOnMouseClicked(e -> {
-                    if (this.controller.hasShot()) {
-                        return;
-                    }
-                    int cellX = GridPane.getColumnIndex(stack);
-                    int cellY = GridPane.getRowIndex(stack);
-                    
-                    if (controller.handleShot(cellX, cellY)) {
-                        cell.setFill(Color.web("#1bde243c"));
-                    } else {
-                        cell.setFill(Color.web("#de1b1b3c"));
-                        if (this.controller.getModel().getMonster().isVisited(cellX, cellY)) {
-                            int visitedTurn = this.controller.getModel().getMonster().getVisitedTurn(cellX, cellY);
-                            this.controller.getModel().getHunter().setVisited(cellX, cellY, visitedTurn);
-                            text.setText("" + visitedTurn);
-                        }
-                    }
-                    this.maze.getChildren().remove(stack);
-                    this.maze.add(stack, cellX, cellY);
-                });
-
-                if (this.controller.getModel().getHunter().hasShot(x, y)) {
-                    if (!this.controller.getModel().getMaze()[x][y]) {
+                if (!this.controller.getModel().getMaze()[x][y]) {
+                    cell.setFill(wall);
+                    if (controller.getModel().getHunter().hasShot(x, y)) {
                         cell.setFill(Color.web("#a8a8a8"));
-                    } else {
-                        cell.setFill(Color.web("#de1b1b3c"));
-                        if (this.controller.getModel().getHunter().isVisited(x, y) && (this.controller.getModel().getHunter().getVisitedTurn(x,y)>= 0)) {
-                            text.setText("" + this.controller.getModel().getHunter().getVisitedTurn(x,y));
-                        }
                     }
                 } else {
-                    cell.setFill(Color.WHITE);
+                    if (this.controller.getModel().getExit().equals(new Coordinate(x, y))) {
+                        cell.setFill(Color.GREEN);
+                    } else {
+                        if (controller.getModel().getHunter().hasShot(x, y)) {
+                            cell.setFill(Color.web("#de1b1b3c"));
+                        } else {
+                            cell.setFill(Color.WHITE);
+                        }
+                    }
                 }
-                
+
+                if (this.controller.getModel().getMonster().getCoord().equals(new Coordinate(x, y))) {
+                    cell.setFill(patternInRectangle);
+                } 
+
                 stack.getChildren().addAll(cell,text);
                 this.maze.add(stack, x, y);
             }
@@ -152,27 +145,24 @@ public class MHHunterView implements Observer {
     }
 
     /*
-     * Reçoit une notification du modèle principal, par défaut MHMonsterView implémente cette méthode,
-     * sauf si le monstre est une IA.
-     * Si l'objet est une stratégie, on affiche une alerte de victoire.
+     * Reçoit une notification du modèle principal,
+     * obj étant soit des coordonnées, soit une stratégie.
+     * Si obj est une stratégie, on affiche une alerte de victoire.
      * Sinon, on met à jour la vue.
      * 
      * @param subj : le sujet
-     * @param obj : soit des coordonnées, soit une stratégie.
-     * @see Observer
+     * @param obj : l'objet
      */
     @Override
     public void update(Subject subj, Object obj) {
-        if (controller.getModel().getMonster().isAi()) {
-            if (obj instanceof IStrategy) {
-                if (controller.getModel().getMonster().equals(obj)) {
-                    controller.monsterWinAlert();
-                } else {
-                    controller.hunterWinAlert();
-                }
+        /*
+        if (obj instanceof IStrategy) {
+            if (obj instanceof Monster) {
+                controller.monsterWinAlert();
             } else {
-                this.update();
+                controller.hunterWinAlert();
             }
-        }
+        } 
+        */
     }
 }

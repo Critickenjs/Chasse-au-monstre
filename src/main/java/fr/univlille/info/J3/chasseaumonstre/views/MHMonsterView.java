@@ -7,7 +7,6 @@ import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.controller.MHMonsterController;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
-import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.Monster;
 import fr.univlille.iutinfo.cam.player.IStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 import javafx.fxml.FXMLLoader;
@@ -150,8 +149,8 @@ public class MHMonsterView implements Observer {
 
     /*
      * Reçoit une notification du modèle principal,
-     * obj étant soit des coordonnées, soit une chaîne de caractères "WIN".
-     * Si obj est une chaîne de caractères "WIN", on affiche une alerte de victoire.
+     * obj étant soit des coordonnées, soit une stratégie.
+     * Si obj est une stratégie, on affiche une alerte de victoire.
      * Sinon, on met à jour la vue.
      * 
      * @param subj : le sujet
@@ -160,8 +159,8 @@ public class MHMonsterView implements Observer {
     @Override
     public void update(Subject subj, Object obj) {
         if (obj instanceof IStrategy) {
-            if (obj instanceof Monster) {
-                controller.winAlert();
+            if (controller.getModel().getMonster().equals(obj)) {
+                controller.monsterWinAlert();
             } else {
                 controller.hunterWinAlert();
             }
