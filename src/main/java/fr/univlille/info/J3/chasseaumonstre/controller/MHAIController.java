@@ -87,7 +87,7 @@ public class MHAIController extends MHPlayerController {
     }
     
     /*
-     * Alerte le joueur que le monstre a été tué et qu'il a gagné
+     * Alerte le joueur que le monstre a été tué et que le chasseur a gagné
      */
     public void hunterWinAlert() {
         Platform.runLater(() -> {
@@ -101,6 +101,9 @@ public class MHAIController extends MHPlayerController {
         });
     }
 
+    /*
+     * Alerte le joueur que le monstre a atteint la sortie et a gagné
+     */
     public void monsterWinAlert() {
         Platform.runLater(() -> {
             this.winAlert.setTitle("Victoire du MONSTRE");
@@ -112,14 +115,26 @@ public class MHAIController extends MHPlayerController {
         });
     }
 
+    /*
+     * Alerte lorsque la case touchée est un mur (vide car IA)
+     */
     public void wallAlert(int x, int y) {
 
     }
 
+    /*
+     * Alerte lorsque la case touchée est un chemin (vide car IA)
+     */
     public void pathAlert(int x, int y) {
         
     }
 
+    /*
+     * Gère l'action des joueurs
+     * 
+     * @param subj : le joueur qui a joué
+     * @param coordinate : la case touchée
+     */
     public void handleAction(Subject subj, ICoordinate coordinate) {
         if (subj.equals(this.model.getMonster())) {
             if (coordinate.equals(model.getExit())) {
