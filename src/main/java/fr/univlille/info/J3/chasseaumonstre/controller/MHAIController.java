@@ -137,18 +137,16 @@ public class MHAIController extends MHPlayerController {
      */
     public void handleAction(Subject subj, ICoordinate coordinate) {
         if (subj.equals(this.model.getMonster())) {
+            Platform.runLater(() -> {view.update();});
             if (coordinate.equals(model.getExit())) {
                 this.finished = true;
                 monsterWinAlert();
-            } else {
-                Platform.runLater(() -> {view.update();});
             }
         } else {
+            Platform.runLater(() -> {view.update();});
             if (coordinate.equals(model.getMonster().getCoord())) {
                 this.finished = true;
                 hunterWinAlert();
-            } else {
-                Platform.runLater(() -> {view.update();});
             }
         }
     }

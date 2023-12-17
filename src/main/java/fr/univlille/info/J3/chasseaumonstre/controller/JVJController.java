@@ -96,9 +96,8 @@ public class JVJController {
     @FXML
     private void startGameButton() {
         startGameButton.setOnMouseClicked(e -> {
-            if (arePlayerNamesSet()) {
                 startGame();
-            }
+            
         });
     }
 
@@ -107,7 +106,8 @@ public class JVJController {
      * 
      * @return true si les noms sont renseignés, false sinon
      */
-    private boolean arePlayerNamesSet() {
+    /* 
+     private boolean arePlayerNamesSet() {
         if (j1.getText().isEmpty()) {
             j1.setStyle("-fx-border-color: red");
             return false;
@@ -122,6 +122,7 @@ public class JVJController {
 
         return true;
     }
+    */
 
     /*
      * Lors d'un appui sur la touche entrée,
@@ -131,9 +132,8 @@ public class JVJController {
     private void startGame(KeyEvent event) {
         switch (event.getCode()) {
             case ENTER:
-                if (arePlayerNamesSet()) {
                     startGame();
-                }
+                
                 break;
             case BACK_SPACE:
                 returnToMenu();
