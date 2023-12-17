@@ -153,15 +153,19 @@ public class MazeGenerator {
         return n == 0;
     }
 
+    public boolean[][] toBoolean() {
+        return toBoolean(maze);
+    }
+
     /*
      * Convertit le labyrinthe en un tableau de booléens
      * 
      * @return le labyrinthe converti
      */
-    public boolean[][] toBoolean() {
-        boolean[][] labyrinth = new boolean[width][height];
-        for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++)
+    public static boolean[][] toBoolean(int[][] maze) {
+        boolean[][] labyrinth = new boolean[maze.length][maze[0].length];
+        for (int y = 0; y < maze.length; y++)
+            for (int x = 0; x < maze[0].length; x++)
                 labyrinth[x][y] = toBoolean(maze[x][y]);
         return labyrinth;
     }

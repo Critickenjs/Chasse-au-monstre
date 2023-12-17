@@ -112,7 +112,7 @@ public class AStar implements Algorithm {
             current = cameFrom.get(current);
             totalPath.add(0, current);
         }
-
+        
         return totalPath;
     }
 

@@ -16,10 +16,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @author Yliess El Atifi
  */
 public class MazeValidator {
-    private final int width;
-    private final int height;
     private int[][] maze;
-    private final boolean[][] visited;
     private MazeGenerator mazeGenerator;
 
     /*
@@ -30,10 +27,7 @@ public class MazeValidator {
      * @param maze le labyrinthe généré
      */
     public MazeValidator(MazeGenerator mazeGenerator) {
-        this.width = mazeGenerator.getWidth();
-        this.height = mazeGenerator.getHeight();
         this.maze = mazeGenerator.getMaze();
-        this.visited = new boolean[width][height];
         this.mazeGenerator = mazeGenerator;
     }
 
@@ -43,15 +37,6 @@ public class MazeValidator {
 
     public int[][] getMaze() {
         return this.maze;
-    }
-
-    /*
-     * Initialise le tableau visited à false
-     */
-    private void initializeVisited() {
-        for (int x = 0; x < width; x++)
-            for (int y = 0; y < height; y++)
-                visited[x][y] = false;
     }
 
     private Coordinate getEntrance() {
@@ -67,8 +52,15 @@ public class MazeValidator {
      * @return true si le labyrinthe contient un chemin entre l'entrée et la sortie, false sinon
      */
     public boolean isValid() {
-        List<ICoordinate> astar = new AStar(this.getEntrance(), this.getExit(), this.mazeGenerator.toBoolean()).execute();
-        this.initializeVisited();
+        return isValid(maze, getEntrance(), getExit());
+    }
+
+    public static boolean isValid(int[][] maze, Coordinate entrance, Coordinate exit) {
+        return isValid(MazeGenerator.toBoolean(maze), entrance, exit);
+    }
+
+    public static boolean isValid(boolean[][] maze, Coordinate entrance, Coordinate exit) {
+        List<ICoordinate> astar = new AStar(entrance, exit, maze).execute();
         if(astar == null) {
             return false;
         }
