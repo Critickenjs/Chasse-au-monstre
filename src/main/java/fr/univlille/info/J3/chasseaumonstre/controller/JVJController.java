@@ -102,6 +102,11 @@ public class JVJController {
         });
     }
 
+    /*
+     * Vérifie que les noms des joueurs sont renseignés
+     * 
+     * @return true si les noms sont renseignés, false sinon
+     */
     private boolean arePlayerNamesSet() {
         if (j1.getText().isEmpty()) {
             j1.setStyle("-fx-border-color: red");
@@ -142,6 +147,9 @@ public class JVJController {
         new MHMenuView(stage, new MHMenuController(stage, model));
     }
 
+    /*
+     * Initialise les effets de survol des boutons
+     */
     public void initialize() {
         UtilsController.hovereffect(startGameButton);
         UtilsController.hovereffect(btnReturn);
