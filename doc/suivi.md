@@ -142,7 +142,7 @@
 11 Décembre - 17 Décembre 2023
 
 **Karim Aoulad-Tayab** :
-- Aucune contribution enregistrée cette semaine.
+- Automatisation de l'interaction 'passage au tour suivant' pour le mode 'ia vs ia'
 
 **Anas Ouhdda** :
 - Refactorisation de la logique du jeu et correction de certains bugs.

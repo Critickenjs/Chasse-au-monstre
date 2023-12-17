@@ -44,12 +44,9 @@ public class MHAIController extends MHPlayerController {
         Thread t = new Thread(() -> {
             while(!this.finished) {
                 handleAction(this.getModel().getHunter(), this.model.getHunter().play());
+                try { Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); }
                 handleAction(this.getModel().getMonster(), this.model.getMonster().play());
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                try { Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); }
             }
         });
         t.start();
