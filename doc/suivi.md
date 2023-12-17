@@ -155,6 +155,10 @@
 
 **Selim Hamza** :
 - Ajout de l'archive JAR du jeu
+- Refactoring de la classe `MazeValidator`
+- Mise à jour des tests de la classe `MazeValidator` pour qu'ils soient plus pertinents et complets
+- Mise à jour de la javadoc pour toutes les classes du projet
+- Suppression de quelques redondances dans le code
 
 **Yliess El atifi** : 
 - Suite de l'implementation de a*
