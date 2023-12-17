@@ -47,7 +47,7 @@ public class MHMonsterController extends MHPlayerController {
      * Initialise le contrôleur, affiche le nom du monstre et initialise la zone
      */
     public void initialize() {
-        this.characterName.setText("Le Monstre \n" + this.model.getMonsterName());
+        this.characterName.setText("Le Monstre \n" + (this.model.getMonster().isAi() ? "IA" : this.model.getMonsterName()));
         this.alertHistory.setVvalue(1.0);
         Image fogImage = new Image("https://cdn.discordapp.com/attachments/1159749679353974806/1172561801574109214/fog.png?ex=6560c446&is=654e4f46&hm=179e40d2cf2e2a6cd19f72a721db7dbcba4c816b9bb6b3d26fd77ed71709df80&");
         BackgroundImage myBI = new BackgroundImage(fogImage,
