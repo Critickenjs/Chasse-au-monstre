@@ -168,10 +168,6 @@ public class AStar implements Algorithm {
 
     @Override
     public double getTime() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTime'");
+        return time;
     }
-
-    
-
 }
