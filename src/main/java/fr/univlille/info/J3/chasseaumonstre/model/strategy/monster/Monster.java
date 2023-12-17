@@ -81,6 +81,12 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.ai = ai;
     }
 
+    /*
+     * Exécute l'algorithme de recherche de chemin
+     * 
+     * @see Algorithm
+     * @see AStar
+     */
     private void executeAlgorithm() {
         Algorithm algorithm = new AStar(this.entry, this.exit, this.maze);
         this.path = algorithm.execute();
@@ -297,6 +303,9 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.visitedTurn = (Integer[][])ois.readObject();
     }
 
+    /*
+     * Test d'exécution de l'algorithme de recherche de chemin avec représentation en ligne de commande
+     */
     public static void main(String[] args) {
         MonsterHunterModel model = new MonsterHunterModel();
         Monster monster = model.getMonster();

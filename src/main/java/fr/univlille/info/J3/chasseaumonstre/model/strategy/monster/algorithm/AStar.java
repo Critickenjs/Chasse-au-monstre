@@ -47,6 +47,11 @@ public class AStar implements Algorithm {
         return maze;
     }
 
+    /*
+     * Execute l'algorithme A*
+     * 
+     * @return la liste des coordonnées du chemin
+     */
     @Override
     public List<ICoordinate> execute() {
         if (entry == null || exit == null || maze == null) {
@@ -91,6 +96,13 @@ public class AStar implements Algorithm {
         return null;
     }
 
+    /*
+     * Reconstruit le chemin
+     * 
+     * @param cameFrom la map des coordonnées
+     * @param current la coordonnée courante
+     * @return la liste des coordonnées du chemin
+     */
     @Override
     public List<ICoordinate> reconstructPath(Map<ICoordinate, ICoordinate> cameFrom, ICoordinate current) {
         List<ICoordinate> totalPath = new ArrayList<>();
@@ -104,12 +116,25 @@ public class AStar implements Algorithm {
         return totalPath;
     }
 
+    /*
+     * Calcule le coût heuristique
+     * 
+     * @param a la coordonnée a
+     * @param b la coordonnée b
+     * @return le coût heuristique
+     */
     @Override
     public int heuristicCost(ICoordinate a, ICoordinate b) {
         // Heuristique : distance de Manhattan entre les deux points
         return Math.abs(a.getRow() - b.getRow()) + Math.abs(a.getCol() - b.getCol());
     }
 
+    /*
+     * Retourne les voisins d'une coordonnée
+     * 
+     * @param current la coordonnée courante
+     * @return la liste des voisins
+     */
     @Override
     public List<ICoordinate> getNeighbors(ICoordinate current) {
         List<ICoordinate> neighbors = new ArrayList<>();
