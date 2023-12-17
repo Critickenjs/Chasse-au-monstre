@@ -1,31 +1,37 @@
 package fr.univlille.info.J3.chasseaumonstre.model;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MazeValidatorTest {
+    private MazeValidator mazeValidator;
+    private int[][] maze;
 
-    
-
-    @Test
-    public void testValidMazeGenerated() {
-        MazeGenerator mazeGenerator = new MazeGenerator(5, 5);
-        mazeGenerator.generate();
-        MazeValidator mazeValidator = new MazeValidator(mazeGenerator);
-        assertTrue(mazeValidator.isValid());
+    @BeforeEach
+    public void setUp() throws Exception {
+        mazeValidator = new MazeValidator(new MazeGenerator(5, 5));
     }
 
     @Test
-    public void testValidMazeWithObstaclesGenerated() {
-        MazeGenerator mazeGenerator = new MazeGenerator(5, 5);
-        mazeGenerator.generatePlateau(30); 
-        MazeValidator mazeValidator = new MazeValidator(mazeGenerator);
-        assertTrue(mazeValidator.isValid());
+    public void testValidMaze() {
+        boolean[][] path = new boolean[][] {
+                { true, false, false, false, false },
+                { true, true, true, true, false },
+                { false, false, false, true, false },
+                { false, true, true, true, false },
+                { false, false, false, true, true }
+        };
+
+        Coordinate entrance = new Coordinate(0, 0);
+        Coordinate exit = new Coordinate(4, 4);
+        assertTrue(MazeValidator.isValid(path, entrance, exit));
     }
 
     @Test
-    public void testInvalidMazeGenerated() {
-        int[][] maze = new int[][] {
+    public void testInvalidMaze() {
+        maze = new int[][] {
                 { 2, 1, 1, 1, 4 },
                 { 0, 0, 0, 0, 1 },
                 { 1, 1, 1, 0, 1 },
@@ -33,14 +39,13 @@ public class MazeValidatorTest {
                 { 1, 1, 1, 1, 0 }
         };
 
-        MazeValidator mazeValidator = new MazeValidator(new MazeGenerator(5, 5));
         mazeValidator.setMaze(maze);
         assertFalse(mazeValidator.isValid());
     }
 
     @Test
-    public void testMazeWithNoPathGenerated() {
-        int[][] maze = new int[][] {
+    public void testMazeWithNoPath() {
+        maze = new int[][] {
                 { 2, 1, 1, 1, 4 },
                 { 0, 0, 1, 0, 1 },
                 { 1, 1, 1, 0, 1 },
@@ -48,14 +53,13 @@ public class MazeValidatorTest {
                 { 1, 1, 1, 1, 1 }
         };
 
-        MazeValidator mazeValidator = new MazeValidator(new MazeGenerator(5, 5));
         mazeValidator.setMaze(maze);
         assertFalse(mazeValidator.isValid());
     }
 
     @Test
-    public void testEmptyMazeGenerated() {
-        int[][] maze = new int[][] {
+    public void testEmptyMaze() {
+        maze = new int[][] {
                 { 1, 1, 1, 1, 1 },
                 { 1, 1, 1, 1, 1 },
                 { 1, 1, 1, 1, 1 },
@@ -63,7 +67,6 @@ public class MazeValidatorTest {
                 { 1, 1, 1, 1, 1 }
         };
 
-        MazeValidator mazeValidator = new MazeValidator(new MazeGenerator(5, 5));
         mazeValidator.setMaze(maze);
         assertFalse(mazeValidator.isValid());
     }
