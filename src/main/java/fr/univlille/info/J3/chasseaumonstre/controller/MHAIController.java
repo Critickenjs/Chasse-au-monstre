@@ -26,6 +26,7 @@ import javafx.stage.Stage;
  */
 public class MHAIController extends MHPlayerController {
     private final double VOLUME = 0.05;
+    private boolean finished = false;
 
     private MHAIView view;
 
@@ -39,7 +40,19 @@ public class MHAIController extends MHPlayerController {
     public void initialize() {
         this.characterName.setText("Le Chasseur \n" + this.model.getHunterName());
         this.alertHistory.setVvalue(1.0);
-        skipTurn.setDisable(false);
+        skipTurn.setDisable(true);
+        Thread t = new Thread(() -> {
+            while(!this.finished) {
+                handleAction(this.getModel().getHunter(), this.model.getHunter().play());
+                handleAction(this.getModel().getMonster(), this.model.getMonster().play());
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
     }
 
     public MHAIView getView() {
@@ -80,22 +93,26 @@ public class MHAIController extends MHPlayerController {
      * Alerte le joueur que le monstre a été tué et qu'il a gagné
      */
     public void hunterWinAlert() {
-        UtilsController.playSound(UtilsController.MONSTERKILL_SOUND_PATH, VOLUME);
-        this.winAlert.setTitle("Victoire du CHASSEUR");
-        this.winAlert.setHeaderText(null);
-        this.winAlert.setContentText("Le Chasseur a abattu le Monstre. Le Chasseur gagne !");
-        this.winAlert.showAndWait();
+        Platform.runLater(() -> {
+            UtilsController.playSound(UtilsController.MONSTERKILL_SOUND_PATH, VOLUME);
+            this.winAlert.setTitle("Victoire du CHASSEUR");
+            this.winAlert.setHeaderText(null);
+            this.winAlert.setContentText("Le Chasseur a abattu le Monstre. Le Chasseur gagne !");
+            this.winAlert.showAndWait();
 
-        alertOnClose();
+            alertOnClose();
+        });
     }
 
     public void monsterWinAlert() {
-        this.winAlert.setTitle("Victoire du MONSTRE");
-        this.winAlert.setHeaderText(null);
-        this.winAlert.setContentText("Le Monstre a atteint la sortie du Labyrinthe. Le Monstre gagne !");
-        this.winAlert.showAndWait();
+        Platform.runLater(() -> {
+            this.winAlert.setTitle("Victoire du MONSTRE");
+            this.winAlert.setHeaderText(null);
+            this.winAlert.setContentText("Le Monstre a atteint la sortie du Labyrinthe. Le Monstre gagne !");
+            this.winAlert.showAndWait();
 
-        alertOnClose();
+            alertOnClose();
+        });
     }
 
     public void wallAlert(int x, int y) {
@@ -109,15 +126,17 @@ public class MHAIController extends MHPlayerController {
     public void handleAction(Subject subj, ICoordinate coordinate) {
         if (subj.equals(this.model.getMonster())) {
             if (coordinate.equals(model.getExit())) {
+                this.finished = true;
                 monsterWinAlert();
             } else {
-                view.update();
+                Platform.runLater(() -> {view.update();});
             }
         } else {
             if (coordinate.equals(model.getMonster().getCoord())) {
+                this.finished = true;
                 hunterWinAlert();
             } else {
-                view.update();
+                Platform.runLater(() -> {view.update();});
             }
         }
     }
@@ -126,14 +145,12 @@ public class MHAIController extends MHPlayerController {
      * Retourne au menu principal lorsque la fenêtre est fermée
      */
     protected void alertOnClose() {
-        Platform.runLater(() -> {
-            try {
-                new App().start(new Stage());
-                this.stage.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
-            }
-        });
+        try {
+            new App().start(new Stage());
+            this.stage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
     }
 }
