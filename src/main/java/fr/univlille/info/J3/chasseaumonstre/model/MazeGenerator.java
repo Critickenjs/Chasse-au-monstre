@@ -87,7 +87,7 @@ public class MazeGenerator {
                 maze[x][y] = random.nextInt(100) < obstacle ? 1 : 0;
     
         int entrancex = random.nextInt(width);
-        int entrancey = random.nextInt(height-1);
+        int entrancey = random.nextInt(height/2-1);
         int exit = random.nextInt(width);
         maze[entrancex][entrancey] = 0;
         maze[exit][height - 1] = 0;
