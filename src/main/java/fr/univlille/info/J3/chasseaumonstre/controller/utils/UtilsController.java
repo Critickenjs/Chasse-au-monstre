@@ -46,16 +46,23 @@ public class UtilsController {
             return false;
         }
     }
+
+    /*
+     * Ajoute un effet de survol à un bouton
+     * 
+     * @param btn : le bouton à modifier
+     */
     public static void hovereffect(Button btn) {
         btn.setOnMouseEntered(UtilsController::onMouseEntered);
         btn.setOnMouseExited(UtilsController::onMouseExited);
     }
-    public static void onMouseEntered(MouseEvent event) {
+    
+    private static void onMouseEntered(MouseEvent event) {
         Button button = (Button) event.getSource();
         button.setStyle("-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-width: 2px; -fx-border-color: #5073f2; -fx-border-radius: 3%; -fx-cursor: hand;");
     }
 
-    public static void onMouseExited(MouseEvent event) {
+    private static void onMouseExited(MouseEvent event) {
         Button button = (Button) event.getSource();
         button.setStyle("-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;");
     }
