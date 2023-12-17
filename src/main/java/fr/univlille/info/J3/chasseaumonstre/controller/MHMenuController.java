@@ -255,19 +255,31 @@ public class MHMenuController  {
     }
 
     private void startGame(boolean hunterAI, boolean monsterAI) {
-        MHMonsterController mc = new MHMonsterController(stage, model);
-        this.monsterView = new MHMonsterView(stage, mc);
-        mc.setMonsterView(monsterView);
-        MHHunterController hc = new MHHunterController(stage, model);
-        this.hunterView = new MHHunterView(stage, hc);
-        hc.setHunterView(this.hunterView);
-        mc.setHunterView(hunterView);
-        hc.setMonsterView(monsterView);
-        mc.setMonsterView(monsterView);
+        MHMonsterController mc = null;
+        MHHunterController hc = null;
+    
         model.initialize();
+        if (!monsterAI) {
+            mc = new MHMonsterController(stage, model);
+            this.monsterView = new MHMonsterView(stage, mc);
+            mc.setMonsterView(this.monsterView);
+        }
+
+        if (!hunterAI) {
+            hc = new MHHunterController(stage, model);
+            this.hunterView = new MHHunterView(stage, hc);
+            hc.setHunterView(this.hunterView);
+            hc.setMonsterView(this.monsterView);
+        }
+
+        if (mc != null) {
+            mc.setHunterView(this.hunterView);
+        }
+        
         if (monsterAI && hunterAI) {
             model.getMonster().setAi(monsterAI);
             model.getHunter().setAi(hunterAI);
+    
             MHAIController aiController = new MHAIController(stage, model);
             MHAIView aiView = new MHAIView(stage, aiController);
             aiController.setView(aiView);
@@ -275,7 +287,7 @@ public class MHMenuController  {
         } else if (monsterAI) {
             model.getMonster().setAi(monsterAI);
             this.hunterView.render();
-        } else if (hunterAI){
+        } else if (hunterAI) {
             model.getHunter().setAi(hunterAI);
             model.getHunter().play();
             this.monsterView.render();
@@ -283,6 +295,7 @@ public class MHMenuController  {
             this.hunterView.render();
         }
     }
+    
 
     /*
      * Initialise le contrôleur, affiche le fond d'écran et initialise le style des boutons

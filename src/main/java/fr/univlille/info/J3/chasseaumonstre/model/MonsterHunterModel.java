@@ -196,7 +196,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     
     /*
      * Notification reçue par Monster ou Hunter, qui notifie les vues
-     * avec les coordonnées du joueur qui a joué, ou "WIN" si le joueur a gagné
+     * avec les coordonnées du joueur qui a joué, ou le joueur qui a gagné
      * 
      * @param subj le sujet qui a notifié
      * @param data les données envoyées par le sujet

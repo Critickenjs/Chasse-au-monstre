@@ -152,20 +152,27 @@ public class MHHunterView implements Observer {
     }
 
     /*
-     * Reçoit une notification du modèle principal,
-     * obj étant soit des coordonnées, soit une chaîne de caractères "WIN".
-     * Si obj est une chaîne de caractères "WIN", on affiche une alerte de victoire.
+     * Reçoit une notification du modèle principal, par défaut MHMonsterView implémente cette méthode,
+     * sauf si le monstre est une IA.
+     * Si l'objet est une stratégie, on affiche une alerte de victoire.
      * Sinon, on met à jour la vue.
      * 
      * @param subj : le sujet
-     * @param obj : l'objet
+     * @param obj : soit des coordonnées, soit une stratégie.
+     * @see Observer
      */
     @Override
     public void update(Subject subj, Object obj) {
-        if (obj instanceof IStrategy) {
-            
-        } else {
-            this.update();
+        if (controller.getModel().getMonster().isAi()) {
+            if (obj instanceof IStrategy) {
+                if (controller.getModel().getMonster().equals(obj)) {
+                    controller.monsterWinAlert();
+                } else {
+                    controller.hunterWinAlert();
+                }
+            } else {
+                this.update();
+            }
         }
     }
 }
