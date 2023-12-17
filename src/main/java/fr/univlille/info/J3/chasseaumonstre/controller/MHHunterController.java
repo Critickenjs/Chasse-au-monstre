@@ -36,7 +36,7 @@ public class MHHunterController extends MHPlayerController {
      * Initialise le contrôleur, affiche le nom du chasseur et initialise la zone
      */
     public void initialize() {
-        this.characterName.setText("Le Chasseur \n" + this.model.getHunterName());
+        this.characterName.setText("Le Chasseur \n" + (this.model.getHunter().isAi() ? "IA" : this.model.getHunterName()));
         this.alertHistory.setVvalue(1.0);
     }
 

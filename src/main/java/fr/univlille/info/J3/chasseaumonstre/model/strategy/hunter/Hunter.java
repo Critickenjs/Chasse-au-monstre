@@ -8,6 +8,8 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
@@ -67,6 +69,13 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         this.name = name;
     }
 
+    /*
+     * Connaitre si une cellule a été tirée
+     * 
+     * @param x la ligne de la cellule
+     * @param y la colonne de la cellule
+     * @return true si la cellule a été tirée, false sinon
+     */
     public boolean hasShot(int x, int y) {
         return this.shootLocations[x][y];
     }
@@ -105,7 +114,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         coordinates.add(new Coordinate(y+1,x-1));
         coordinates.add(new Coordinate(y+1,x));
         coordinates.add(new Coordinate(y+1,x+1));
-        java.util.Iterator<ICoordinate> it = coordinates.iterator();
+        Iterator<ICoordinate> it = coordinates.iterator();
         ICoordinate c;
         while(it.hasNext()) {
             c = it.next();

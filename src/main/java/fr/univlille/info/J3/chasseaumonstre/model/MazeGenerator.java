@@ -60,8 +60,6 @@ public class MazeGenerator {
      * 
      * @return le labyrinthe généré
      */
-    
-     // Permet de génére un Labyrinthe 
     public void generate() {
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
@@ -77,7 +75,10 @@ public class MazeGenerator {
         this.generatePath(entrance, exit);
     }
 
-    // Permet de génére un plateau avec un % d'obstacles prédéfini
+    /*
+     * Génère un labyrinthe aléatoirement (tableau d'entiers) avec une entrée et une sortie
+     * avec un pourcentage d'obstacles
+     */
     public void generatePlateau(int obstacle) {
         if (obstacle < 0 || obstacle > 100) {
             throw new IllegalArgumentException("Le pourcentage doit être compris entre 0 et 100 inclus.");

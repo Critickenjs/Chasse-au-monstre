@@ -31,7 +31,6 @@ public class MazeGeneratorTest {
         final int MONSTER = 2;
         final int EXIT = 4;
         int[][] cellInfoInt = generator.getMaze();
-        int[][] maze = generator.getMaze();
         MazeValidator mazeValidator = new MazeValidator(generator);
         if (mazeValidator.isValid()) {
         assertEquals(MONSTER, cellInfoInt[generator.getEntranceRow()][0]);

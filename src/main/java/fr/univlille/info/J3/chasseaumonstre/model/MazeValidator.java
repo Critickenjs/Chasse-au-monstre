@@ -45,6 +45,9 @@ public class MazeValidator {
         return this.maze;
     }
 
+    /*
+     * Initialise le tableau visited à false
+     */
     private void initializeVisited() {
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
@@ -71,19 +74,6 @@ public class MazeValidator {
         }
         return true;
     }
-/*
-    private boolean dfs(int x, int y) {
-        if (x < 0 || x >= width || y < 0 || y >= height || maze[x][y] == 1 || visited[x][y])
-            return false;
-        
-        visited[x][y] = true;
-
-        if (y == height - 1)
-            return true;
-
-        return dfs(x - 1, y) || dfs(x + 1, y) || dfs(x, y - 1) || dfs(x, y + 1);
-    }
-*/
 }
 
 
