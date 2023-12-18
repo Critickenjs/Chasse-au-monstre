@@ -208,7 +208,7 @@ public class MazeGenerator {
         boolean[][] labyrinth = new boolean[maze.length][maze[0].length];
         for (int y = 0; y < maze.length; y++)
             for (int x = 0; x < maze[0].length; x++)
-                labyrinth[x][y] = toBoolean(maze[x][y]);
+                labyrinth[y][x] = toBoolean(maze[y][x]);
         return labyrinth;
     }
 
