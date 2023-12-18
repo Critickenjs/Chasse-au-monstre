@@ -47,52 +47,62 @@ public class AStar implements Algorithm {
         return maze;
     }
 
-    @Override
-    public double getTime() {
-        return time;
-    }
-
+    /*
+     * Execute l'algorithme A*
+     * 
+     * @return la liste des coordonnées du chemin
+     */
     @Override
     public List<ICoordinate> execute() {
         if (entry == null || exit == null || maze == null) {
             return null;
         }
-        System.out.println(entry +" "+ exit +" "+ maze);
         time = System.currentTimeMillis();
 
         PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingInt(Node::getFScore));
         Map<ICoordinate, Integer> gScore = new HashMap<>();
         Map<ICoordinate, ICoordinate> cameFrom = new HashMap<>();
 
-        openSet.offer(new Node(entry, 0, heuristicCost(entry, exit)));
-        gScore.put(entry, 0);
+        try {
+            openSet.offer(new Node(entry, 0, heuristicCost(entry, exit)));
+            gScore.put(entry, 0);
 
-        while (!openSet.isEmpty()) {
-            Node current = openSet.poll();
+            while (!openSet.isEmpty() && openSet.size() < this.maze.length * this.maze[0].length) {
+                Node current = openSet.poll();
 
-            if (current.getCoordinate().equals(exit)) {
-                time = System.currentTimeMillis() - time;
-                return reconstructPath(cameFrom, current.getCoordinate());
-            }
+                if (current.getCoordinate().equals(exit)) {
+                    time = System.currentTimeMillis() - time;
+                    return reconstructPath(cameFrom, current.getCoordinate());
+                }
 
-            for (ICoordinate neighbor : getNeighbors(current.getCoordinate())) {
-                int tentativeGScore = gScore.getOrDefault(current.getCoordinate(), Integer.MAX_VALUE) + 1;
+                for (ICoordinate neighbor : getNeighbors(current.getCoordinate())) {
+                    int tentativeGScore = gScore.getOrDefault(current.getCoordinate(), Integer.MAX_VALUE) + 1;
 
-                if (tentativeGScore < gScore.getOrDefault(neighbor, Integer.MAX_VALUE)) {
-                    cameFrom.put(neighbor, current.getCoordinate());
-                    gScore.put(neighbor, tentativeGScore);
+                    if (tentativeGScore < gScore.getOrDefault(neighbor, Integer.MAX_VALUE)) {
+                        cameFrom.put(neighbor, current.getCoordinate());
+                        gScore.put(neighbor, tentativeGScore);
 
-                    int fScore = tentativeGScore + heuristicCost(neighbor, exit);
-                    Node neighborNode = new Node(neighbor, tentativeGScore, fScore);
-                    openSet.offer(neighborNode);
+                        int fScore = tentativeGScore + heuristicCost(neighbor, exit);
+                        Node neighborNode = new Node(neighbor, tentativeGScore, fScore);
+                        openSet.offer(neighborNode);
+                    }
                 }
             }
+        } catch (OutOfMemoryError e) {
+            return null;
         }
 
         time = System.currentTimeMillis() - time;
         return null;
     }
 
+    /*
+     * Reconstruit le chemin
+     * 
+     * @param cameFrom la map des coordonnées
+     * @param current la coordonnée courante
+     * @return la liste des coordonnées du chemin
+     */
     @Override
     public List<ICoordinate> reconstructPath(Map<ICoordinate, ICoordinate> cameFrom, ICoordinate current) {
         List<ICoordinate> totalPath = new ArrayList<>();
@@ -102,16 +112,29 @@ public class AStar implements Algorithm {
             current = cameFrom.get(current);
             totalPath.add(0, current);
         }
-
+        
         return totalPath;
     }
 
+    /*
+     * Calcule le coût heuristique
+     * 
+     * @param a la coordonnée a
+     * @param b la coordonnée b
+     * @return le coût heuristique
+     */
     @Override
     public int heuristicCost(ICoordinate a, ICoordinate b) {
         // Heuristique : distance de Manhattan entre les deux points
         return Math.abs(a.getRow() - b.getRow()) + Math.abs(a.getCol() - b.getCol());
     }
 
+    /*
+     * Retourne les voisins d'une coordonnée
+     * 
+     * @param current la coordonnée courante
+     * @return la liste des voisins
+     */
     @Override
     public List<ICoordinate> getNeighbors(ICoordinate current) {
         List<ICoordinate> neighbors = new ArrayList<>();
@@ -143,4 +166,8 @@ public class AStar implements Algorithm {
         return neighbors;
     }
 
+    @Override
+    public double getTime() {
+        return time;
+    }
 }

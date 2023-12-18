@@ -45,7 +45,7 @@ public class MHMonsterController extends MHPlayerController {
      * Initialise le contrôleur, affiche le nom du monstre et initialise la zone
      */
     public void initialize() {
-        this.characterName.setText("Le Monstre \n" + this.model.getMonsterName());
+        this.characterName.setText("Le Monstre \n" + (this.model.getMonster().isAi() ? "IA" : this.model.getMonsterName()));
         this.alertHistory.setVvalue(1.0);
         Image fogImage = new Image("https://cdn.discordapp.com/attachments/1159749679353974806/1172561801574109214/fog.png?ex=6560c446&is=654e4f46&hm=179e40d2cf2e2a6cd19f72a721db7dbcba4c816b9bb6b3d26fd77ed71709df80&");
         BackgroundImage myBI = new BackgroundImage(fogImage,
@@ -194,9 +194,9 @@ public class MHMonsterController extends MHPlayerController {
     }
 
     /*
-     * Alerte le joueur que le monstre a gagné
+     * Alerte le joueur qu'il a atteint la sortie et a gagné
      */
-    public void winAlert() {
+    public void monsterWinAlert() {
         this.winAlert.setTitle("Victoire du MONSTRE");
         this.winAlert.setHeaderText(null);
         this.winAlert.setContentText("Le Monstre a atteint la sortie du Labyrinthe. Le Monstre gagne !");
@@ -205,6 +205,9 @@ public class MHMonsterController extends MHPlayerController {
         alertOnClose();
     }
 
+    /*
+     * Alerte le joueur qu'il a été tué et que le chasseur a gagné
+     */
     public void hunterWinAlert() {
         UtilsController.playSound(UtilsController.MONSTERKILL_SOUND_PATH, VOLUME);
         this.winAlert.setTitle("Victoire du CHASSEUR");

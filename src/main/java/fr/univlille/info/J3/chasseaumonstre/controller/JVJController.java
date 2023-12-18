@@ -108,13 +108,18 @@ public class JVJController {
     @FXML
     private void startGameButton() {
         startGameButton.setOnMouseClicked(e -> {
-            if (arePlayerNamesSet()) {
                 startGame();
-            }
+            
         });
     }
 
-    private boolean arePlayerNamesSet() {
+    /*
+     * Vérifie que les noms des joueurs sont renseignés
+     * 
+     * @return true si les noms sont renseignés, false sinon
+     */
+    /* 
+     private boolean arePlayerNamesSet() {
         if (j1.getText().isEmpty()) {
             j1.setStyle("-fx-border-color: red");
             return false;
@@ -129,6 +134,7 @@ public class JVJController {
 
         return true;
     }
+    */
 
     /*
      * Lors d'un appui sur la touche entrée,
@@ -138,9 +144,8 @@ public class JVJController {
     private void startGame(KeyEvent event) {
         switch (event.getCode()) {
             case ENTER:
-                if (arePlayerNamesSet()) {
                     startGame();
-                }
+                
                 break;
             case BACK_SPACE:
                 returnToMenu();
@@ -154,6 +159,9 @@ public class JVJController {
         new MHMenuView(stage, new MHMenuController(stage, model));
     }
 
+    /*
+     * Initialise les effets de survol des boutons
+     */
     public void initialize() {
         UtilsController.hovereffect(startGameButton);
         UtilsController.hovereffect(btnReturn);

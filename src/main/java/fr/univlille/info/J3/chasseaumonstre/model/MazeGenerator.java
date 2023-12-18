@@ -36,6 +36,14 @@ public class MazeGenerator {
         this.maze = new int[width][height];
         this.random = new Random();
     }
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
 
     public int[][] getMaze() {
         return this.maze;
@@ -52,8 +60,6 @@ public class MazeGenerator {
      * 
      * @return le labyrinthe généré
      */
-    
-     // Permet de génére un Labyrinthe 
     public void generate() {
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
@@ -69,7 +75,10 @@ public class MazeGenerator {
         this.generatePath(entrance, exit);
     }
 
-    // Permet de génére un plateau avec un % d'obstacles prédéfini
+    /*
+     * Génère un labyrinthe aléatoirement (tableau d'entiers) avec une entrée et une sortie
+     * avec un pourcentage d'obstacles
+     */
     public void generatePlateau(int obstacle) {
         if (obstacle < 0 || obstacle > 100) {
             throw new IllegalArgumentException("Le pourcentage doit être compris entre 0 et 100 inclus.");
@@ -79,7 +88,7 @@ public class MazeGenerator {
                 maze[x][y] = random.nextInt(100) < obstacle ? 1 : 0;
     
         int entrancex = random.nextInt(width);
-        int entrancey = random.nextInt(height-1);
+        int entrancey = random.nextInt(height/2-1);
         int exit = random.nextInt(width);
         maze[entrancex][entrancey] = 0;
         maze[exit][height - 1] = 0;
@@ -127,6 +136,7 @@ public class MazeGenerator {
     public Coordinate getExitCoordinate() {
         return exitCoordinate;
     }
+    
 
     public int getEntranceRow() { 
         return getEntranceCoordinate().getRow();
@@ -143,15 +153,19 @@ public class MazeGenerator {
         return n == 0;
     }
 
+    public boolean[][] toBoolean() {
+        return toBoolean(maze);
+    }
+
     /*
      * Convertit le labyrinthe en un tableau de booléens
      * 
      * @return le labyrinthe converti
      */
-    public boolean[][] toBoolean() {
-        boolean[][] labyrinth = new boolean[width][height];
-        for (int y = 0; y < height; y++)
-            for (int x = 0; x < width; x++)
+    public static boolean[][] toBoolean(int[][] maze) {
+        boolean[][] labyrinth = new boolean[maze.length][maze[0].length];
+        for (int y = 0; y < maze.length; y++)
+            for (int x = 0; x < maze[0].length; x++)
                 labyrinth[x][y] = toBoolean(maze[x][y]);
         return labyrinth;
     }

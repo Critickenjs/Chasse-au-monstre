@@ -10,6 +10,14 @@ Jeu vidéo graphique basé sur JavaFX, où l'on incarne un chasseur ou un monstr
 | TAS Atilla |
 | HAMZA Sélim|
 
+#### Lancement de l'application
+
+Décompressez le fichier 'ChasseAuMonstre-V2.zip' (dernière version du jeu) dans le répertoire 'releases' et à l'intérieur du fichier décompressé éxecutez cette commande:
+
+```
+java --module-path [CHEMIN_ABSOLU_VERS_LE_DOSSIER_LIB_DE_JAVAFX] --add-modules javafx.controls,javafx.fxml,javafx.media -jar ChasseAuMonstre.jar
+```
+
 #### Consigne de compilation de la doc (+ UML)
 
 ```
@@ -17,14 +25,6 @@ javadoc -private -author -d doc/chasseaumonstre -cp src/main/resources/cam-playe
 ```
 
 ## Livrable 1
-
-#### Lancement de l'application
-
-Décompressez le fichier 'ChasseAuMonstre.zip' et à l'intérieur du dossier décompressé éxecutez cette commande:
-
-```
-java --module-path [CHEMIN_ABSOLU_VERS_LE_DOSSIER_LIB_DE_JAVAFX] --add-modules javafx.controls,javafx.fxml,javafx.media -jar ChasseAuMonstre.jar
-```
 
 UML
 

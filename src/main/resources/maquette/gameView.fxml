@@ -30,7 +30,7 @@
       </VBox>
       <VBox alignment="TOP_CENTER" prefHeight="850.0" prefWidth="250.0" spacing="30.0">
          <children>
-            <Label fx:id="characterName" text="Chasseur">
+            <Label fx:id="characterName" text="Chasseur" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>
