@@ -81,6 +81,8 @@ public class GameEndView {
                 }
             }
         }
+
+        maze.setDisable(true);
     }
 
     private void addHistory(List<Label> alerts, VBox contentAlerts) {
