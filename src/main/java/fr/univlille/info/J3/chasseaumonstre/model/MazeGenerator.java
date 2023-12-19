@@ -102,7 +102,7 @@ public class MazeGenerator {
 
         this.entranceCoordinate = new Coordinate(entrancex, entrancey);
         this.exitCoordinate = new Coordinate(exit, height - 1);
-        this.dfs(obstacle, entrancex, entrancey, exit);
+        this.dfs(entrancex, entrancey, exit, height - 1);
 
     }
 
@@ -139,7 +139,7 @@ public class MazeGenerator {
         }
     }
 
-    public boolean dfs(int startX, int startY, int endX, int endY) {
+    public void dfs(int startX, int startY, int endX, int endY) {
         boolean[][] visited = new boolean[maze.length][maze[0].length];
         Stack<int[]> stack = new Stack<>();
         stack.push(new int[] { startX, startY });
@@ -157,7 +157,7 @@ public class MazeGenerator {
             visited[currentX][currentY] = true;
 
             if (currentX == endX && currentY == endY) {
-                return true;
+                 break;
             } else {
                 maze[currentX][currentY] = 0;
             }
@@ -168,7 +168,7 @@ public class MazeGenerator {
             stack.push(new int[] { currentX, currentY + 1 });
         }
 
-        return false;
+         
     }
 
     public Coordinate getEntranceCoordinate() {
