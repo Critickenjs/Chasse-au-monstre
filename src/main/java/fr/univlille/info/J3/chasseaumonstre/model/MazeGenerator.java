@@ -162,14 +162,23 @@ public class MazeGenerator {
                 maze[currentX][currentY] = 0;
             }
 
-            stack.push(new int[] { currentX - 1, currentY });
-            stack.push(new int[] { currentX + 1, currentY });
-            stack.push(new int[] { currentX, currentY - 1 });
-            stack.push(new int[] { currentX, currentY + 1 });
+            if (currentX - 1 >= 0 && !visited[currentX - 1][currentY]) {
+                stack.push(new int[] { currentX - 1, currentY });
+            }
+            if (currentX + 1 < maze.length && !visited[currentX + 1][currentY]) {
+                stack.push(new int[] { currentX + 1, currentY });
+            }
+            if (currentY - 1 >= 0 && !visited[currentX][currentY - 1]) {
+                stack.push(new int[] { currentX, currentY - 1 });
+            }
+            if (currentY + 1 < maze[0].length && !visited[currentX][currentY + 1]) {
+                stack.push(new int[] { currentX, currentY + 1 });
+            }
+        }
         }
 
          
-    }
+    
 
     public Coordinate getEntranceCoordinate() {
         return entranceCoordinate;
