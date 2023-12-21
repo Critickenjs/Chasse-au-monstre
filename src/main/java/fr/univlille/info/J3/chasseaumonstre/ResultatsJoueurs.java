@@ -33,21 +33,6 @@ public class ResultatsJoueurs
         return scoresChasseurs.getOrDefault(nomJoueur, 0);
     }
 
-    // Affiche les scores de tous les joueurs monstres
-    public void afficherScoresMonstres() {
-        System.out.println("Scores des joueurs monstres :");
-        for (Map.Entry<String, Integer> entry : scoresMonstres.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue() + " points");
-        }
-    }
-
-    // Affiche les scores de tous les joueurs chasseurs
-    public void afficherScoresChasseurs() {
-        System.out.println("Scores des joueurs chasseurs :");
-        for (Map.Entry<String, Integer> entry : scoresChasseurs.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue() + " points");
-        }
-    }
-
+   
     
 }
