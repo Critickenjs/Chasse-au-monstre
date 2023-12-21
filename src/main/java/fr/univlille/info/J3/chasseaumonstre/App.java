@@ -22,6 +22,7 @@ public class App extends Application {
         new MHMenuView(stage, new MHMenuController(stage, model));
         UtilsController.playBackgroundMusicOnRepeat();
         stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
     }
 
     public static void main(String[] args) {
