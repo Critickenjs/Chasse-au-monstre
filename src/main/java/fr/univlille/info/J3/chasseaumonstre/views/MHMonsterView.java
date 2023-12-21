@@ -105,7 +105,7 @@ public class MHMonsterView implements Observer {
                     controller.handleMove(cellX, cellY);
                 });
 
-                if (this.controller.getModel().getMonster().estVisible(x, y)) {
+                if (this.controller.getModel().getMonster().estVisible(x, y) || this.controller.getModel().getMonster().isVisited(x, y)) {
                     cell.setOpacity(1);
                     if (this.controller.getModel().getMaze()[x][y]) {
                         if (this.controller.getModel().getMonster().isVisited(x, y)) {
