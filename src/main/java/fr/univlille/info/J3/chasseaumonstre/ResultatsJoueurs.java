@@ -3,8 +3,7 @@ package fr.univlille.info.J3.chasseaumonstre;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ResultatsJoueurs 
-{
+public class ResultatsJoueurs {
     private Map<String, Integer> scoresMonstres;
     private Map<String, Integer> scoresChasseurs;
 
@@ -33,6 +32,5 @@ public class ResultatsJoueurs
         return scoresChasseurs.getOrDefault(nomJoueur, 0);
     }
 
-   
     
 }
