@@ -84,26 +84,33 @@ public class MazeGenerator {
      * avec un pourcentage d'obstacles
      */
     public void generatePlateau(int obstacle) {
-        int entrancex = 0;
-        int entrancey = 0;
-        int exit = 0;
+        
         if (obstacle < 0 || obstacle > 100) {
             throw new IllegalArgumentException("Le pourcentage doit être compris entre 0 et 100 inclus.");
         }
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
                 maze[x][y] = random.nextInt(100) < obstacle ? 1 : 0;
+            
+        this.generateEntanceAndExit();
+        this.dfs();
 
-        entrancex = random.nextInt(width);
-        entrancey = random.nextInt(height / 2 - 1);
-        exit = random.nextInt(width);
-        maze[entrancex][entrancey] = 0;
-        maze[exit][height - 1] = 0;
+    }
 
-        this.entranceCoordinate = new Coordinate(entrancex, entrancey);
-        this.exitCoordinate = new Coordinate(exit, height - 1);
-        this.dfs(entrancex, entrancey, exit, height - 1);
-
+    private void generateEntanceAndExit() {
+        int entrancex;
+        int exitx;
+        if(random.nextInt(2)==1){
+            exitx  = random.nextInt((height-(height/4)-1),height-1);
+            entrancex = random.nextInt(0,height/4);
+        }else{
+            entrancex = random.nextInt(height-(height/4)-1,height-1);
+            exitx = random.nextInt(0,height/4);
+        }
+        this.entranceCoordinate = new Coordinate(random.nextInt(width), entrancex);
+        this.exitCoordinate = new Coordinate(random.nextInt(width), exitx);
+        this.maze[entranceCoordinate.getRow()][entranceCoordinate.getCol()] = 0;
+        this.maze[exitCoordinate.getRow()][exitCoordinate.getCol()] = 0; 
     }
 
     private void generatePath(int x, int y) {
@@ -139,10 +146,10 @@ public class MazeGenerator {
         }
     }
 
-    public void dfs(int startX, int startY, int endX, int endY) {
+    public void dfs() {
         boolean[][] visited = new boolean[maze.length][maze[0].length];
         Stack<int[]> stack = new Stack<>();
-        stack.push(new int[] { startX, startY });
+        stack.push(new int[] { this.getEntranceCol(), this.getEntranceRow() });
 
         while (!stack.isEmpty()) {
             int[] current = stack.pop();
@@ -156,7 +163,7 @@ public class MazeGenerator {
 
             visited[currentX][currentY] = true;
 
-            if (currentX == endX && currentY == endY) {
+            if (currentX == this.getExitCol() && this.getExitRow() == currentY) {
                  break;
             } else {
                 maze[currentX][currentY] = 0;
@@ -198,6 +205,10 @@ public class MazeGenerator {
 
     public int getExitRow() {
         return getExitCoordinate().getRow();
+    }
+
+    public int getExitCol() {
+        return getExitCoordinate().getCol();
     }
 
     public static boolean toBoolean(int n) {

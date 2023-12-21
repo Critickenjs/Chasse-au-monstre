@@ -95,7 +95,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     }
 
     public void setObstacles(int obstacles) throws IllegalArgumentException {
-        if (obstacles >= 1 && obstacles <= 40) {
+        if (obstacles >= 1 && obstacles <= 60) {
             App.PREFERENCES.putInt("obstacles", obstacles);
         } else {
             throw new IllegalArgumentException("Le pourcentage doit être compris entre 0 et 40 inclus.");

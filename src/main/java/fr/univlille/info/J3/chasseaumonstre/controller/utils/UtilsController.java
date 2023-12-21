@@ -25,6 +25,7 @@ public class UtilsController {
     public static final String MONSTERKILL_SOUND_PATH = SOUND_PATH + "monsterkill.mp3";
     public static final String STEPS_SOUND_PATH = SOUND_PATH + "steps.wav";
     public static final String WRONG_SOUND_PATH = SOUND_PATH + "error.mp3";
+    public static final String HUNTER_WIN_SOUND_PATH = SOUND_PATH + "hunterwin.mp3";
 
     /*
      * Joue un son
