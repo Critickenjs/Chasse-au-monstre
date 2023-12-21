@@ -131,9 +131,10 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
             MazeValidator mazeValidator = new MazeValidator(mazeGenerator);
 
             while (!mazeValidator.isValid()) {
-                mazeGenerator.toString();
-                mazeGenerator.generate();
+                mazeGenerator.generatePlateau(getObstacles());
                 mazeValidator.setMaze(mazeGenerator.getMaze());
+
+                
             }
             entrance = mazeGenerator.getEntranceCoordinate();
             exit = mazeGenerator.getExitCoordinate();
