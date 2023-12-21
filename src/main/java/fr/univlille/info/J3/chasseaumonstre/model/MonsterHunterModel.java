@@ -41,6 +41,8 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         this.turn = 1;
         this.monster = new Monster();
         this.hunter = new Hunter();
+        this.monsterName = "";
+        this.hunterName = "";
     }
 
     public void initialize() {
