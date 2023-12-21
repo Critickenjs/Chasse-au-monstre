@@ -15,8 +15,8 @@ L'IA du chasseur est est implémentée dans la méthode `play()` de la classe `H
 ## Structures de Données utilisées
 - **Graphes :** Le labyrinthe est représenté comme un graphe où chaque cellule est un nœud. Les arêtes du graphe représentent les déplacements possibles entre les cellules.
 - **Listes :** Utilisées pour stocker les coordonnées du chemin dans l'algorithme A*.
-- **Maps :** Utilisées pour stocker les heuristiques `gScore` des nœuds dans l'algorithme A*.
-- **PriorityQueue :** Utilisée dans l'algorithme A* pour choisir le nœud avec llèheuristique la plus basse `fScore`.
+- **Maps :** Utilisées pour stocker les distances réeles à la sortie `gScore` des nœuds dans l'algorithme A*.
+- **PriorityQueue :** Utilisée dans l'algorithme A* pour choisir le nœud avec l'heuristique la plus basse `fScore`.
 
 ## Optimisations et Points Importants
 - L'algorithme A* est privilégié à Dijkstra en raison de son efficacité accrue dans la recherche de chemins, grâce à l'incorporation d'une heuristique de     distance de Manhattan. Cette heuristique permet à A* de prioriser les nœuds qui semblent être plus proches du but, réduisant ainsi le nombre total de nœuds à explorer et améliorant les performances globales de l'algorithme par rapport à Dijkstra.
