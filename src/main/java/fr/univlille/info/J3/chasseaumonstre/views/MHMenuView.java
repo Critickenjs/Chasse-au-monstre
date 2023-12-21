@@ -32,6 +32,7 @@ public class MHMenuView {
             this.stage.setScene(scene);
             stage.centerOnScreen();
             stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
             this.stage.show();
         } catch (IOException e) {
             System.out.println(e);

@@ -19,6 +19,7 @@ public class App extends Application {
         stage.getIcons().add(new Image(ICON_URL));
         new MHMenuView(stage, new MHMenuController(stage, model));
         stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
     }
 
     public static void main(String[] args) {

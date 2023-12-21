@@ -75,6 +75,7 @@ public class MHMonsterView implements Observer {
             stage.setTitle("Tour du Monstre");
             stage.setScene(scene);
             stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
             stage.show();
 
             controller.keyPressedOnScene(stage.getScene());
@@ -87,6 +88,7 @@ public class MHMonsterView implements Observer {
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();
         stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
         ICoordinate exit = this.controller.getModel().getExit();
         ICoordinate monsterPos = this.controller.getModel().getMonster().getCoord();
 

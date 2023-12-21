@@ -78,6 +78,7 @@ public class MHMenuController  {
             JVJController controller = new JVJController(stage, model);
             new JVJView(stage, controller);
             stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
         });
     }
 
@@ -302,6 +303,7 @@ public class MHMenuController  {
             this.hunterView.render();
         }
         stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
     }
     
 
