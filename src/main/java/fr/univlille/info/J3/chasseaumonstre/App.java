@@ -8,6 +8,8 @@ import fr.univlille.info.J3.chasseaumonstre.views.MHMenuView;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
+
 
 public class App extends Application {
     public final static Preferences PREFERENCES = Preferences.userNodeForPackage(App.class);    
@@ -18,6 +20,7 @@ public class App extends Application {
         MonsterHunterModel model = new MonsterHunterModel();
         stage.getIcons().add(new Image(ICON_URL));
         new MHMenuView(stage, new MHMenuController(stage, model));
+        UtilsController.playBackgroundMusicOnRepeat();
         stage.setFullScreen(true);
     }
 
