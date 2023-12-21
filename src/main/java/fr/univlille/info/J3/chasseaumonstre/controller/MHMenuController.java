@@ -6,7 +6,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,6 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
@@ -39,8 +39,6 @@ import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
  * @author Yliess El Atifi
  */
 public class MHMenuController  {
-    private static final String BACKGROUND_URL = "https://www.premiere.fr/sites/default/files/styles/scale_crop_border_1280x720/public/2020-02/m.jpg";
-
     @FXML
     private ImageView imageView;
     @FXML
@@ -79,6 +77,7 @@ public class MHMenuController  {
         jvjBtn.setOnMouseClicked(e -> {
             JVJController controller = new JVJController(stage, model);
             new JVJView(stage, controller);
+            stage.setFullScreen(true);
         });
     }
 
@@ -131,6 +130,7 @@ public class MHMenuController  {
     @FXML
     private void onParameter() {
         Stage stageParameter = new Stage();
+        stageParameter.initStyle(StageStyle.UTILITY);
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
 
@@ -301,6 +301,7 @@ public class MHMenuController  {
         } else {
             this.hunterView.render();
         }
+        stage.setFullScreen(true);
     }
     
 
@@ -308,8 +309,6 @@ public class MHMenuController  {
      * Initialise le contrôleur, affiche le fond d'écran et initialise le style des boutons
      */
     public void initialize() {
-        Image image = new Image(BACKGROUND_URL);
-        imageView.setImage(image);
         UtilsController.hovereffect(jvjBtn);
         UtilsController.hovereffect(cviBtn);
         UtilsController.hovereffect(mviBtn);

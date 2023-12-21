@@ -53,6 +53,7 @@ public class MHMonsterController extends MHPlayerController {
         BackgroundImage myBI = new BackgroundImage(fogImage,
         BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
         contentV.setBackground(new Background(myBI));
+        this.stage.setFullScreen(true);
     }
 
     public MonsterHunterModel getModel() {

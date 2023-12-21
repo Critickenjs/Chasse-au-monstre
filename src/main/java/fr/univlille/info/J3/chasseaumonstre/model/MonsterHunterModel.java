@@ -41,6 +41,8 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         this.turn = 1;
         this.monster = new Monster();
         this.hunter = new Hunter();
+        this.monsterName = "";
+        this.hunterName = "";
     }
 
     public void initialize() {
@@ -79,18 +81,18 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     }
     
     public void setWidth(int width) throws IllegalArgumentException {
-        if (width >= 7 && width % 2 > 0) {
+        if (width >= 7 && width % 2 > 0 && width <= 35) {
             App.PREFERENCES.putInt("mazeWidth", width);
         } else {
-            throw new IllegalArgumentException("La largeur doit être impaire et supérieure ou égale à 7");
+            throw new IllegalArgumentException("La largeur doit être impaire et comprise entre 7 et 35");
         }
     }
 
     public void setHeight(int height) throws IllegalArgumentException {
-        if (height >= 5) {
+        if (height >= 5 && height <= 35) {
             App.PREFERENCES.putInt("mazeHeight", height);
         } else {
-            throw new IllegalArgumentException("La hauteur doit être supérieure ou égale à 5");
+            throw new IllegalArgumentException("La hauteur doit être compris entre 5 et 35");
         }
     }
 
