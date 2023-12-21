@@ -118,7 +118,9 @@ public class MHHunterView implements Observer {
                 
                 stack.getChildren().addAll(cell,text);
                 this.maze.add(stack, x, y);
-                controller.getGameEndView().setHunterMaze(maze);
+                
+                if(controller.getGameEndView() != null)
+                    controller.getGameEndView().setHunterMaze(maze);
             }
         }
     }

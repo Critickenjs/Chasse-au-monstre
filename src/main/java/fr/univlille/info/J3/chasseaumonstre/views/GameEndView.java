@@ -86,8 +86,10 @@ public class GameEndView {
     }
 
     private void addHistory(List<Label> alerts, VBox contentAlerts) {
-        for (Label action : alerts) {
-            contentAlerts.getChildren().addAll(action, new Separator());
+        if (alerts != null) {
+            for (Label action : alerts) {
+                contentAlerts.getChildren().addAll(action, new Separator());
+            }
         }
     }
 }
