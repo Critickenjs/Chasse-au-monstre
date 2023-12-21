@@ -171,15 +171,6 @@ public class MHHunterController extends MHPlayerController {
      * Retourne au menu principal lorsque la fenêtre est fermée
      */
     protected void alertOnClose() {
-        /*Platform.runLater(() -> {
-            try {
-                new App().start(new Stage());
-                this.stage.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
-            }
-        }); */
         gameEndView.render();
     }
 }
