@@ -67,11 +67,11 @@ public class MonsterHunterModelTest {
         testModel.setHeight(4);
     }
 
-    /*@Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetObstaclesInvalid() {
         MonsterHunterModel testModel = new MonsterHunterModel();
-        testModel.setObstacles(42);
-    }*/
+        testModel.setObstacles(62);
+    }
 
     @Test
     public void testNextTurn() {
