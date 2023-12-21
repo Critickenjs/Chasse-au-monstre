@@ -74,6 +74,7 @@ public class MHMonsterView implements Observer {
 
             stage.setTitle("Tour du Monstre");
             stage.setScene(scene);
+            stage.setFullScreen(true);
             stage.show();
 
             controller.keyPressedOnScene(stage.getScene());
@@ -85,6 +86,7 @@ public class MHMonsterView implements Observer {
     private void draw() {
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();
+        stage.setFullScreen(true);
         ICoordinate exit = this.controller.getModel().getExit();
         ICoordinate monsterPos = this.controller.getModel().getMonster().getCoord();
 
@@ -105,7 +107,7 @@ public class MHMonsterView implements Observer {
                     controller.handleMove(cellX, cellY);
                 });
 
-                if (this.controller.getModel().getMonster().estVisible(x, y)) {
+                if (this.controller.getModel().getMonster().estVisible(x, y) || this.controller.getModel().getMonster().isVisited(x, y)) {
                     cell.setOpacity(1);
                     if (this.controller.getModel().getMaze()[x][y]) {
                         if (this.controller.getModel().getMonster().isVisited(x, y)) {
@@ -119,13 +121,14 @@ public class MHMonsterView implements Observer {
                             }
                         } else
                             cell.setFill(Color.WHITE);
-                        if (exit.getRow() == x && exit.getCol() == y) {
-                            if (!(monsterPos.getRow() == x && monsterPos.getCol() == y))
-                                cell.setFill(Color.GREEN);
-                        }
                     } else {
                         cell.setFill(wall);
                     }
+                }
+
+                if (exit.getRow() == x && exit.getCol() == y) {
+                    if (!(monsterPos.getRow() == x && monsterPos.getCol() == y))
+                        cell.setFill(Color.GREEN);
                 }
 
                 stack.getChildren().addAll(cell, text);

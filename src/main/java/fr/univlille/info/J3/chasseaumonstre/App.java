@@ -18,7 +18,7 @@ public class App extends Application {
         MonsterHunterModel model = new MonsterHunterModel();
         stage.getIcons().add(new Image(ICON_URL));
         new MHMenuView(stage, new MHMenuController(stage, model));
-        stage.setResizable(false);
+        stage.setFullScreen(true);
     }
 
     public static void main(String[] args) {
