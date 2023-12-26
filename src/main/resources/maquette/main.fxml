@@ -8,8 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<VBox alignment="CENTER" prefWidth="1226.0" style="-fx-background-image: url('https://w.forfun.com/fetch/0b/0bba8be96df7a066bcd536a7bdb5eef6.jpeg'); -fx-background-position: center; -fx-background-repeat: no-repeat; -fx-background-size: cover;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" prefWidth="1226.0" style="-fx-background-image: url('https://w.forfun.com/fetch/0b/0bba8be96df7a066bcd536a7bdb5eef6.jpeg'); -fx-background-position: center; -fx-background-repeat: no-repeat; -fx-background-size: cover;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <StackPane fx:id="container" prefHeight="600.0" prefWidth="1080.0" style="-fx-background-repeat: no-repeat; -fx-background-size: cover;">
          <children>
@@ -31,6 +30,11 @@
                         <VBox alignment="CENTER" spacing="10.0">
                            <children>
                               <Button fx:id="jvjBtn" mnemonicParsing="false" onAction="#onPVP" prefHeight="30.0" prefWidth="221.0" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;" text="Joueur contre Joueur" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="pvpBtn" layoutX="513.0" layoutY="130.0" mnemonicParsing="false" onAction="#onPVPMulti" prefHeight="30.0" prefWidth="221.0" style="-fx-background-color: #2e2e2e5F; -fx-background-radius: 10px; -fx-border-style: solid; -fx-border-color: #2e2e2e; -fx-border-radius: 3%;" text="Multijoueur" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>

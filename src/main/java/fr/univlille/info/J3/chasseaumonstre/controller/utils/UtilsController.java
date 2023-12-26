@@ -1,6 +1,7 @@
 package fr.univlille.info.J3.chasseaumonstre.controller.utils;
 
 import java.io.File;
+import java.util.Arrays;
 
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -75,6 +76,33 @@ public class UtilsController {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static boolean checkAddressSyntax(String address) {
+        String[] addressElems = address.split(":");
+        // Vérifier que l'addresse contient une ip et un port
+        if(addressElems.length != 2)
+            return false;
+        else {
+            String[] ip = addressElems[0].split("\\.");
+            // Vérifier que l'addresse ip est codée sur 4 octets
+            if(ip.length != 4)
+                return false;
+            // Vérifier que chaque élement séparé par un point est un nombre et que ce nombre est entre 0 et 255
+            try {
+                int n;
+                for(String num : ip) {
+                    n = Integer.parseInt(num);
+                    if(n < 0 || n > 255)
+                        return false;
+                }
+                // Vérifier que le port est un nombre
+                Integer.parseInt(addressElems[1]);
+            } catch(NumberFormatException e) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /*

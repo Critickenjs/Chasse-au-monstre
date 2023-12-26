@@ -44,6 +44,8 @@ public class MHMenuController  {
     @FXML
     private Button jvjBtn;
     @FXML
+    private Button pvpBtn;
+    @FXML
     private Button cviBtn;
     @FXML
     private Button mviBtn;
@@ -62,7 +64,6 @@ public class MHMenuController  {
     public MHMenuController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
         this.model = model;
-        this.jvjBtn = new Button();
     }
 
     public MonsterHunterModel getModel() {
@@ -249,11 +250,10 @@ public class MHMenuController  {
         vbox.setSpacing(10);
 
         Scene scene = new Scene(vbox, 450, 210);
-        stageParameter.setScene(scene);
-        stageParameter.setResizable(false);
         stageParameter.initOwner(this.stage);
         stageParameter.initModality(Modality.WINDOW_MODAL);
-
+        stageParameter.setScene(scene);
+        stageParameter.setResizable(false);
         stageParameter.show();
     }
 
@@ -302,16 +302,89 @@ public class MHMenuController  {
         } else {
             this.hunterView.render();
         }
-        stage.setFullScreen(true);
-        stage.setFullScreenExitHint("");
     }
     
+    @FXML
+    private void onPVPMulti() {
+        Stage stageMulti = new Stage();
+        VBox vbox = new VBox();
+
+        HBox hbox = new HBox();
+        Label label = new Label("Nom du joueur");
+        TextField nom_joueur = new TextField();
+        hbox.getChildren().addAll(label, nom_joueur);
+        HBox.setMargin(label, new Insets(10, 10, 10, 10));
+        HBox.setMargin(nom_joueur, new Insets(10, 10, 10, 10));
+        
+        HBox hbox2 = new HBox();
+        Label label2 = new Label("ip:port");
+        TextField ip = new TextField();
+        hbox2.getChildren().addAll(label2, ip);
+        HBox.setMargin(label2, new Insets(10, 10, 10, 10));
+        HBox.setMargin(ip, new Insets(10, 10, 10, 52));
+        
+        Button button = new Button("Se connecter au lobby");
+        button.setStyle("-fx-background-color: lightgrey;");
+        VBox.setMargin(button, new Insets(10, 10, 10, 10));
+
+        button.setOnAction(e -> {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setHeaderText(null);
+            error.setTitle("Erreur");
+
+            Alert success = new Alert(Alert.AlertType.INFORMATION);
+            success.setHeaderText(null);
+            error.setContentText("Vous êtes connecté avec succès au serveur");
+            success.setTitle("Succès");
+
+            String username = nom_joueur.getText();
+            String address = ip.getText();
+
+            if(!username.equals("")) {
+                if(!address.equals("")) {
+                    if(UtilsController.checkAddressSyntax(address)) {
+                        // Se connecter au serveur
+                        // Tant qu'on ne reçoit aucune réponse de la part du serveur, on alterne pas vers notre vue
+                        // Voir comment agit la fonction startGame
+                        // Le joueur ne doit voir que sa vue
+                        // Le joueur 1 tire/avance, le client prévient automatiquement le serveur en lui envoyant le nouveau modèle qui ce dernier le renvoie à l'autre client (la vue du joueur 1 est figé désormais le temps que le joueur 2 tire/avance)
+                        // (L'autre client averti) donc le joueur 2 tire/avance, le client prévient automatiquement le serveur en lui envoyant le nouveau modèle qui ce dernier le renvoie à l'autre client, (la vue du joueur 2 est figé désormais le temps que le joueur 2 tire/avance) etc... (Jusqu'à la fin de la partie)
+                    } else {
+                        error.setContentText("Le format de l'adresse est incorrecte");
+                        error.showAndWait();
+                    }
+                } else {
+                    error.setContentText("Veuillez vérifier que le champ 'ip:port' a été rempli");
+                    error.showAndWait();
+                }
+            } else {
+                error.setContentText("Veuillez vérifier que le champ 'nom d'utilisateur' a été rempli");
+                error.showAndWait();
+            }
+
+            Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+            alert2.setHeaderText(null);
+            alert2.setTitle("Succès");
+            alert2.setContentText("Changement effectué avec succès");
+
+            
+        });
+        
+        vbox.getChildren().addAll(hbox, hbox2, button);
+        stageMulti.setTitle("Connexion à un serveur");
+        stage.setResizable(false);
+        stageMulti.initOwner(this.stage);
+        stageMulti.initModality(Modality.WINDOW_MODAL);
+        stageMulti.setScene(new Scene(vbox, 350, 140));
+        stageMulti.show();
+    }
 
     /*
      * Initialise le contrôleur, affiche le fond d'écran et initialise le style des boutons
      */
     public void initialize() {
         UtilsController.hovereffect(jvjBtn);
+        UtilsController.hovereffect(pvpBtn);
         UtilsController.hovereffect(cviBtn);
         UtilsController.hovereffect(mviBtn);
         UtilsController.hovereffect(iviBtn);
