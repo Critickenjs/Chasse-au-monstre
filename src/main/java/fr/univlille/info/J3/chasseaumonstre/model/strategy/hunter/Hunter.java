@@ -205,12 +205,17 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         oos.writeObject(this.name);
         oos.writeObject(this.visited);
         oos.writeObject(this.visitedTurn);
+        oos.writeObject(this.ai);
+        oos.writeObject(this.neighboursCellsExploration);
     }
 
+    @SuppressWarnings("unchecked")
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
         this.shootLocations = (boolean[][])ois.readObject();
         this.name = (String)ois.readObject();
         this.visited = (boolean[][])ois.readObject();
         this.visitedTurn = (int[][])ois.readObject();
+        this.ai = (boolean)ois.readObject();
+        this.neighboursCellsExploration = (Stack<ICoordinate>)ois.readObject();
     }
 }

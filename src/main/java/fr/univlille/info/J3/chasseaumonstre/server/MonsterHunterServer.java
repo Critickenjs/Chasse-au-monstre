@@ -47,20 +47,13 @@ public class MonsterHunterServer {
             else if(this.client2 == null)
                 System.out.println(CYAN + "\nEn attente du deuxième joueur..." + RESET);
 
-            socket = this.serverSocket.accept();
-            System.out.println(BLUE + "\nJoueur avec l'adresse " + socket.getRemoteSocketAddress() + " demande à rentrer dans le lobby..." + RESET);
-            
-            if(this.isLobbyFull()) {
-                System.out.println(RED + "\nLe nombre de joueurs maximum est de 2" + RESET);
-                socket.close();
-            } else {
+            if(!this.isLobbyFull()) {
+                socket = this.serverSocket.accept();
+                System.out.println(GREEN + "\nJoueur avec l'adresse " + socket.getRemoteSocketAddress() + " est rentré dans le lobby..." + RESET);
                 this.set(socket);
-                System.out.println(GREEN + "\nJoueur accepté dans le lobby..." + RESET);
-                if(this.isLobbyFull()) {
-                    System.out.println("\nAu complet ! Nous pouvons jouer");
-                    // new ServerThread(this.client1, this.client2).start();
-                    // new ServerThread(this.client2, this.client1).start();
-                }
+            } else {
+                // new ServerThread(this.client1, this.client2).start();
+                // new ServerThread(this.client2, this.client1).start();
             }
         }
     }

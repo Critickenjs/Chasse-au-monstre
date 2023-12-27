@@ -29,7 +29,7 @@ public class ServerThread extends Thread {
             System.err.println("Erreur I/O : " + e.getMessage());
         }
         return null;
-    } 
+    }
 
     @Override
     public void run() {

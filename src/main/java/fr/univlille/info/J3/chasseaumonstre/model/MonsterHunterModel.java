@@ -231,8 +231,6 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.writeObject(this.maze);
         oos.writeObject(this.turn);
-        oos.writeObject(this.getWidth());
-        oos.writeObject(this.getHeight());
         oos.writeObject(this.monsterName);
         oos.writeObject(this.hunterName);
         oos.writeObject(this.monster);
