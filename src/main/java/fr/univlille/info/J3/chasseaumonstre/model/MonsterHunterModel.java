@@ -228,6 +228,11 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         }
     }
 
+    @Override
+    public String toString() {
+        return "Model (nom_chasseur=" + this.hunterName + ", nom_monstre=" + this.monsterName + ")";
+    }
+
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.writeObject(this.maze);
         oos.writeObject(this.turn);

@@ -1,7 +1,6 @@
 package fr.univlille.info.J3.chasseaumonstre.controller.utils;
 
 import java.io.File;
-import java.util.Arrays;
 
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;

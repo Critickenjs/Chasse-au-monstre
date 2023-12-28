@@ -1,3 +1,5 @@
+X - Vérifier tous les attributs de toutes les classes sérialisables
+
 X - 1ère base du serveur de sockets (client-serveur)
 
 X - Mise en place des threads
@@ -5,15 +7,18 @@ X - Mise en place des threads
 X - Coloration des logs
 
 - Bien traiter les threads / sockets
-    - Faire en sorte de recevoir et renvoyer le modèle aux clients parallèlement
+    X - Faire en sorte de recevoir et renvoyer le modèle aux clients parallèlement
     - Bien fermer les sockets / flux de données quand il faut
 
-- Stocker le nom du chasseur et du monstre dans le serveur afin de vérifier si le rôle hunter ou le chasseur est disponible
+- Finalisation de l'interface graphique pour le mode multijoueur
+    X - Vérifier les saisies de la fenêtre modale (mode multijoueur)
+      - Gérer les vues en mode multijoueur
+      - Bien fermer les sockets / flux de données quand il faut
 
 - Gestion des exceptions
     -> Structure des exceptions
     -> Dans le cas où le serveur s'arrête brusquement alors que le client est toujours connecté
+        -> Les clients doivent être informés qu'ils ne sont plus connectés au serveur et (envoie un signal pour quitter la partie)
+    -> Dans le cas où l'un des clients (ou les 2) du lobby se déconnecte (utiliser le timeout)
+        -> Le serveur doit savoir qu'un client a été déconnecté et (envoie un signal pour quitter la partie)
 
-- Finalisation de l'interface graphique pour le mode multijoueur
-    - Vérifier les saisies de la fenêtre modale (mode multijoueur)
-    - Bien fermer les sockets / flux de données quand il faut
