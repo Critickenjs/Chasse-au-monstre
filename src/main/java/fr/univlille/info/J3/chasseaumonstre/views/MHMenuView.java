@@ -31,7 +31,7 @@ public class MHMenuView {
             this.stage.setTitle("Chasse au Monstre");
             this.stage.setScene(scene);
             stage.centerOnScreen();
-            stage.setFullScreen(true);
+            // stage.setFullScreen(true);
             stage.setFullScreenExitHint("");
             this.stage.show();
         } catch (IOException e) {

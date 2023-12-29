@@ -13,6 +13,7 @@ X - Coloration des logs
 - Finalisation de l'interface graphique pour le mode multijoueur
     X - Vérifier les saisies de la fenêtre modale (mode multijoueur)
       - Gérer les vues en mode multijoueur
+            - Fix le EOFEXception
       - Bien fermer les sockets / flux de données quand il faut
 
 - Gestion des exceptions
@@ -21,4 +22,5 @@ X - Coloration des logs
         -> Les clients doivent être informés qu'ils ne sont plus connectés au serveur et (envoie un signal pour quitter la partie)
     -> Dans le cas où l'un des clients (ou les 2) du lobby se déconnecte (utiliser le timeout)
         -> Le serveur doit savoir qu'un client a été déconnecté et (envoie un signal pour quitter la partie)
+    -> Gérer le cas où le port est incorrect
 

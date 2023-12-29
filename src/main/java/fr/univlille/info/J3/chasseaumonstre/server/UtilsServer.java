@@ -5,17 +5,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
-
 public class UtilsServer {
 
-    public static MonsterHunterModel receive(Socket socket) throws ClassNotFoundException, IOException {
+    public static Object receive(Socket socket) throws ClassNotFoundException, IOException {
         ObjectInputStream oos = new ObjectInputStream(socket.getInputStream());
-        return (MonsterHunterModel)oos.readObject();
+        return oos.readObject();
     }
-
-    public static void send(Socket socket, MonsterHunterModel model) throws IOException {
+   
+    public static void send(Socket socket, Object data) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-        oos.writeObject(model);
+        oos.writeObject(data);
     }
 }

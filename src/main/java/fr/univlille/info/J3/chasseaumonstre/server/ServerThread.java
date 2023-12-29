@@ -20,11 +20,12 @@ public class ServerThread extends Thread {
         while(true) {
             try {
                 // Lire sur la socket (attendre une réponse)
-                model = UtilsServer.receive(currClient);
+                model = (MonsterHunterModel)UtilsServer.receive(currClient);
                 // Renvoyer le modèle à l'autre client
                 UtilsServer.send(this.secondClient, model);
             } catch(ClassNotFoundException | IOException e) {
-                System.out.println(e);
+                e.printStackTrace();
+                System.exit(1);
             }
         }
     }

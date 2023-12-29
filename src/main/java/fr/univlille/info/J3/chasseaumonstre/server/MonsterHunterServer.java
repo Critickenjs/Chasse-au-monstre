@@ -76,6 +76,10 @@ public class MonsterHunterServer {
                 if(this.isLobbyFull()) {
                     System.out.println("\nLa partie commence !");
 
+                    // Prévenir les 2 clients que la partie commence
+                    UtilsServer.send(this.clients.get("Monster"), "ready");
+                    UtilsServer.send(this.clients.get("Hunter"), "ready");
+
                     // Thread du Monstre
                     new ServerThread(this.clients.get("Monster"), this.clients.get("Hunter")).start();
 

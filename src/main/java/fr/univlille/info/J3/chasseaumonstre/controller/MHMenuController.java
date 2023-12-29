@@ -1,5 +1,6 @@
 package fr.univlille.info.J3.chasseaumonstre.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -19,9 +20,13 @@ import javafx.geometry.Pos;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
+import fr.univlille.info.J3.chasseaumonstre.server.UtilsServer;
 import fr.univlille.info.J3.chasseaumonstre.views.JVJView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHAIView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHHunterView;
@@ -321,7 +326,7 @@ public class MHMenuController  {
         TextField ip = new TextField();
         hbox2.getChildren().addAll(label2, ip);
         HBox.setMargin(label2, new Insets(10, 10, 10, 10));
-        HBox.setMargin(ip, new Insets(10, 10, 10, 52));
+        HBox.setMargin(ip, new Insets(10, 10, 10, 64));
         
         Button button = new Button("Se connecter au lobby");
         button.setStyle("-fx-background-color: lightgrey;");
@@ -334,8 +339,8 @@ public class MHMenuController  {
 
             Alert success = new Alert(Alert.AlertType.INFORMATION);
             success.setHeaderText(null);
-            error.setContentText("Vous êtes connecté avec succès au serveur");
-            success.setTitle("Succès");
+            success.setContentText("Vous êtes connecté avec succès au serveur");
+            success.setTitle("En attente que le serveur lance la partie...");
 
             String username = nom_joueur.getText();
             String address = ip.getText();
@@ -343,6 +348,38 @@ public class MHMenuController  {
             if(!username.equals("")) {
                 if(!address.equals("")) {
                     if(UtilsController.checkAddressSyntax(address)) {
+                        String[] addr = address.split(":");
+                        if(addr[1].equals("8080")) {
+                            try {
+                                if(InetAddress.getByName(addr[0]).isReachable(3000)) {
+                                    int port = Integer.parseInt(addr[1]);
+                                    Socket socket = new Socket(addr[0], port);
+                                    // Lancement d'un thread pour la fermeture automatique des Alert JavaFX
+                                    Thread t = new Thread(() -> {
+                                        try {
+                                            String msg = (String)UtilsServer.receive(socket);
+                                            if(msg.equals("ready")) {
+                                                Platform.runLater(() -> {
+                                                    success.close();
+                                                    stageMulti.close();
+                                                });
+                                            }
+                                        } catch (ClassNotFoundException | IOException e1) {
+                                            e1.printStackTrace();
+                                        }
+                                    });
+                                    t.start();
+                                    System.out.println(socket);
+                                    success.showAndWait();
+                                } else {
+                                    error.setContentText("L'adresse ip est inatteignable");
+                                    error.showAndWait();
+                                }
+                            } catch(NumberFormatException | IOException e2) { System.out.println(e); }
+                        } else {
+                            error.setContentText("Le port ne correspond à celui du serveur");
+                            error.showAndWait();
+                        }
                         // Se connecter au serveur
                         // Tant qu'on ne reçoit aucune réponse de la part du serveur, on alterne pas vers notre vue
                         // Voir comment agit la fonction startGame
@@ -361,13 +398,6 @@ public class MHMenuController  {
                 error.setContentText("Veuillez vérifier que le champ 'nom d'utilisateur' a été rempli");
                 error.showAndWait();
             }
-
-            Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
-            alert2.setHeaderText(null);
-            alert2.setTitle("Succès");
-            alert2.setContentText("Changement effectué avec succès");
-
-            
         });
         
         vbox.getChildren().addAll(hbox, hbox2, button);
