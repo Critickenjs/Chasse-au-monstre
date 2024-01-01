@@ -371,46 +371,41 @@ public class MHMenuController  {
                         String[] addr = address.split(":");
                         if(addr[1].equals("8080")) {
                             try {
-                                if(InetAddress.getByName(addr[0]).isReachable(3000)) {
-                                    int port = Integer.parseInt(addr[1]);
-                                    this.socket = new Socket(addr[0], port);
-                                    Thread t = new Thread(() -> {
-                                        try {
-                                            String msg = (String)UtilsServer.receive(this.socket);
-											this.model = (MonsterHunterModel)UtilsServer.receive(this.socket);
+                                int port = Integer.parseInt(addr[1]);
+                                this.socket = new Socket(addr[0], port);
+                                Thread t = new Thread(() -> {
+                                    try {
+                                        String msg = (String)UtilsServer.receive(this.socket);
+										this.model = (MonsterHunterModel)UtilsServer.receive(this.socket);
 
-                                            Platform.runLater(() -> {
-                                                success.close();
-                                                stageMulti.close(); 
+                                        Platform.runLater(() -> {
+                                            success.close();
+                                            stageMulti.close(); 
            
-                                                if(msg.equals("Monster")) {  
-                                                    this.model.setMonsterName(username);
-                                                    this.synchronize("Monster", username);
-                                                    MHMonsterController mc = new MHMonsterController(this.stage, this.model, this.socket);
-                                                    this.monsterView = new MHMonsterView(this.stage, mc);
-                                                    mc.setMonsterView(this.monsterView);
-                                                    mc.setHunterView(this.hunterView);
-                                                    this.monsterView.render();
-                                                } else {
-                                                    this.model.setHunterName(username);
-                                                    this.synchronize("Hunter", username);
-                                                    MHHunterController hc = new MHHunterController(this.stage, this.model, this.socket);
-                                                    this.hunterView = new MHHunterView(this.stage, hc);
-                                                    hc.setHunterView(this.hunterView);
-                                                    hc.setMonsterView(this.monsterView);
-                                                    this.hunterView.render();
-                                                }
-                                            });
-                                        } catch (ClassNotFoundException | IOException e1) {
-                                            e1.printStackTrace();
-                                        }
-                                    });
-                                    t.start();
-                                    success.showAndWait();
-                                } else {
-                                    error.setContentText("L'adresse ip est inatteignable");
-                                    error.showAndWait();
-                                }
+                                            if(msg.equals("Monster")) {  
+                                                this.model.setMonsterName(username);
+                                                this.synchronize("Monster", username);
+                                                MHMonsterController mc = new MHMonsterController(this.stage, this.model, this.socket);
+                                                this.monsterView = new MHMonsterView(this.stage, mc);
+                                                mc.setMonsterView(this.monsterView);
+                                                mc.setHunterView(this.hunterView);
+                                                this.monsterView.render();
+                                            } else {
+                                                this.model.setHunterName(username);
+                                                this.synchronize("Hunter", username);
+                                                MHHunterController hc = new MHHunterController(this.stage, this.model, this.socket);
+                                                this.hunterView = new MHHunterView(this.stage, hc);
+                                                hc.setHunterView(this.hunterView);
+                                                hc.setMonsterView(this.monsterView);
+                                                this.hunterView.render();
+                                            }
+                                        });
+                                    } catch (ClassNotFoundException | IOException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                });
+                                t.start();
+                                success.showAndWait();
                             } catch(NumberFormatException | IOException e2) { System.out.println(e); }
                         } else {
                             error.setContentText("Le port ne correspond à celui du serveur");
