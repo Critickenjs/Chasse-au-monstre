@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
@@ -59,6 +60,14 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
      */
     public void initialize(int row, int col) {
         this.shootLocations = new boolean[row][col];
+    }
+
+    public List<Observer> attachedObservers() {
+        return this.attached;
+    }
+
+    public boolean[][] getShootLocations() {
+        return this.shootLocations;
     }
 
     public String getName() {

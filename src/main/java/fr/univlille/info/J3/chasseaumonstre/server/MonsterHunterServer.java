@@ -4,8 +4,9 @@ import java.net.*;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Random;
-
 import java.io.IOException;
+
+import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 
 public class MonsterHunterServer {
     public static final String RESET = "\033[0m";
@@ -16,10 +17,12 @@ public class MonsterHunterServer {
 
     private ServerSocket serverSocket;
     private Map<String, Socket> clients;
+    private boolean run;
 
     public MonsterHunterServer() throws IOException {
         this.serverSocket = new ServerSocket(8080);
         this.clients = new HashMap<>();
+        this.run = true;
         System.out.println("Écoute sur le port " + this.serverSocket.getLocalPort());
     }
 
@@ -30,7 +33,6 @@ public class MonsterHunterServer {
     private int getNbClientsConnected() {
         return this.clients.size();
     }
-    
 
     /**
      * Vérifie si le lobby est au complet
@@ -59,7 +61,7 @@ public class MonsterHunterServer {
 
     public void handleConnection() throws SocketException, IOException {
         Socket socket = null;
-        while(true) {
+        while(this.run) {
 
             if(this.getNbClientsConnected() == 0)
                 System.out.println(CYAN + "\nEn attente de joueurs..." + RESET);
@@ -77,8 +79,14 @@ public class MonsterHunterServer {
                     System.out.println("\nLa partie commence !");
 
                     // Prévenir les 2 clients que la partie commence
-                    UtilsServer.send(this.clients.get("Monster"), "ready");
-                    UtilsServer.send(this.clients.get("Hunter"), "ready");
+                    UtilsServer.send(this.clients.get("Monster"), "Monster");
+                    UtilsServer.send(this.clients.get("Hunter"), "Hunter");
+
+                    // Initialiser le même modèle pour les 2 clients
+                    MonsterHunterModel model = new MonsterHunterModel();
+                    model.initialize();
+                    UtilsServer.send(this.clients.get("Monster"), model);
+                    UtilsServer.send(this.clients.get("Hunter"), model);
 
                     // Thread du Monstre
                     new ServerThread(this.clients.get("Monster"), this.clients.get("Hunter")).start();

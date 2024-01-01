@@ -1,8 +1,12 @@
 package fr.univlille.info.J3.chasseaumonstre.controller;
 
+import java.io.IOException;
+import java.net.Socket;
+
 import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
+import fr.univlille.info.J3.chasseaumonstre.server.UtilsServer;
 import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
@@ -39,8 +43,12 @@ public class MHMonsterController extends MHPlayerController {
 
     private boolean moved;
 
+    public MHMonsterController(Stage stage, MonsterHunterModel model, Socket socket) {
+        super(stage, model, socket);
+    }
+
     public MHMonsterController(Stage stage, MonsterHunterModel model) {
-        super(stage, model);
+        this(stage, model, null);
     }
 
     /*
@@ -55,6 +63,35 @@ public class MHMonsterController extends MHPlayerController {
         contentV.setBackground(new Background(myBI));
         this.stage.setFullScreen(true);
         stage.setFullScreenExitHint("");
+        
+        if(this.socket != null) {
+            this.skipTurn.setDisable(true);
+			this.moved = true;
+            Thread t = new Thread(() ->  {
+                try {
+                    Object obj;
+                    while(true) {
+                        obj = UtilsServer.receive(socket);
+                        if(obj.getClass() == MonsterHunterModel.class) {
+							moved = false;
+                            model = (MonsterHunterModel)obj;
+                            model.getMonster().attach(model);
+                            model.getHunter().attach(model);
+                            Platform.runLater(() -> {
+                                characterName.setText("À vous de jouer : \n Le Monstre \n" + model.getMonsterName());
+                                monsterView.update();
+                            });
+                        } else if(obj.getClass() == String.class) {
+                            if(((String)obj).equals("LOST"))
+                                Platform.runLater(() -> { hunterWinAlert(); });
+                        }
+                    }
+                } catch (ClassNotFoundException | IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            t.start();
+        }
     }
 
     public MonsterHunterModel getModel() {
@@ -83,10 +120,20 @@ public class MHMonsterController extends MHPlayerController {
         if (model.getHunter().isAi()) {
             this.model.getHunter().play();
             this.monsterView.render();
+            model.nextTurn();
+        } else if(this.socket != null) {
+            try {
+				this.skipTurn.setDisable(false);
+                model.nextTurn();
+                UtilsServer.send(this.socket, this.model);
+                this.characterName.setText("En attente du \n prochain coup...");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             this.hunterView.render();
+            model.nextTurn();
         }
-        model.nextTurn();
     }
 
     /*
@@ -132,6 +179,10 @@ public class MHMonsterController extends MHPlayerController {
         } else if (exit.getRow() == moveX && exit.getCol() == moveY) {
             if (advance(moveX, moveY)) {
                 this.updateHistory();
+                try {
+                    UtilsServer.send(this.socket, "LOST");
+                } catch(IOException e) {}
+                monsterWinAlert();
             }
             return CellInfo.EXIT;
         } else {
@@ -201,7 +252,7 @@ public class MHMonsterController extends MHPlayerController {
      * Alerte le joueur qu'il a atteint la sortie et a gagné
      */
     public void monsterWinAlert() {
-        this.winAlert.setTitle("Victoire du MONSTRE");
+        this.winAlert.setTitle("Victoire du MONSTRE " + this.model.getMonsterName());
         this.winAlert.setHeaderText(null);
         this.winAlert.setContentText("Le Monstre a atteint la sortie du Labyrinthe. Le Monstre gagne !");
         this.winAlert.showAndWait();
@@ -214,7 +265,7 @@ public class MHMonsterController extends MHPlayerController {
      */
     public void hunterWinAlert() {
         UtilsController.playSound(UtilsController.HUNTER_WIN_SOUND_PATH, 1);
-        this.winAlert.setTitle("Victoire du CHASSEUR");
+        this.winAlert.setTitle("Victoire du CHASSEUR " + this.model.getHunterName());
         this.winAlert.setHeaderText(null);
         this.winAlert.setContentText("Le Chasseur a abattu le Monstre. Le Chasseur gagne !");
         this.winAlert.showAndWait();

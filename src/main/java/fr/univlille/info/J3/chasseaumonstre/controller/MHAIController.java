@@ -31,7 +31,7 @@ public class MHAIController extends MHPlayerController {
     private MHAIView view;
 
     public MHAIController(Stage stage, MonsterHunterModel model) {
-        super(stage, model);
+        super(stage, model, null);
     }
     
     /*

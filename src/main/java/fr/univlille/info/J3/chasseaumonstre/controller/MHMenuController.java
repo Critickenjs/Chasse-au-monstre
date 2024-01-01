@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
@@ -65,6 +64,7 @@ public class MHMenuController  {
     private MonsterHunterModel model;
     private MHHunterView hunterView;
     private MHMonsterView monsterView;
+    private Socket socket;
 
     public MHMenuController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
@@ -267,6 +267,26 @@ public class MHMenuController  {
         this.stage.close();
     }
 
+    /**
+     * Synchroniser les pseudos, la liste des observateurs (pour le Monstre et le Chasseur) des utilisateurs sur chaque client
+     * @param role
+     * @param currentClientUsername
+     */
+    private void synchronize(String role, String currentClientUsername) {
+        try {
+            UtilsServer.send(this.socket, this.model);
+            this.model = (MonsterHunterModel)UtilsServer.receive(socket);
+            if(role.equals("Monster"))
+                this.model.setMonsterName(currentClientUsername);
+            else
+                this.model.setHunterName(currentClientUsername);
+            this.model.getMonster().attach(this.model);
+            this.model.getHunter().attach(this.model);
+        } catch (ClassNotFoundException | IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
     private void startGame(boolean hunterAI, boolean monsterAI) {
         MHMonsterController mc = null;
         MHHunterController hc = null;
@@ -353,23 +373,39 @@ public class MHMenuController  {
                             try {
                                 if(InetAddress.getByName(addr[0]).isReachable(3000)) {
                                     int port = Integer.parseInt(addr[1]);
-                                    Socket socket = new Socket(addr[0], port);
-                                    // Lancement d'un thread pour la fermeture automatique des Alert JavaFX
+                                    this.socket = new Socket(addr[0], port);
                                     Thread t = new Thread(() -> {
                                         try {
-                                            String msg = (String)UtilsServer.receive(socket);
-                                            if(msg.equals("ready")) {
-                                                Platform.runLater(() -> {
-                                                    success.close();
-                                                    stageMulti.close();
-                                                });
-                                            }
+                                            String msg = (String)UtilsServer.receive(this.socket);
+											this.model = (MonsterHunterModel)UtilsServer.receive(this.socket);
+
+                                            Platform.runLater(() -> {
+                                                success.close();
+                                                stageMulti.close(); 
+           
+                                                if(msg.equals("Monster")) {  
+                                                    this.model.setMonsterName(username);
+                                                    this.synchronize("Monster", username);
+                                                    MHMonsterController mc = new MHMonsterController(this.stage, this.model, this.socket);
+                                                    this.monsterView = new MHMonsterView(this.stage, mc);
+                                                    mc.setMonsterView(this.monsterView);
+                                                    mc.setHunterView(this.hunterView);
+                                                    this.monsterView.render();
+                                                } else {
+                                                    this.model.setHunterName(username);
+                                                    this.synchronize("Hunter", username);
+                                                    MHHunterController hc = new MHHunterController(this.stage, this.model, this.socket);
+                                                    this.hunterView = new MHHunterView(this.stage, hc);
+                                                    hc.setHunterView(this.hunterView);
+                                                    hc.setMonsterView(this.monsterView);
+                                                    this.hunterView.render();
+                                                }
+                                            });
                                         } catch (ClassNotFoundException | IOException e1) {
                                             e1.printStackTrace();
                                         }
                                     });
                                     t.start();
-                                    System.out.println(socket);
                                     success.showAndWait();
                                 } else {
                                     error.setContentText("L'adresse ip est inatteignable");
@@ -380,12 +416,6 @@ public class MHMenuController  {
                             error.setContentText("Le port ne correspond à celui du serveur");
                             error.showAndWait();
                         }
-                        // Se connecter au serveur
-                        // Tant qu'on ne reçoit aucune réponse de la part du serveur, on alterne pas vers notre vue
-                        // Voir comment agit la fonction startGame
-                        // Le joueur ne doit voir que sa vue
-                        // Le joueur 1 tire/avance, le client prévient automatiquement le serveur en lui envoyant le nouveau modèle qui ce dernier le renvoie à l'autre client (la vue du joueur 1 est figé désormais le temps que le joueur 2 tire/avance)
-                        // (L'autre client averti) donc le joueur 2 tire/avance, le client prévient automatiquement le serveur en lui envoyant le nouveau modèle qui ce dernier le renvoie à l'autre client, (la vue du joueur 2 est figé désormais le temps que le joueur 2 tire/avance) etc... (Jusqu'à la fin de la partie)
                     } else {
                         error.setContentText("Le format de l'adresse est incorrecte");
                         error.showAndWait();

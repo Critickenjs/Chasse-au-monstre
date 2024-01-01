@@ -1,5 +1,6 @@
 package fr.univlille.info.J3.chasseaumonstre.controller;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +68,9 @@ public abstract class MHPlayerController {
     protected List<Label> alerts;
     protected MHMonsterView monsterView;
     protected MHHunterView hunterView;
+    protected Socket socket;
 
-    public MHPlayerController(Stage stage, MonsterHunterModel model) {
+    public MHPlayerController(Stage stage, MonsterHunterModel model, Socket socket) {
         this.stage = stage;
         this.model = model;
         this.maze = new GridPane();
@@ -76,6 +78,8 @@ public abstract class MHPlayerController {
         this.winAlert = new Alert(Alert.AlertType.INFORMATION);
         this.alerts = new ArrayList<>();
         this.attachControllersToModel();
+
+        this.socket = socket;
     }
 
     /*

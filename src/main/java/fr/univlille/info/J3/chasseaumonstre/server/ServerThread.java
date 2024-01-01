@@ -16,13 +16,17 @@ public class ServerThread extends Thread {
 
     @Override
     public void run() {
-        MonsterHunterModel model = null;
+		Object obj;
         while(true) {
             try {
                 // Lire sur la socket (attendre une réponse)
-                model = (MonsterHunterModel)UtilsServer.receive(currClient);
-                // Renvoyer le modèle à l'autre client
-                UtilsServer.send(this.secondClient, model);
+                obj = UtilsServer.receive(currClient);
+				// Renvoyer le modèle à l'autre client
+				if(obj.getClass() == MonsterHunterModel.class)
+					// Renvoyer le modèle à l'autre client
+                	UtilsServer.send(this.secondClient, (MonsterHunterModel)obj);
+				else if(obj.getClass() == String.class)
+					UtilsServer.send(this.secondClient, (String)obj);
             } catch(ClassNotFoundException | IOException e) {
                 e.printStackTrace();
                 System.exit(1);
