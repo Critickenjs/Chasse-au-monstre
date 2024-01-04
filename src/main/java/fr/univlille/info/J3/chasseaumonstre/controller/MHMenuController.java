@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -38,7 +39,7 @@ import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
  * @author Selim Hamza
  * @author Yliess El Atifi
  */
-public class MHMenuController  {
+public class MHMenuController {
     @FXML
     private ImageView imageView;
     @FXML
@@ -70,7 +71,8 @@ public class MHMenuController  {
     }
 
     /*
-     * Gère le clic sur le bouton "Jouer contre joueur", lance la vue JVJ pour choisir les noms des joueurs
+     * Gère le clic sur le bouton "Jouer contre joueur", lance la vue JVJ pour
+     * choisir les noms des joueurs
      */
     @FXML
     private void onPVP() {
@@ -122,7 +124,7 @@ public class MHMenuController  {
                 this.model.importMaze(selectedFile);
             } catch (IOException e) {
                 System.out.println("Erreur IO sur le fichier '" + selectedFile + "'");
-            } catch(NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Erreur de parsing d'entier sur le fichier '" + selectedFile + "'");
             }
         }
@@ -146,10 +148,10 @@ public class MHMenuController  {
         Label label = new Label("Changer la taille du labyrinthe");
         label.setStyle("-fx-font-weight: bold");
 
-        TextField width = new TextField(""+model.getWidth());
+        TextField width = new TextField("" + model.getWidth());
         width.setPromptText("Width");
 
-        TextField height = new TextField(""+model.getHeight());
+        TextField height = new TextField("" + model.getHeight());
         height.setPromptText("Height");
 
         Button button = new Button("Valider");
@@ -158,51 +160,76 @@ public class MHMenuController  {
 
         HBox obstacleSettings = new HBox();
         Label obstacleLabel = new Label("Pourcentage d'obstacles :");
-        TextField obstacle = new TextField(""+model.getObstacles());
+        TextField obstacle = new TextField("" + model.getObstacles());
         obstacleSettings.getChildren().addAll(obstacleLabel, obstacle);
 
         HBox fovSettings = new HBox();
         Label fovLabel = new Label("Champ de vision :");
-        TextField fov = new TextField(""+model.getMonster().getFov());
+        TextField fov = new TextField("" + model.getMonster().getFov());
         fovSettings.getChildren().addAll(fovLabel, fov);
 
+        HBox aiSettings = new HBox();
+        Label algorithmLabel = new Label("Algorithme :");
+        ComboBox<String> algorithmComboBox = new ComboBox<>();
+        aiSettings.getChildren().addAll(algorithmLabel, algorithmComboBox);
+        algorithmComboBox.getItems().addAll("A*", "dfs", "dijkstra");
+        algorithmComboBox.setOnAction(e -> {
+            String selectedAlgorithm = algorithmComboBox.getValue();
+            switch (selectedAlgorithm) {
+                case "A*":
+                    model.setAlgorithm("A*");
+                    alert2.showAndWait();
+                    break;
+                case "dfs":
+                    model.setAlgorithm("dfs");
+                    alert2.showAndWait();
+                    break;
+                case "dijkstra":
+                    model.setAlgorithm("dijkstra");
+                    alert2.showAndWait();
+                    break;
+                default:
+                    break;
+            }
+        });
+
         button.setOnAction(e -> {
-            if(!width.getText().equals("") && height.getText().equals("")) {
+            if (!width.getText().equals("") && height.getText().equals("")) {
                 alert.setTitle("Erreur de saisie");
                 alert.setContentText("Veuillez saisir les 2 champs");
                 alert.showAndWait();
             } else {
-               try {
+                try {
                     int widthVal = Integer.parseInt(width.getText());
                     int heightVal = Integer.parseInt(height.getText());
                     try {
                         model.setWidth(widthVal);
                         model.setHeight(heightVal);
-                    } catch(IllegalArgumentException e1) {
+                    } catch (IllegalArgumentException e1) {
                         alert.setTitle("Erreur de saisie");
                         alert.setContentText(e1.getMessage());
                         alert.showAndWait();
                         return;
                     }
-               } catch(NumberFormatException e2) {
+                } catch (NumberFormatException e2) {
                     alert.setContentText("Erreur de type sur l'un des 2 champs");
                     alert.showAndWait();
                     return;
-               }
+                }
             }
 
-            if(!obstacle.getText().equals("")) {
+            if (!obstacle.getText().equals("")) {
                 try {
                     int obstacleVal = Integer.parseInt(obstacle.getText());
                     try {
                         model.setObstacles(obstacleVal);
-                    } catch(IllegalArgumentException e1) {
+                    } catch (IllegalArgumentException e1) {
                         alert.setTitle("Erreur de saisie");
                         alert.setContentText(e1.getMessage());
                         alert.showAndWait();
                         return;
                     }
-                } catch(NumberFormatException e2) {
+                } catch (NumberFormatException e2) {
                     alert.setTitle("Erreur de saisie");
                     alert.setContentText("Erreur de type sur le champ");
                     alert.showAndWait();
@@ -210,18 +237,18 @@ public class MHMenuController  {
                 }
             }
 
-            if(!fov.getText().equals("")) {
+            if (!fov.getText().equals("")) {
                 try {
                     int fovVal = Integer.parseInt(fov.getText());
                     try {
                         model.getMonster().setFov(fovVal);
-                    } catch(IllegalArgumentException e1) {
+                    } catch (IllegalArgumentException e1) {
                         alert.setTitle("Erreur de saisie");
                         alert.setContentText(e1.getMessage());
                         alert.showAndWait();
                         return;
                     }
-                } catch(NumberFormatException e2) {
+                } catch (NumberFormatException e2) {
                     alert.setTitle("Erreur de saisie");
                     alert.setContentText("Erreur de type sur le champ");
                     alert.showAndWait();
@@ -238,7 +265,7 @@ public class MHMenuController  {
             this.loadLabyrinth();
         });
 
-        vbox.getChildren().addAll(label, hbox, obstacleSettings, fovSettings, button, button2);
+        vbox.getChildren().addAll(label, hbox, obstacleSettings, fovSettings, aiSettings, button, button2);
 
         vbox.setPadding(new Insets(10, 10, 10, 10));
         hbox.setSpacing(10);
@@ -265,7 +292,7 @@ public class MHMenuController  {
     private void startGame(boolean hunterAI, boolean monsterAI) {
         MHMonsterController mc = null;
         MHHunterController hc = null;
-    
+
         model.initialize();
         if (!monsterAI) {
             mc = new MHMonsterController(stage, model);
@@ -283,11 +310,11 @@ public class MHMenuController  {
         if (mc != null) {
             mc.setHunterView(this.hunterView);
         }
-        
+
         if (monsterAI && hunterAI) {
             model.getMonster().setAi(monsterAI);
             model.getHunter().setAi(hunterAI);
-    
+
             MHAIController aiController = new MHAIController(stage, model);
             MHAIView aiView = new MHAIView(stage, aiController);
             aiController.setView(aiView);
@@ -305,10 +332,10 @@ public class MHMenuController  {
         stage.setFullScreen(true);
         stage.setFullScreenExitHint("");
     }
-    
 
     /*
-     * Initialise le contrôleur, affiche le fond d'écran et initialise le style des boutons
+     * Initialise le contrôleur, affiche le fond d'écran et initialise le style des
+     * boutons
      */
     public void initialize() {
         UtilsController.hovereffect(jvjBtn);
@@ -318,5 +345,5 @@ public class MHMenuController  {
         UtilsController.hovereffect(parametres);
         UtilsController.hovereffect(quitter);
     }
-    
+
 }
