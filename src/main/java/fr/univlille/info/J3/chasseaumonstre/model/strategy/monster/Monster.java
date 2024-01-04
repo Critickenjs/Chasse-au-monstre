@@ -45,6 +45,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.ai = false;
         this.path = new ArrayList<>();
         this.turn = 0;
+        this.algorithm = "A*";
     }
 
     /*
@@ -89,9 +90,6 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     }
 
     public String getAlgorithm() {
-        if (this.algorithm == null) {
-            this.algorithm = "A*";
-        }
         return this.algorithm;
     }
 
@@ -104,7 +102,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      */
     private void executeAlgorithm() {
         Algorithm algorithm;
-        switch (this.getAlgorithm()) {
+        switch (this.algorithm) {
             case "dijkstra":
                 algorithm = new Dijkstra(this.entry, this.exit, this.maze);
                 this.path = algorithm.execute();
