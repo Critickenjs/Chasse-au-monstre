@@ -10,9 +10,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 
-
 public class App extends Application {
-    public final static Preferences PREFERENCES = Preferences.userNodeForPackage(App.class);    
+    public final static Preferences PREFERENCES = Preferences.userNodeForPackage(App.class);
     private final String ICON_URL = "https://4.bp.blogspot.com/-boWx8QCf9bA/UYrk_pyI0aI/AAAAAAAAAoo/936FQO4QlNQ/s1600/dj.png";
 
     @Override

@@ -79,7 +79,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     public int getObstacles() {
         return App.PREFERENCES.getInt("obstacles", 1);
     }
-    
+
     public void setWidth(int width) throws IllegalArgumentException {
         if (width >= 7 && width % 2 > 0 && width <= 35) {
             App.PREFERENCES.putInt("mazeWidth", width);
@@ -93,6 +93,26 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
             App.PREFERENCES.putInt("mazeHeight", height);
         } else {
             throw new IllegalArgumentException("La hauteur doit être compris entre 5 et 35");
+        }
+    }
+
+    public void setAlgorithm(String algorithm) {
+        switch (algorithm) {
+            case "A*":
+                monster.setAlgorithm("A*");
+                App.PREFERENCES.put("algorithm", "A*");
+                break;
+            case "dfs":
+                monster.setAlgorithm("dfs");
+                App.PREFERENCES.put("algorithm", "A*");
+                break;
+
+            case "Dijkstra":
+                monster.setAlgorithm("Dijkstra");
+                App.PREFERENCES.put("algorithm", "Dijkstra");
+                break;
+            default:
+                monster.setAi(false);
         }
     }
 
@@ -126,7 +146,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
      * @see MazeValidator
      */
     public void initializeMaze() {
-        if(this.maze == null) {
+        if (this.maze == null) {
             MazeGenerator mazeGenerator = new MazeGenerator(getWidth(), getHeight());
             mazeGenerator.generatePlateau(getObstacles());
 
@@ -136,7 +156,6 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
                 mazeGenerator.generatePlateau(getObstacles());
                 mazeValidator.setMaze(mazeGenerator.getMaze());
 
-                
             }
             entrance = mazeGenerator.getEntranceCoordinate();
             exit = mazeGenerator.getExitCoordinate();
@@ -176,12 +195,12 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         int entranceX = 0;
         int entranceY = 0;
         String[] line;
-        for(int i = 0; i < this.getHeight(); i++) {
+        for (int i = 0; i < this.getHeight(); i++) {
             line = lines.get(i).split(",");
-            for(int j = 0; j < this.getWidth(); j++) {
+            for (int j = 0; j < this.getWidth(); j++) {
                 int value = Integer.parseInt(line[j]);
                 labyrinth[i][j] = MazeGenerator.toBoolean(value);
-                if(i == 0 && value == 4) {
+                if (i == 0 && value == 4) {
                     entranceX = j;
                     entranceY = i;
                 }
@@ -194,28 +213,32 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
 
     @Override
     public void update(Subject subj) {
-        
+
     }
-    
+
     /*
      * Notification reçue par Monster ou Hunter, qui notifie les vues
      * avec les coordonnées du joueur qui a joué, ou le joueur qui a gagné
      * 
      * @param subj le sujet qui a notifié
+     * 
      * @param data les données envoyées par le sujet
+     * 
      * @see Coordinate
+     * 
      * @see Monster
+     * 
      * @see Hunter
      */
     @Override
     public void update(Subject subj, Object data) {
-        Coordinate coordinates = (Coordinate)data;
+        Coordinate coordinates = (Coordinate) data;
         if (subj instanceof Monster) {
             if (coordinates.equals(exit)) {
                 this.notifyObservers(monster);
             } else {
                 this.notifyObservers(coordinates);
-                if (monster.isAi()){
+                if (monster.isAi()) {
                     nextTurn();
                 }
             }
@@ -228,11 +251,14 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         }
     }
 
+    @Override
+    public String toString() {
+        return "Model (nom_chasseur=" + this.hunterName + ", nom_monstre=" + this.monsterName + ")";
+    }
+
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.writeObject(this.maze);
         oos.writeObject(this.turn);
-        oos.writeObject(this.getWidth());
-        oos.writeObject(this.getHeight());
         oos.writeObject(this.monsterName);
         oos.writeObject(this.hunterName);
         oos.writeObject(this.monster);
@@ -242,13 +268,13 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-        this.maze = (boolean[][])ois.readObject();
-        this.turn = (Integer)ois.readObject();
-        this.monsterName = (String)ois.readObject();
-        this.hunterName = (String)ois.readObject();
-        this.monster = (Monster)ois.readObject();
-        this.hunter = (Hunter)ois.readObject();
-        this.entrance = (Coordinate)ois.readObject();
-        this.exit = (Coordinate)ois.readObject();
+        this.maze = (boolean[][]) ois.readObject();
+        this.turn = (Integer) ois.readObject();
+        this.monsterName = (String) ois.readObject();
+        this.hunterName = (String) ois.readObject();
+        this.monster = (Monster) ois.readObject();
+        this.hunter = (Hunter) ois.readObject();
+        this.entrance = (Coordinate) ois.readObject();
+        this.exit = (Coordinate) ois.readObject();
     }
 }
