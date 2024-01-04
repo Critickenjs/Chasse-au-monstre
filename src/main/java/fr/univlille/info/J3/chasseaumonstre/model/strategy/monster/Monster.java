@@ -86,9 +86,6 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     }
 
     public void setAlgorithm(String algorithm) {
-        if (algorithm == null) {
-            algorithm = "A*";
-        }
         this.algorithm = algorithm;
     }
 
@@ -104,7 +101,6 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * @see AStar
      */
     private void executeAlgorithm() {
-        this.setAlgorithm(algorithm);
         Algorithm algorithm;
         switch (this.algorithm) {
             case "dijkstra":
