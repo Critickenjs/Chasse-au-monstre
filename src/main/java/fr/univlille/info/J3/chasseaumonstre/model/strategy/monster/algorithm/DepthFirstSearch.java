@@ -59,6 +59,7 @@ public class DepthFirstSearch implements Algorithm {
             ICoordinate current = p.poll();
             if (current.equals(exit)) {
                 time = System.currentTimeMillis() - time;
+                System.out.println(p);
                 return new ArrayList<>(markedPath);
             }
             for (ICoordinate neighboor: AlgorithmUtils.getNeighbors(current, maze)) {

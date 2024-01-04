@@ -341,6 +341,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         oos.writeObject(this.coord);
         oos.writeObject(this.maze);
         oos.writeObject(this.visitedTurn);
+        oos.writeObject(this.algorithm);
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
@@ -349,6 +350,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.coord = (Coordinate) ois.readObject();
         this.maze = (boolean[][]) ois.readObject();
         this.visitedTurn = (Integer[][]) ois.readObject();
+        this.algorithm = (String) ois.readObject();
     }
 
     /*

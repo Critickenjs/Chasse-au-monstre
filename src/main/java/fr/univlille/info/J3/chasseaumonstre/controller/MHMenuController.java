@@ -173,25 +173,7 @@ public class MHMenuController {
         ComboBox<String> algorithmComboBox = new ComboBox<>();
         aiSettings.getChildren().addAll(algorithmLabel, algorithmComboBox);
         algorithmComboBox.getItems().addAll("A*", "dfs", "dijkstra");
-        algorithmComboBox.setOnAction(e -> {
-            String selectedAlgorithm = algorithmComboBox.getValue();
-            switch (selectedAlgorithm) {
-                case "A*":
-                    model.setAlgorithm("A*");
-                    alert2.showAndWait();
-                    break;
-                case "dfs":
-                    model.setAlgorithm("dfs");
-                    alert2.showAndWait();
-                    break;
-                case "dijkstra":
-                    model.setAlgorithm("dijkstra");
-                    alert2.showAndWait();
-                    break;
-                default:
-                    break;
-            }
-        });
+        algorithmComboBox.setValue(model.getMonster().getAlgorithm());
 
         button.setOnAction(e -> {
             if (!width.getText().equals("") && height.getText().equals("")) {
@@ -205,6 +187,7 @@ public class MHMenuController {
                     try {
                         model.setWidth(widthVal);
                         model.setHeight(heightVal);
+                        model.setAlgorithm(algorithmComboBox.getValue());
                     } catch (IllegalArgumentException e1) {
                         alert.setTitle("Erreur de saisie");
                         alert.setContentText(e1.getMessage());
@@ -275,7 +258,7 @@ public class MHMenuController {
         fovSettings.setAlignment(Pos.CENTER_LEFT);
         vbox.setSpacing(10);
 
-        Scene scene = new Scene(vbox, 450, 210);
+        Scene scene = new Scene(vbox, 450, 250);
         stageParameter.setScene(scene);
         stageParameter.setResizable(false);
         stageParameter.initOwner(this.stage);
