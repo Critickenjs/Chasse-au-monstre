@@ -104,7 +104,6 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      */
     private void executeAlgorithm() {
         Algorithm algorithm;
-        System.out.println(this.getAlgorithm());
         switch (this.getAlgorithm()) {
             case "dijkstra":
                 algorithm = new Dijkstra(this.entry, this.exit, this.maze);
