@@ -11,6 +11,7 @@ import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.AStar;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Algorithm;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.DFS;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
@@ -34,7 +35,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     private boolean ai;
     private List<ICoordinate> path;
     private int turn;
-    private String Algorithm;
+    private String algorithm;
 
     public Monster() {
         this.exit = null;
@@ -84,14 +85,14 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     }
 
     public void setAlgorithm(String algorithm) {
-        this.Algorithm = algorithm;
+        this.algorithm = algorithm;
     }
 
     public String getAlgorithm() {
-        if (this.Algorithm == null) {
-            this.Algorithm = "A*";
+        if (this.algorithm == null) {
+            this.algorithm = "dfs";
         }
-        return this.Algorithm;
+        return this.algorithm;
     }
 
     /*
@@ -102,8 +103,24 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * @see AStar
      */
     private void executeAlgorithm() {
-        Algorithm algorithm = new AStar(this.entry, this.exit, this.maze);
-        this.path = algorithm.execute();
+        switch (this.getAlgorithm()) {
+            case "A*":
+                Algorithm algorithm = new AStar(this.entry, this.exit, this.maze);
+                this.path = algorithm.execute();
+                break;
+            case "dijkstra":
+
+                break;
+            case "dfs":
+                DFS dfs = new DFS(this.maze, this.entry, this.exit);
+                dfs.performDFS();
+                this.path = dfs.execute();
+
+                break;
+            default:
+                break;
+        }
+
     }
 
     /*
@@ -260,21 +277,10 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     public ICoordinate play() {
         if (this.ai) {
             if (this.path != null && !this.path.isEmpty()) {
-                switch (this.getAlgorithm()) {
-                    case "A*":
-                        ICoordinate move = this.path.get(0);
-                        this.path.remove(move);
-                        this.setCoord(move.getRow(), move.getCol(), this.turn++);
-                        return new Coordinate(move);
-                    case "dijkstra":
-
-                        break;
-                    case "dfs":
-
-                        break;
-                    default:
-                        break;
-                }
+                ICoordinate move = this.path.get(0);
+                this.path.remove(move);
+                this.setCoord(move.getRow(), move.getCol(), this.turn++);
+                return new Coordinate(move);
 
             }
         }
