@@ -11,6 +11,8 @@ import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.AStar;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Algorithm;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.DepthFirstSearch;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Dijkstra;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
@@ -356,17 +358,31 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         monster.setEntry(model.getEntrance());
         monster.setExit(model.getExit());
 
-        Algorithm algorithm = new AStar(monster.getEntry(), monster.getExit(), maze);
+        Algorithm algorithm = new Dijkstra(monster.getEntry(), monster.getExit(), maze);
         List<ICoordinate> path = algorithm.execute();
 
         if (path != null) {
-            System.out.println("Chemin trouvé : ");
-            for (ICoordinate coord : path) {
-                System.out.println((Coordinate) coord);
-            }
-            System.out.println("Temps d'exécution : " + algorithm.getTime() + "ms");
+            System.out.println("DIJKSTRA - Chemin trouvé : " + algorithm.getTime() + "ms");
         } else {
-            System.out.println("Aucun chemin trouvé.");
+            System.out.println("DIJKSTRA - Aucun chemin trouvé. " + algorithm.getTime() + "ms");
+        }
+
+        algorithm = new AStar(monster.getEntry(), monster.getExit(), maze);
+        path = algorithm.execute();
+
+        if (path != null) {
+            System.out.println("ASTAR\t - Chemin trouvé : " + algorithm.getTime() + "ms");
+        } else {
+            System.out.println("ASTAR\t - Aucun chemin trouvé. " + algorithm.getTime() + "ms");
+        }
+
+        algorithm = new DepthFirstSearch(monster.getEntry(), monster.getExit(), maze);
+        path = algorithm.execute();
+
+        if (path != null) {
+            System.out.println("DFS\t - Chemin trouvé : " + algorithm.getTime() + "ms");
+        } else {
+            System.out.println("DFS\t - Aucun chemin trouvé. " + algorithm.getTime() + "ms");
         }
     }
 }
