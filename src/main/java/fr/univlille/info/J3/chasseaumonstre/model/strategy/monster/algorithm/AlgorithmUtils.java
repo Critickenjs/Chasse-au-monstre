@@ -7,6 +7,15 @@ import java.util.Map;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
+/*
+ * AlgorithmUtils contient des méthodes utiles pour les algorithmes
+ * 
+ * @autor Anas Ouhdda
+ * @autor Atilla Tas
+ * @autor Karim Aoulad-Tayab
+ * @autor Selim Hamza
+ * @autor Yliess El Atifi
+ */
 public class AlgorithmUtils {    
     /*
      * Reconstruit le chemin
