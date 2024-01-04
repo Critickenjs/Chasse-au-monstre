@@ -90,7 +90,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
 
     public String getAlgorithm() {
         if (this.algorithm == null) {
-            this.algorithm = "dfs";
+            this.algorithm = "A*";
         }
         return this.algorithm;
     }
@@ -104,18 +104,24 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      */
     private void executeAlgorithm() {
         Algorithm algorithm;
+        System.out.println(this.getAlgorithm());
         switch (this.getAlgorithm()) {
             case "dijkstra":
                 algorithm = new Dijkstra(this.entry, this.exit, this.maze);
+                this.path = algorithm.execute();
+                break;
+            case "A*":
+                algorithm = new AStar(this.entry, this.exit, this.maze);
+                this.path = algorithm.execute();
                 break;
             // case "dfs":
-                // algorithm = new DepthFirstSearch(this.entry, this.exit, this.maze);
-                // break;
+            // algorithm = new DepthFirstSearch(this.entry, this.exit, this.maze);
+            // break;
+
             default:
-                algorithm = new AStar(this.entry, this.exit, this.maze);
                 break;
+
         }
-        this.path = algorithm.execute();
     }
 
     /*

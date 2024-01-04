@@ -97,23 +97,8 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     }
 
     public void setAlgorithm(String algorithm) {
-        switch (algorithm) {
-            case "A*":
-                monster.setAlgorithm("A*");
-                App.PREFERENCES.put("algorithm", "A*");
-                break;
-            case "dfs":
-                monster.setAlgorithm("dfs");
-                App.PREFERENCES.put("algorithm", "A*");
-                break;
-
-            case "Dijkstra":
-                monster.setAlgorithm("Dijkstra");
-                App.PREFERENCES.put("algorithm", "Dijkstra");
-                break;
-            default:
-                monster.setAi(false);
-        }
+        App.PREFERENCES.put("algorithm", algorithm);
+        monster.setAlgorithm(algorithm);
     }
 
     public void setObstacles(int obstacles) throws IllegalArgumentException {
