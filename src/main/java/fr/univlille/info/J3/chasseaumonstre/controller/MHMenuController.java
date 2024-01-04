@@ -258,7 +258,7 @@ public class MHMenuController {
         fovSettings.setAlignment(Pos.CENTER_LEFT);
         vbox.setSpacing(10);
 
-        Scene scene = new Scene(vbox, 450, 210);
+        Scene scene = new Scene(vbox, 450, 250);
         stageParameter.setScene(scene);
         stageParameter.setResizable(false);
         stageParameter.initOwner(this.stage);
