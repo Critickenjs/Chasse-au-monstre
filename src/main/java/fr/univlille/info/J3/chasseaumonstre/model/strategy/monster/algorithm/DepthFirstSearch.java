@@ -1,19 +1,15 @@
 package fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
+import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 
-/*
- * Algorithme de recherche en profondeur (DFS) pour la recherche de chemin
- * 
- * @see Algorithm
- * @author [Votre nom ou pseudonyme]
- */
 public class DepthFirstSearch implements Algorithm {
-    private final ICoordinate entry;
-    private final ICoordinate exit;
-    private final boolean[][] maze;
-    private double time;
+    ICoordinate entry;
+    ICoordinate exit;
+    boolean[][] maze;
+    double time;
 
     public DepthFirstSearch(ICoordinate entry, ICoordinate exit, boolean[][] maze) {
         this.entry = entry;
@@ -36,11 +32,6 @@ public class DepthFirstSearch implements Algorithm {
         return maze;
     }
 
-    /*
-     * Exécute l'algorithme de recherche en profondeur (DFS)
-     * 
-     * @return la liste des coordonnées du chemin
-     */
     @Override
     public List<ICoordinate> execute() {
         if (entry == null || exit == null || maze == null) {
@@ -48,32 +39,42 @@ public class DepthFirstSearch implements Algorithm {
         }
         time = System.currentTimeMillis();
 
-        ArrayDeque<ICoordinate> p = new ArrayDeque<>();
-        Set<ICoordinate> marked = new HashSet<>();
-        Set<ICoordinate> markedPath = new HashSet<>();
+        List<ICoordinate> path = new ArrayList<>();
+        boolean[][] visited = new boolean[maze.length][maze[0].length];
 
-        p.offer(new Node(entry, 0, 0));
-        marked.add(entry);
-
-        while (p.peek() != null) {
-            ICoordinate current = p.poll();
-            if (current.equals(exit)) {
-                time = System.currentTimeMillis() - time;
-                System.out.println(p);
-                return new ArrayList<>(markedPath);
-            }
-            for (ICoordinate neighboor: AlgorithmUtils.getNeighbors(current, maze)) {
-                if (!(marked.contains(neighboor) || markedPath.contains(neighboor))) {
-                    markedPath.add(neighboor);
-                    p.add(neighboor);
-                } else {
-                    marked.add(neighboor);
-                }
-            } 
+        if (dfs(entry, path, visited)) {
+            time = System.currentTimeMillis() - time;
+            return path;
         }
 
         time = System.currentTimeMillis() - time;
         return null;
+    }
+
+    private boolean dfs(ICoordinate current, List<ICoordinate> path, boolean[][] visited) {
+        int row = current.getRow();
+        int col = current.getCol();
+
+        if (row < 0 || row >= maze.length || col < 0 || col >= maze[0].length || visited[row][col] || !maze[row][col]) {
+            return false;
+        }
+
+        visited[row][col] = true;
+        path.add(current);
+
+        if (current.equals(exit)) {
+            return true;
+        }
+
+        if (dfs(new Coordinate(row - 1, col), path, visited) ||
+                dfs(new Coordinate(row, col + 1), path, visited) ||
+                dfs(new Coordinate(row + 1, col), path, visited) ||
+                dfs(new Coordinate(row, col - 1), path, visited)) {
+            return true;
+        }
+
+        path.remove(path.size() - 1);
+        return false;
     }
 
     @Override
