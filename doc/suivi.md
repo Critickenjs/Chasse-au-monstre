@@ -182,12 +182,63 @@
 18 Décembre - 24 Décembre 2023
 
 **Karim Aoulad-Tayab** :
+- Aucune contribution enregistrée cette semaine.
 
 **Anas Ouhdda** :
+- Aucune contribution enregistrée cette semaine.
 
 **Selim Hamza** :
+- Aucune contribution enregistrée cette semaine.
 
 **Yliess El atifi** :
+- Aucune contribution enregistrée cette semaine.
 
 **Atilla Tas** :
+- Aucune contribution enregistrée cette semaine.
+
+
+
+
+## Semaine 52
+
+25 Décembre - 31 Décembre 2023
+
+**Karim Aoulad-Tayab** :
+- Aucune contribution enregistrée cette semaine.
+
+**Anas Ouhdda** :
+- Aucune contribution enregistrée cette semaine.
+
+**Selim Hamza** :
+- Aucune contribution enregistrée cette semaine.
+
+**Yliess El atifi** :
+- Aucune contribution enregistrée cette semaine.
+
+**Atilla Tas** :
+- Aucune contribution enregistrée cette semaine.
+
+
+
+
+## Semaine 53
+
+1 Janvier - 7 Janvier 2024
+
+**Karim Aoulad-Tayab** :
+- Implémentation du mode multi-joueur en réseau.
+
+**Anas Ouhdda** :
+- Aucune contribution enregistrée cette semaine.
+
+**Selim Hamza** :
+- Refactoring des algorithmes
+- Implémentation de l'algorithme de Dijkstra
+
+**Yliess El atifi** :
+- Implémentation de l'algorithme de parcours en largeur
+- Possibilité de choisir l'algorithme de l'IA dans les paramètres du jeu
+
+**Atilla Tas** :
+- Aucune contribution enregistrée cette semaine.
 

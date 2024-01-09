@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -42,7 +43,7 @@ import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
  * @author Selim Hamza
  * @author Yliess El Atifi
  */
-public class MHMenuController  {
+public class MHMenuController {
     @FXML
     private ImageView imageView;
     @FXML
@@ -76,7 +77,8 @@ public class MHMenuController  {
     }
 
     /*
-     * Gère le clic sur le bouton "Jouer contre joueur", lance la vue JVJ pour choisir les noms des joueurs
+     * Gère le clic sur le bouton "Jouer contre joueur", lance la vue JVJ pour
+     * choisir les noms des joueurs
      */
     @FXML
     private void onPVP() {
@@ -128,7 +130,7 @@ public class MHMenuController  {
                 this.model.importMaze(selectedFile);
             } catch (IOException e) {
                 System.out.println("Erreur IO sur le fichier '" + selectedFile + "'");
-            } catch(NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Erreur de parsing d'entier sur le fichier '" + selectedFile + "'");
             }
         }
@@ -152,10 +154,10 @@ public class MHMenuController  {
         Label label = new Label("Changer la taille du labyrinthe");
         label.setStyle("-fx-font-weight: bold");
 
-        TextField width = new TextField(""+model.getWidth());
+        TextField width = new TextField("" + model.getWidth());
         width.setPromptText("Width");
 
-        TextField height = new TextField(""+model.getHeight());
+        TextField height = new TextField("" + model.getHeight());
         height.setPromptText("Height");
 
         Button button = new Button("Valider");
@@ -164,51 +166,59 @@ public class MHMenuController  {
 
         HBox obstacleSettings = new HBox();
         Label obstacleLabel = new Label("Pourcentage d'obstacles :");
-        TextField obstacle = new TextField(""+model.getObstacles());
+        TextField obstacle = new TextField("" + model.getObstacles());
         obstacleSettings.getChildren().addAll(obstacleLabel, obstacle);
 
         HBox fovSettings = new HBox();
         Label fovLabel = new Label("Champ de vision :");
-        TextField fov = new TextField(""+model.getMonster().getFov());
+        TextField fov = new TextField("" + model.getMonster().getFov());
         fovSettings.getChildren().addAll(fovLabel, fov);
 
+        HBox aiSettings = new HBox();
+        Label algorithmLabel = new Label("Algorithme :");
+        ComboBox<String> algorithmComboBox = new ComboBox<>();
+        aiSettings.getChildren().addAll(algorithmLabel, algorithmComboBox);
+        algorithmComboBox.getItems().addAll("A*", "dfs", "dijkstra");
+        algorithmComboBox.setValue(model.getMonster().getAlgorithm());
+
         button.setOnAction(e -> {
-            if(!width.getText().equals("") && height.getText().equals("")) {
+            if (!width.getText().equals("") && height.getText().equals("")) {
                 alert.setTitle("Erreur de saisie");
                 alert.setContentText("Veuillez saisir les 2 champs");
                 alert.showAndWait();
             } else {
-               try {
+                try {
                     int widthVal = Integer.parseInt(width.getText());
                     int heightVal = Integer.parseInt(height.getText());
                     try {
                         model.setWidth(widthVal);
                         model.setHeight(heightVal);
-                    } catch(IllegalArgumentException e1) {
+                        model.setAlgorithm(algorithmComboBox.getValue());
+                    } catch (IllegalArgumentException e1) {
                         alert.setTitle("Erreur de saisie");
                         alert.setContentText(e1.getMessage());
                         alert.showAndWait();
                         return;
                     }
-               } catch(NumberFormatException e2) {
+                } catch (NumberFormatException e2) {
                     alert.setContentText("Erreur de type sur l'un des 2 champs");
                     alert.showAndWait();
                     return;
-               }
+                }
             }
 
-            if(!obstacle.getText().equals("")) {
+            if (!obstacle.getText().equals("")) {
                 try {
                     int obstacleVal = Integer.parseInt(obstacle.getText());
                     try {
                         model.setObstacles(obstacleVal);
-                    } catch(IllegalArgumentException e1) {
+                    } catch (IllegalArgumentException e1) {
                         alert.setTitle("Erreur de saisie");
                         alert.setContentText(e1.getMessage());
                         alert.showAndWait();
                         return;
                     }
-                } catch(NumberFormatException e2) {
+                } catch (NumberFormatException e2) {
                     alert.setTitle("Erreur de saisie");
                     alert.setContentText("Erreur de type sur le champ");
                     alert.showAndWait();
@@ -216,18 +226,18 @@ public class MHMenuController  {
                 }
             }
 
-            if(!fov.getText().equals("")) {
+            if (!fov.getText().equals("")) {
                 try {
                     int fovVal = Integer.parseInt(fov.getText());
                     try {
                         model.getMonster().setFov(fovVal);
-                    } catch(IllegalArgumentException e1) {
+                    } catch (IllegalArgumentException e1) {
                         alert.setTitle("Erreur de saisie");
                         alert.setContentText(e1.getMessage());
                         alert.showAndWait();
                         return;
                     }
-                } catch(NumberFormatException e2) {
+                } catch (NumberFormatException e2) {
                     alert.setTitle("Erreur de saisie");
                     alert.setContentText("Erreur de type sur le champ");
                     alert.showAndWait();
@@ -244,7 +254,7 @@ public class MHMenuController  {
             this.loadLabyrinth();
         });
 
-        vbox.getChildren().addAll(label, hbox, obstacleSettings, fovSettings, button, button2);
+        vbox.getChildren().addAll(label, hbox, obstacleSettings, fovSettings, aiSettings, button, button2);
 
         vbox.setPadding(new Insets(10, 10, 10, 10));
         hbox.setSpacing(10);
@@ -255,6 +265,8 @@ public class MHMenuController  {
         vbox.setSpacing(10);
 
         Scene scene = new Scene(vbox, 450, 210);
+        stageParameter.setScene(scene);
+        stageParameter.setResizable(false);
         stageParameter.initOwner(this.stage);
         stageParameter.initModality(Modality.WINDOW_MODAL);
         stageParameter.setScene(scene);
@@ -268,15 +280,17 @@ public class MHMenuController  {
     }
 
     /**
-     * Synchroniser les pseudos, la liste des observateurs (pour le Monstre et le Chasseur) des utilisateurs sur chaque client
+     * Synchroniser les pseudos, la liste des observateurs (pour le Monstre et le
+     * Chasseur) des utilisateurs sur chaque client
+     * 
      * @param role
      * @param currentClientUsername
      */
     private void synchronize(String role, String currentClientUsername) {
         try {
             UtilsServer.send(this.socket, this.model);
-            this.model = (MonsterHunterModel)UtilsServer.receive(socket);
-            if(role.equals("Monster"))
+            this.model = (MonsterHunterModel) UtilsServer.receive(socket);
+            if (role.equals("Monster"))
                 this.model.setMonsterName(currentClientUsername);
             else
                 this.model.setHunterName(currentClientUsername);
@@ -290,7 +304,7 @@ public class MHMenuController  {
     private void startGame(boolean hunterAI, boolean monsterAI) {
         MHMonsterController mc = null;
         MHHunterController hc = null;
-    
+
         model.initialize();
         if (!monsterAI) {
             mc = new MHMonsterController(stage, model);
@@ -308,11 +322,11 @@ public class MHMenuController  {
         if (mc != null) {
             mc.setHunterView(this.hunterView);
         }
-        
+
         if (monsterAI && hunterAI) {
             model.getMonster().setAi(monsterAI);
             model.getHunter().setAi(hunterAI);
-    
+
             MHAIController aiController = new MHAIController(stage, model);
             MHAIView aiView = new MHAIView(stage, aiController);
             aiController.setView(aiView);
@@ -328,7 +342,7 @@ public class MHMenuController  {
             this.hunterView.render();
         }
     }
-    
+
     @FXML
     private void onPVPMulti() {
         Stage stageMulti = new Stage();
@@ -340,14 +354,14 @@ public class MHMenuController  {
         hbox.getChildren().addAll(label, nom_joueur);
         HBox.setMargin(label, new Insets(10, 10, 10, 10));
         HBox.setMargin(nom_joueur, new Insets(10, 10, 10, 10));
-        
+
         HBox hbox2 = new HBox();
         Label label2 = new Label("ip:port");
         TextField ip = new TextField();
         hbox2.getChildren().addAll(label2, ip);
         HBox.setMargin(label2, new Insets(10, 10, 10, 10));
         HBox.setMargin(ip, new Insets(10, 10, 10, 64));
-        
+
         Button button = new Button("Se connecter au lobby");
         button.setStyle("-fx-background-color: lightgrey;");
         VBox.setMargin(button, new Insets(10, 10, 10, 10));
@@ -365,27 +379,28 @@ public class MHMenuController  {
             String username = nom_joueur.getText();
             String address = ip.getText();
 
-            if(!username.equals("")) {
-                if(!address.equals("")) {
-                    if(UtilsController.checkAddressSyntax(address)) {
+            if (!username.equals("")) {
+                if (!address.equals("")) {
+                    if (UtilsController.checkAddressSyntax(address)) {
                         String[] addr = address.split(":");
-                        if(addr[1].equals("8080")) {
+                        if (addr[1].equals("8080")) {
                             try {
                                 int port = Integer.parseInt(addr[1]);
                                 this.socket = new Socket(addr[0], port);
                                 Thread t = new Thread(() -> {
                                     try {
-                                        String msg = (String)UtilsServer.receive(this.socket);
-										this.model = (MonsterHunterModel)UtilsServer.receive(this.socket);
+                                        String msg = (String) UtilsServer.receive(this.socket);
+                                        this.model = (MonsterHunterModel) UtilsServer.receive(this.socket);
 
                                         Platform.runLater(() -> {
                                             success.close();
-                                            stageMulti.close(); 
-           
-                                            if(msg.equals("Monster")) {  
+                                            stageMulti.close();
+
+                                            if (msg.equals("Monster")) {
                                                 this.model.setMonsterName(username);
                                                 this.synchronize("Monster", username);
-                                                MHMonsterController mc = new MHMonsterController(this.stage, this.model, this.socket);
+                                                MHMonsterController mc = new MHMonsterController(this.stage, this.model,
+                                                        this.socket);
                                                 this.monsterView = new MHMonsterView(this.stage, mc);
                                                 mc.setMonsterView(this.monsterView);
                                                 mc.setHunterView(this.hunterView);
@@ -393,7 +408,8 @@ public class MHMenuController  {
                                             } else {
                                                 this.model.setHunterName(username);
                                                 this.synchronize("Hunter", username);
-                                                MHHunterController hc = new MHHunterController(this.stage, this.model, this.socket);
+                                                MHHunterController hc = new MHHunterController(this.stage, this.model,
+                                                        this.socket);
                                                 this.hunterView = new MHHunterView(this.stage, hc);
                                                 hc.setHunterView(this.hunterView);
                                                 hc.setMonsterView(this.monsterView);
@@ -406,7 +422,9 @@ public class MHMenuController  {
                                 });
                                 t.start();
                                 success.showAndWait();
-                            } catch(NumberFormatException | IOException e2) { System.out.println(e); }
+                            } catch (NumberFormatException | IOException e2) {
+                                System.out.println(e);
+                            }
                         } else {
                             error.setContentText("Le port ne correspond à celui du serveur");
                             error.showAndWait();
@@ -424,7 +442,7 @@ public class MHMenuController  {
                 error.showAndWait();
             }
         });
-        
+
         vbox.getChildren().addAll(hbox, hbox2, button);
         stageMulti.setTitle("Connexion à un serveur");
         stage.setResizable(false);
@@ -435,7 +453,8 @@ public class MHMenuController  {
     }
 
     /*
-     * Initialise le contrôleur, affiche le fond d'écran et initialise le style des boutons
+     * Initialise le contrôleur, affiche le fond d'écran et initialise le style des
+     * boutons
      */
     public void initialize() {
         UtilsController.hovereffect(jvjBtn);
@@ -446,5 +465,5 @@ public class MHMenuController  {
         UtilsController.hovereffect(parametres);
         UtilsController.hovereffect(quitter);
     }
-    
+
 }

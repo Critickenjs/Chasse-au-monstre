@@ -10,7 +10,7 @@ public class MazeGeneratorTest {
     @BeforeEach
     public void setUp() {
         generator = new MazeGenerator(10, 10);
-        generator.generate();
+
     }
 
     @Test
@@ -33,26 +33,25 @@ public class MazeGeneratorTest {
         int[][] cellInfoInt = generator.getMaze();
         MazeValidator mazeValidator = new MazeValidator(generator);
         if (mazeValidator.isValid()) {
-        assertEquals(MONSTER, cellInfoInt[generator.getEntranceRow()][0]);
-        assertEquals(EXIT, cellInfoInt[generator.getExitRow()][9]);
-        boolean foundEmpty = false;
-        boolean foundWall = false;
+            assertEquals(MONSTER, cellInfoInt[generator.getEntranceRow()][0]);
+            assertEquals(EXIT, cellInfoInt[generator.getExitRow()][9]);
+            boolean foundEmpty = false;
+            boolean foundWall = false;
 
-        for (int y = 0; y < 10; y++) {
-            for (int x = 0; x < 10; x++) {
-                if (cellInfoInt[x][y] == WALL) {
-                    foundWall = true;
-                } else if (cellInfoInt[x][y] == EMPTY) {
-                    foundEmpty = true;
+            for (int y = 0; y < 10; y++) {
+                for (int x = 0; x < 10; x++) {
+                    if (cellInfoInt[x][y] == WALL) {
+                        foundWall = true;
+                    } else if (cellInfoInt[x][y] == EMPTY) {
+                        foundEmpty = true;
+                    }
                 }
             }
+
+            assertTrue(foundEmpty);
+            assertTrue(foundWall);
+
         }
 
-        assertTrue(foundEmpty);
-        assertTrue(foundWall);
-            
-        }
-    
-        
     }
 }
