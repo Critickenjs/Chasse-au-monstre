@@ -172,8 +172,8 @@ public class MHMenuController {
         Label algorithmLabel = new Label("Algorithme :");
         ComboBox<String> algorithmComboBox = new ComboBox<>();
         aiSettings.getChildren().addAll(algorithmLabel, algorithmComboBox);
-        algorithmComboBox.getItems().addAll("A*", "dfs", "dijkstra");
-        algorithmComboBox.setValue(model.getMonster().getAlgorithm());
+        algorithmComboBox.getItems().addAll("AStar", "Dijkstra", "DepthFirstSearch");
+        algorithmComboBox.setValue(model.getMonster().getAlgorithm().getSimpleName());
 
         button.setOnAction(e -> {
             if (!width.getText().equals("") && height.getText().equals("")) {

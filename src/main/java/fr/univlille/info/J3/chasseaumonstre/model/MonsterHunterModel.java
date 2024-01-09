@@ -40,6 +40,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     public MonsterHunterModel() {
         this.turn = 1;
         this.monster = new Monster();
+        monster.setAlgorithm(App.PREFERENCES.get("algorithm", "AStar"));
         this.hunter = new Hunter();
         this.monsterName = "";
         this.hunterName = "";
