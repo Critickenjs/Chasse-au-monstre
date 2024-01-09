@@ -262,6 +262,9 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      */
     public int getVisitedTurn(int row, int col) {
         try {
+            if (visitedTurn[row][col] == null) {
+                return -1;
+            }
             return visitedTurn[row][col];
         } catch (ArrayIndexOutOfBoundsException e) {
             return -1;

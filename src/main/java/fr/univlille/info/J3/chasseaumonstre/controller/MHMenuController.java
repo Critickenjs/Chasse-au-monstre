@@ -17,10 +17,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-
 import java.io.File;
 import java.io.IOException;
-
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.views.JVJView;
