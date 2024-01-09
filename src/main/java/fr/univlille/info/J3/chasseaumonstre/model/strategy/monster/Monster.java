@@ -11,6 +11,8 @@ import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.AStar;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Algorithm;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.DepthFirstSearch;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Dijkstra;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
@@ -34,6 +36,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     private boolean ai;
     private List<ICoordinate> path;
     private int turn;
+    private String algorithm;
 
     public Monster() {
         this.exit = null;
@@ -43,6 +46,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.ai = false;
         this.path = new ArrayList<>();
         this.turn = 0;
+        this.algorithm = "A*";
     }
 
     /*
@@ -59,6 +63,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * Constructeur de Monster
      * 
      * @param row la ligne de la cellule
+     * 
      * @param col la colonne de la cellule
      */
     public void initialize(boolean[][] locations) {
@@ -81,21 +86,49 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.ai = ai;
     }
 
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public String getAlgorithm() {
+        return this.algorithm;
+    }
+
     /*
      * Exécute l'algorithme de recherche de chemin
      * 
      * @see Algorithm
+     * 
      * @see AStar
      */
     private void executeAlgorithm() {
-        Algorithm algorithm = new AStar(this.entry, this.exit, this.maze);
-        this.path = algorithm.execute();
+        Algorithm algorithm;
+        switch (this.algorithm) {
+            case "dijkstra":
+                algorithm = new Dijkstra(this.entry, this.exit, this.maze);
+                this.path = algorithm.execute();
+                break;
+            case "A*":
+                algorithm = new AStar(this.entry, this.exit, this.maze);
+                this.path = algorithm.execute();
+                break;
+            case "dfs":
+                algorithm = new DepthFirstSearch(this.entry, this.exit, this.maze);
+                this.path = algorithm.execute();
+
+            default:
+                algorithm = new AStar(this.entry, this.exit, this.maze);
+                this.path = algorithm.execute();
+                break;
+
+        }
     }
 
     /*
      * Définit la sortie du labyrinthe dans la mémoire du monstre
      * 
      * @param row la ligne de la cellule
+     * 
      * @param col la colonne de la cellule
      */
     public void setExit(int row, int col) throws ArrayIndexOutOfBoundsException {
@@ -110,7 +143,6 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     public Coordinate getEntry() {
         return entry;
     }
-    
 
     public boolean[][] getVisited() {
         return null;
@@ -120,6 +152,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * Définit l'entrée du labyrinthe dans la mémoire du monstre
      * 
      * @param row la ligne de la cellule
+     * 
      * @param col la colonne de la cellule
      */
     public void setEntry(int row, int col) throws ArrayIndexOutOfBoundsException {
@@ -136,11 +169,15 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     }
 
     /*
-     * Définit les coordonnées actuelles du monstre dans sa mémoire, et notifie le modèle principal
+     * Définit les coordonnées actuelles du monstre dans sa mémoire, et notifie le
+     * modèle principal
      * 
      * @param row la ligne de la cellule
+     * 
      * @param col la colonne de la cellule
+     * 
      * @param turn le tour auquel le monstre a visité la cellule
+     * 
      * @see MonsterHunterModel
      */
     public void setCoord(int row, int col, int turn) throws ArrayIndexOutOfBoundsException {
@@ -155,6 +192,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * Définit les coordonnées actuelles du monstre dans sa mémoire
      * 
      * @param row la ligne de la cellule
+     * 
      * @param col la colonne de la cellule
      */
     public boolean isVisited(int row, int col) {
@@ -170,14 +208,15 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * Vérifie si le monstre est adjacent à une cellule
      * 
      * @param x1 la ligne de la cellule
+     * 
      * @param y1 la colonne de la cellule
+     * 
      * @return true si le monstre est adjacent à la cellule, false sinon
      */
     public boolean estAdjacente(int x1, int y1) {
-        int diffX = Math.abs(x1- this.coord.getRow());
-        int diffY = Math.abs(y1 -this.coord.getCol());
+        int diffX = Math.abs(x1 - this.coord.getRow());
+        int diffY = Math.abs(y1 - this.coord.getCol());
 
-        
         return (diffX == 1 && diffY == 0) || (diffX == 0 && diffY == 1);
     }
 
@@ -185,13 +224,15 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * Vérifie si le monstre la case est visible par le monstre (distance)
      * 
      * @param x la ligne de la cellule
+     * 
      * @param y la colonne de la cellule
+     * 
      * @return true si la cellule est visible, false sinon
      */
-    public boolean estVisible(int x,int y) {
-        int diffX = Math.abs(x- this.coord.getRow());
-        int diffY = Math.abs(y -this.coord.getCol());
-        
+    public boolean estVisible(int x, int y) {
+        int diffX = Math.abs(x - this.coord.getRow());
+        int diffY = Math.abs(y - this.coord.getCol());
+
         return (diffX <= getFov() && diffY <= getFov());
     }
 
@@ -199,6 +240,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * Définit que le monstre a déjà visité une cellule
      * 
      * @param row la ligne de la cellule
+     * 
      * @param col la colonne de la cellule
      */
     public void setVisited(Coordinate coord, int turn) {
@@ -207,7 +249,8 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
 
     private void checkCoord(int row, int col) throws ArrayIndexOutOfBoundsException {
         if ((row < 0 || row >= maze.length) || (col < 0 || col >= maze[0].length)) {
-            throw new ArrayIndexOutOfBoundsException("Row " + row + "/" + maze.length + " or column " + col + "/" + maze[0].length);
+            throw new ArrayIndexOutOfBoundsException(
+                    "Row " + row + "/" + maze.length + " or column " + col + "/" + maze[0].length);
         }
     }
 
@@ -215,7 +258,9 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * Connaitre à quel tour une cellule a été visitée
      * 
      * @param row la ligne de la cellule
+     * 
      * @param col la colonne de la cellule
+     * 
      * @return le tour auquel la cellule a été visitée
      */
     public int getVisitedTurn(int row, int col) {
@@ -237,6 +282,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
                 this.path.remove(move);
                 this.setCoord(move.getRow(), move.getCol(), this.turn++);
                 return new Coordinate(move);
+
             }
         }
         return null;
@@ -293,18 +339,21 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         oos.writeObject(this.coord);
         oos.writeObject(this.maze);
         oos.writeObject(this.visitedTurn);
+        oos.writeObject(this.algorithm);
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-        this.exit = (Coordinate)ois.readObject();
-        this.entry = (Coordinate)ois.readObject();
-        this.coord = (Coordinate)ois.readObject();
-        this.maze = (boolean[][])ois.readObject();
-        this.visitedTurn = (Integer[][])ois.readObject();
+        this.exit = (Coordinate) ois.readObject();
+        this.entry = (Coordinate) ois.readObject();
+        this.coord = (Coordinate) ois.readObject();
+        this.maze = (boolean[][]) ois.readObject();
+        this.visitedTurn = (Integer[][]) ois.readObject();
+        this.algorithm = (String) ois.readObject();
     }
 
     /*
-     * Test d'exécution de l'algorithme de recherche de chemin avec représentation en ligne de commande
+     * Test d'exécution de l'algorithme de recherche de chemin avec représentation
+     * en ligne de commande
      */
     public static void main(String[] args) {
         MonsterHunterModel model = new MonsterHunterModel();
@@ -316,17 +365,22 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         monster.setEntry(model.getEntrance());
         monster.setExit(model.getExit());
 
-        Algorithm algorithm = new AStar(monster.getEntry(), monster.getExit(), maze);
+        Algorithm algorithm = new Dijkstra(monster.getEntry(), monster.getExit(), maze);
         List<ICoordinate> path = algorithm.execute();
 
         if (path != null) {
-            System.out.println("Chemin trouvé : ");
-            for (ICoordinate coord : path) {
-                System.out.println((Coordinate)coord);
-            }
-            System.out.println("Temps d'exécution : " + algorithm.getTime() + "ms");
+            System.out.println("DIJKSTRA - Chemin trouvé : " + algorithm.getTime() + "ms");
         } else {
-            System.out.println("Aucun chemin trouvé.");
+            System.out.println("DIJKSTRA - Aucun chemin trouvé. " + algorithm.getTime() + "ms");
+        }
+
+        algorithm = new AStar(monster.getEntry(), monster.getExit(), maze);
+        path = algorithm.execute();
+
+        if (path != null) {
+            System.out.println("ASTAR\t - Chemin trouvé : " + algorithm.getTime() + "ms");
+        } else {
+            System.out.println("ASTAR\t - Aucun chemin trouvé. " + algorithm.getTime() + "ms");
         }
     }
 }

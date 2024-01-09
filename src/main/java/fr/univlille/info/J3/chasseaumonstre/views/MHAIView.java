@@ -71,6 +71,8 @@ public class MHAIView implements Observer {
             stage.setTitle("IA contre IA");
             stage.setScene(scene);
             stage.centerOnScreen();
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
             stage.show();
         } catch (IOException e) {
             System.out.println(e);
@@ -80,6 +82,8 @@ public class MHAIView implements Observer {
     private void draw() {
         int width = this.controller.getModel().getWidth();
         int heigth = this.controller.getModel().getHeight();
+        stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < heigth; y++) {

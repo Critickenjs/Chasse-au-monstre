@@ -25,6 +25,10 @@ public class UtilsController {
     public static final String MONSTERKILL_SOUND_PATH = SOUND_PATH + "monsterkill.mp3";
     public static final String STEPS_SOUND_PATH = SOUND_PATH + "steps.wav";
     public static final String WRONG_SOUND_PATH = SOUND_PATH + "error.mp3";
+    public static final String HUNTER_WIN_SOUND_PATH = SOUND_PATH + "hunterwin.mp3";
+    public static final String MUSIC_SOUND_PATH = SOUND_PATH + "mononoke.mp3";
+    public static final String MUSIC2_SOUND_PATH = SOUND_PATH + "music2.mp3";
+
 
     /*
      * Joue un son
@@ -41,6 +45,32 @@ public class UtilsController {
             mediaPlayer.setVolume(volume); // Ajustez le volume ici
 
             mediaPlayer.play();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean playBackgroundMusicOnRepeat() {
+        try {
+            Media sound1 = new Media(new File(MUSIC_SOUND_PATH).toURI().toString());
+            MediaPlayer mediaPlayer1 = new MediaPlayer(sound1);
+
+            mediaPlayer1.setVolume(0.4);// Ajustez le volume ici
+            
+            Media sound2 = new Media(new File(MUSIC2_SOUND_PATH).toURI().toString());
+            MediaPlayer mediaPlayer2 = new MediaPlayer(sound2);
+
+            mediaPlayer2.setVolume(0.7);
+            
+            mediaPlayer1.play();
+            mediaPlayer1.setOnEndOfMedia(() -> {
+                mediaPlayer2.play();
+                mediaPlayer2.setOnEndOfMedia(() -> {
+                    mediaPlayer1.play();
+                });
+            });
+
             return true;
         } catch (Exception e) {
             return false;

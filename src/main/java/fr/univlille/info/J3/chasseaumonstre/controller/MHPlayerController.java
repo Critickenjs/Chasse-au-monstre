@@ -21,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /*
  * Classe abstraite représentant un contrôleur de joueur 
@@ -119,6 +120,7 @@ public abstract class MHPlayerController {
 
     private void pauseMenu() {
         Stage stagePauseMenu = new Stage();
+        stagePauseMenu.initStyle(StageStyle.UTILITY);
 
         VBox vbox = new VBox();
 

@@ -25,13 +25,14 @@ public class MHMenuView {
 
     private void render() {
         try {
-
             FXMLLoader loader = new FXMLLoader(new URL("file", "", MHMenuView.FXML_LOCATION + "main.fxml"));
             loader.setController(this.controller);
             Scene scene = new Scene(loader.load(), 1080, 600);
             this.stage.setTitle("Chasse au Monstre");
             this.stage.setScene(scene);
             stage.centerOnScreen();
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
             this.stage.show();
         } catch (IOException e) {
             System.out.println(e);

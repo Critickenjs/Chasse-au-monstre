@@ -1,6 +1,5 @@
 package fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm;
 
-import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
 /*
@@ -13,11 +12,10 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @autor Selim Hamza
  * @autor Yliess El Atifi
  */
-@SuppressWarnings("unused")
-public class Node {
+public class Node implements ICoordinate {
         private final ICoordinate coordinate;
-        private final int gScore; 
-        private final int fScore; 
+        private int gScore; 
+        private int fScore; 
 
         public Node(ICoordinate coordinate, int gScore, int fScore) {
             this.coordinate = coordinate;
@@ -29,8 +27,28 @@ public class Node {
             return coordinate;
         }
 
+        public int getGScore() {
+            return gScore;
+        }
+
         public int getFScore() {
             return fScore;
+        }
+
+        public void setGScore(int gScore) {
+            this.gScore = gScore;
+        }
+
+        public void setFScore(int fScore) {
+            this.fScore = fScore;
+        }
+
+        public int getRow() {
+            return coordinate.getRow();
+        }
+
+        public int getCol() {
+            return coordinate.getCol();
         }
 
         @Override
