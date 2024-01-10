@@ -12,6 +12,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Le contrôleur associé à l'écran de fin de jeu
+ * 
+ * @see GameEndView
+ * @author Anas Ouhdda
+ * @author Atilla Tas
+ * @author Karim Aoulad-Tayab
+ * @author Selim Hamza
+ * @author Yliess El Atifi
+ */
 @SuppressWarnings("unused")
 public class GameEndController {
     @FXML
@@ -32,6 +42,11 @@ public class GameEndController {
     private MHMonsterView monsterView;
     private MHHunterView hunterView;
 
+    /**
+     *
+     * @param stage La fenêtre de l'application.
+     * @param model Le modèle.
+     */
     public GameEndController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
         this.model = model;
@@ -72,6 +87,9 @@ public class GameEndController {
         return monsterHistory;
     }
 
+    /**
+     * Gère l'action effectuée lors du clic sur le bouton "Menu principal".
+     */
     @FXML
     private void onBtnMainMenu() {
         new MHMenuView(stage, new MHMenuController(stage, model));
