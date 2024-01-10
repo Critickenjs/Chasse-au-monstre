@@ -44,27 +44,32 @@ public class MHHunterController extends MHPlayerController {
      * Initialise le contrôleur, affiche le nom du chasseur et initialise la zone
      */
     public void initialize() {
-        this.characterName.setText("Le Chasseur \n" + (this.model.getHunter().isAi() ? "IA" : this.model.getHunterName()));
+        this.characterName
+                .setText("Le Chasseur \n" + (this.model.getHunter().isAi() ? "IA" : this.model.getHunterName()));
         this.alertHistory.setVvalue(1.0);
-        if(this.socket != null) {
-            Thread t = new Thread(() ->  {
+        if (this.socket != null) {
+            Thread t = new Thread(() -> {
                 try {
-					Object obj;
-                    while(true) {
+                    Object obj;
+                    while (true) {
                         obj = UtilsServer.receive(socket);
-						if(obj.getClass() == MonsterHunterModel.class) {
-			                this.shot = false;
-							model = (MonsterHunterModel)obj;
-							model.getMonster().attach(model);
-							model.getHunter().attach(model);
-							Platform.runLater(() -> {
-								this.characterName.setText("À vous de jouer : \n Le Chasseur \n" + model.getHunterName());
-								hunterView.update();
-							});
-						} else if(obj.getClass() == String.class) {
-							if(((String)obj).equals("LOST"))
-								Platform.runLater(() -> { monsterWinAlert(); });
-						}
+                        if (obj.getClass() == MonsterHunterModel.class) {
+                            this.shot = false;
+                            model = (MonsterHunterModel) obj;
+                            model.getMonster().attach(model);
+                            model.getHunter().attach(model);
+                            Platform.runLater(() -> {
+                                this.characterName
+                                        .setText("À vous de jouer : \n Le Chasseur \n" + model.getHunterName());
+                                hunterView.update();
+                            });
+                        } else if (obj.getClass() == String.class) {
+                            if (((String) obj).equals("LOST"))
+                                Platform.runLater(() -> {
+                                    monsterWinAlert();
+                                });
+                            socket.close();
+                        }
                     }
                 } catch (ClassNotFoundException | IOException e) {
                     e.printStackTrace();
@@ -96,7 +101,7 @@ public class MHHunterController extends MHPlayerController {
             this.model.getMonster().play();
             this.hunterView.render();
             model.nextTurn();
-        } else if(this.socket != null) {
+        } else if (this.socket != null) {
             try {
                 this.skipTurn.setDisable(false);
                 model.nextTurn();
@@ -115,7 +120,9 @@ public class MHHunterController extends MHPlayerController {
      * Gère les tirs du chasseur
      * 
      * @param shotX : la coordonnée X de la cellule visée
+     * 
      * @param shotY : la coordonnée Y de la cellule visée
+     * 
      * @return true si le chasseur a touché le monstre, false sinon
      */
     public boolean handleShot(int shotX, int shotY) {
@@ -129,9 +136,14 @@ public class MHHunterController extends MHPlayerController {
         if (hit) {
             monsterAlert(shotX, shotY);
             this.updateHistory();
-            try {
-                UtilsServer.send(this.socket, "LOST");
-            } catch(IOException e) {}
+            if (this.socket != null) {
+                try {
+                    UtilsServer.send(this.socket, "LOST");
+                } catch (IOException e) {
+                }
+
+            }
+
             hunterWinAlert();
         } else if (isWall) {
             wallAlert(shotX, shotY);
@@ -143,7 +155,6 @@ public class MHHunterController extends MHPlayerController {
 
         return hit;
     }
-
 
     /*
      * Savoir si le chasseur a tiré
@@ -158,6 +169,7 @@ public class MHHunterController extends MHPlayerController {
      * Alerte le joueur que la cellule visée est vide
      * 
      * @param cellX : la coordonnée X de la cellule visée
+     * 
      * @param cellY : la coordonnée Y de la cellule visée
      */
     protected void pathAlert(int cellX, int cellY) {
@@ -171,6 +183,7 @@ public class MHHunterController extends MHPlayerController {
      * Alerte le joueur que la cellule visée est un mur
      * 
      * @param cellX : la coordonnée X de la cellule visée
+     * 
      * @param cellY : la coordonnée Y de la cellule visée
      */
     protected void wallAlert(int cellX, int cellY) {
@@ -184,6 +197,7 @@ public class MHHunterController extends MHPlayerController {
      * Alerte le joueur que la cellule visée est le monstre
      * 
      * @param cellX : la coordonnée X de la cellule visée
+     * 
      * @param cellY : la coordonnée Y de la cellule visée
      */
     private void monsterAlert(int cellX, int cellY) {
@@ -192,7 +206,7 @@ public class MHHunterController extends MHPlayerController {
         this.alertBody.setText("Vous avez trouvé le monstre aux\ncoordonnées: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.GREEN);
     }
-    
+
     /*
      * Alerte le joueur que le monstre a été tué et qu'il a gagné
      */
