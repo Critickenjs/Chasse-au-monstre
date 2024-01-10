@@ -53,12 +53,22 @@ public class GameEndView {
             loader.setController(this.controller);
             Scene scene = new Scene(loader.load(), 1080, 600);
 
+            if(hunterMaze != null)
             resizeMazeContent(hunterMaze);
+
+            if(monsterMaze != null)
             resizeMazeContent(monsterMaze);
+
+            if(hunterHistory != null)
             addHistory(hunterHistory, controller.getHunterHistory());
+
+            if(monsterHistory != null)
             addHistory(monsterHistory, controller.getMonsterHistory());
 
+            if(hunterMaze != null)
             controller.getContentHunterMaze().getChildren().add(hunterMaze);
+
+            if(monsterMaze != null)
             controller.getContentMonsterMaze().getChildren().add(monsterMaze);
 
             stage.setTitle("Chasse au monstre");

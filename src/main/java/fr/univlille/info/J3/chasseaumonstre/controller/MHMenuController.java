@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
+import fr.univlille.info.J3.chasseaumonstre.views.GameEndView;
 import fr.univlille.info.J3.chasseaumonstre.views.JVJView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHAIView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHHunterView;
@@ -57,6 +58,7 @@ public class MHMenuController {
     private MonsterHunterModel model;
     private MHHunterView hunterView;
     private MHMonsterView monsterView;
+    private GameEndView gameEndView;
 
     public MHMenuController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
@@ -274,6 +276,12 @@ public class MHMenuController {
         MHMonsterController mc = null;
         MHHunterController hc = null;
 
+        GameEndController gc = new GameEndController(stage, model);
+        this.gameEndView = new GameEndView(stage, gc);
+        gc.setGameEndView(gameEndView);
+        gc.setHunterView(hunterView);
+        gc.setMonsterView(monsterView);
+
         model.initialize();
         if (!monsterAI) {
             mc = new MHMonsterController(stage, model);
@@ -286,10 +294,12 @@ public class MHMenuController {
             this.hunterView = new MHHunterView(stage, hc);
             hc.setHunterView(this.hunterView);
             hc.setMonsterView(this.monsterView);
+            hc.setGameEndView(gameEndView);
         }
 
         if (mc != null) {
             mc.setHunterView(this.hunterView);
+            mc.setGameEndView(gameEndView);
         }
 
         if (monsterAI && hunterAI) {
@@ -299,6 +309,7 @@ public class MHMenuController {
             MHAIController aiController = new MHAIController(stage, model);
             MHAIView aiView = new MHAIView(stage, aiController);
             aiController.setView(aiView);
+            aiController.setGameEndView(gameEndView);
             aiView.render();
         } else if (monsterAI) {
             model.getMonster().setAi(monsterAI);

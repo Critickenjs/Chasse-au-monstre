@@ -1,7 +1,6 @@
 package fr.univlille.info.J3.chasseaumonstre.controller;
 
 import SubjectObserver.Subject;
-import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.views.MHAIView;
@@ -152,15 +151,9 @@ public class MHAIController extends MHPlayerController {
     }
 
     /*
-     * Retourne au menu principal lorsque la fenêtre est fermée
+     * Affiche l'écran de fin de partie lorsque l'alerte est fermée
      */
     protected void alertOnClose() {
-        try {
-            new App().start(new Stage());
-            this.stage.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
+        gameEndView.render();
     }
 }
