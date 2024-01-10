@@ -32,6 +32,8 @@ public class MHHunterController extends MHPlayerController {
 
     private boolean shot;
 
+    private boolean socketOpen = true;
+
     public MHHunterController(Stage stage, MonsterHunterModel model, Socket socket) {
         super(stage, model, socket);
     }
@@ -51,7 +53,7 @@ public class MHHunterController extends MHPlayerController {
             Thread t = new Thread(() -> {
                 try {
                     Object obj;
-                    while (true) {
+                    while (socketOpen) {
                         obj = UtilsServer.receive(socket);
                         if (obj.getClass() == MonsterHunterModel.class) {
                             this.shot = false;
@@ -64,11 +66,13 @@ public class MHHunterController extends MHPlayerController {
                                 hunterView.update();
                             });
                         } else if (obj.getClass() == String.class) {
-                            if (((String) obj).equals("LOST"))
+                            if (((String) obj).equals("LOST")) {
                                 Platform.runLater(() -> {
                                     monsterWinAlert();
                                 });
-                            socket.close();
+                                socket.close();
+                                socketOpen = false;
+                            }
                         }
                     }
                 } catch (ClassNotFoundException | IOException e) {
