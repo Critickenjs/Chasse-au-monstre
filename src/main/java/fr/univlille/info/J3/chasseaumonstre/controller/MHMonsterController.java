@@ -55,35 +55,41 @@ public class MHMonsterController extends MHPlayerController {
      * Initialise le contrôleur, affiche le nom du monstre et initialise la zone
      */
     public void initialize() {
-        this.characterName.setText("Le Monstre \n" + (this.model.getMonster().isAi() ? "IA" : this.model.getMonsterName()));
+        this.characterName
+                .setText("Le Monstre \n" + (this.model.getMonster().isAi() ? "IA" : this.model.getMonsterName()));
         this.alertHistory.setVvalue(1.0);
-        Image fogImage = new Image("https://cdn.discordapp.com/attachments/1159749679353974806/1172561801574109214/fog.png?ex=6560c446&is=654e4f46&hm=179e40d2cf2e2a6cd19f72a721db7dbcba4c816b9bb6b3d26fd77ed71709df80&");
+        Image fogImage = new Image(
+                "https://cdn.discordapp.com/attachments/1159749679353974806/1172561801574109214/fog.png?ex=6560c446&is=654e4f46&hm=179e40d2cf2e2a6cd19f72a721db7dbcba4c816b9bb6b3d26fd77ed71709df80&");
         BackgroundImage myBI = new BackgroundImage(fogImage,
-        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(1.0, 1.0, true, true, false, true));
+                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                new BackgroundSize(1.0, 1.0, true, true, false, true));
         contentV.setBackground(new Background(myBI));
         this.stage.setFullScreen(true);
         stage.setFullScreenExitHint("");
-        
-        if(this.socket != null) {
+
+        if (this.socket != null) {
             this.skipTurn.setDisable(true);
-			this.moved = true;
-            Thread t = new Thread(() ->  {
+            this.moved = true;
+            Thread t = new Thread(() -> {
                 try {
                     Object obj;
-                    while(true) {
+                    while (true) {
                         obj = UtilsServer.receive(socket);
-                        if(obj.getClass() == MonsterHunterModel.class) {
-							moved = false;
-                            model = (MonsterHunterModel)obj;
+                        if (obj.getClass() == MonsterHunterModel.class) {
+                            moved = false;
+                            model = (MonsterHunterModel) obj;
                             model.getMonster().attach(model);
                             model.getHunter().attach(model);
                             Platform.runLater(() -> {
                                 characterName.setText("À vous de jouer : \n Le Monstre \n" + model.getMonsterName());
                                 monsterView.update();
                             });
-                        } else if(obj.getClass() == String.class) {
-                            if(((String)obj).equals("LOST"))
-                                Platform.runLater(() -> { hunterWinAlert(); });
+                        } else if (obj.getClass() == String.class) {
+                            if (((String) obj).equals("LOST"))
+                                Platform.runLater(() -> {
+                                    hunterWinAlert();
+                                });
+                            socket.close();
                         }
                     }
                 } catch (ClassNotFoundException | IOException e) {
@@ -105,7 +111,7 @@ public class MHMonsterController extends MHPlayerController {
     /*
      * Définit la vue à contrôler
      * 
-     * @param monsterView : la vue 
+     * @param monsterView : la vue
      */
     public void setVue(MHMonsterView monsterView) {
         this.monsterView = monsterView;
@@ -137,16 +143,20 @@ public class MHMonsterController extends MHPlayerController {
      * Fait avancer le monstre
      * 
      * @param moveX : la coordonnée X de la case visée
+     * 
      * @param moveY : la coordonnée Y de la case visée
+     * 
      * @return true si le monstre a bougé, false sinon
      */
     private boolean advance(int moveX, int moveY) {
         if (model.getMonster().estAdjacente(moveX, moveY)) {
-            /* -----> Décommenter pour ne plus pouvoir revenir sur ses pas
-            if (model.getMonster().isVisited(moveX, moveY)) {
-                visitedAlert(moveX, moveY);
-                return false;
-            }*/
+            /*
+             * -----> Décommenter pour ne plus pouvoir revenir sur ses pas
+             * if (model.getMonster().isVisited(moveX, moveY)) {
+             * visitedAlert(moveX, moveY);
+             * return false;
+             * }
+             */
             moved = true;
             skipTurn.setDisable(false);
             model.getMonster().setCoord(moveX, moveY, model.getTurn());
@@ -162,7 +172,9 @@ public class MHMonsterController extends MHPlayerController {
      * Gère le déplacement du monstre
      * 
      * @param moveX : la coordonnée X de la case de destination
+     * 
      * @param moveY : la coordonnée Y de la case de destination
+     * 
      * @return la valeur de la case de destination
      */
     public CellInfo handleMove(int moveX, int moveY) {
@@ -174,16 +186,17 @@ public class MHMonsterController extends MHPlayerController {
             wallAlert(moveX, moveY);
             return CellInfo.WALL;
         } else if (exit.getRow() == moveX && exit.getCol() == moveY) {
-            if (advance(moveX, moveY)) {
+            if (advance(moveX, moveY) && this.socket != null) {
                 this.updateHistory();
                 try {
                     UtilsServer.send(this.socket, "LOST");
-                } catch(IOException e) {}
+                } catch (IOException e) {
+                }
                 monsterWinAlert();
             }
             return CellInfo.EXIT;
         } else {
-            if (advance(moveX, moveY)) {
+            if (advance(moveX, moveY) && this.socket != null) {
                 UtilsController.playSound(UtilsController.STEPS_SOUND_PATH, VOLUME);
                 pathAlert(moveX, moveY);
                 this.updateHistory();
@@ -200,6 +213,7 @@ public class MHMonsterController extends MHPlayerController {
      * Alerte le joueur que la case visée est vide
      * 
      * @param cellX : la coordonnée X de la case visée
+     * 
      * @param cellY : la coordonnée Y de la case visée
      */
     protected void pathAlert(int cellX, int cellY) {
@@ -212,6 +226,7 @@ public class MHMonsterController extends MHPlayerController {
      * Alerte le joueur que la case visée est un mur
      * 
      * @param cellX : la coordonnée X de la case visée
+     * 
      * @param cellY : la coordonnée Y de la case visée
      */
     protected void wallAlert(int cellX, int cellY) {
@@ -220,23 +235,26 @@ public class MHMonsterController extends MHPlayerController {
         this.alertHeader.setTextFill(Color.RED);
     }
 
-    /* -----> Décommenter pour ne plus pouvoir revenir sur ses pas
+    /*
+     * -----> Décommenter pour ne plus pouvoir revenir sur ses pas
      * Alerte le joueur que la case visée a déjà été visitée
      * 
      * @param cellX : la coordonnée X de la case visée
+     * 
      * @param cellY : la coordonnée Y de la case visée
-     
-    private void visitedAlert(int cellX, int cellY) {
-        this.alertHeader.setText("Vous avez déjà marché sur cette case.");
-        this.alertBody.setText("Coordonnées: (" + cellX + ", " + cellY + ")");
-        this.alertHeader.setTextFill(Color.ORANGE);
-    }
-    */
+     * 
+     * private void visitedAlert(int cellX, int cellY) {
+     * this.alertHeader.setText("Vous avez déjà marché sur cette case.");
+     * this.alertBody.setText("Coordonnées: (" + cellX + ", " + cellY + ")");
+     * this.alertHeader.setTextFill(Color.ORANGE);
+     * }
+     */
 
     /*
      * Alerte le joueur que la case visée est trop loin
      * 
      * @param cellX : la coordonnée X de la case visée
+     * 
      * @param cellY : la coordonnée Y de la case visée
      */
     private void farAlert(int cellX, int cellY) {
