@@ -246,10 +246,13 @@
 
 8 Janvier - 14 Janvier
 
+**Anas Ouhdda** :
+- Ajout de conditions manquantes dans les algorithmes
+- Création de tests pour le DFS et l'objet Node
+
 **Selim Hamza** :
 - Ajout de tests pour augmenter le coverage (package `algorithm` et `strategy`)
 - Refactoring de l'attribut d'algorithme *(Class remplace le type String)*
-- Correction de bugs des algorithmes
 
 **Karim Aoulad-Tayab** :
 - Aucune contribution enregistrée cette semaine.
