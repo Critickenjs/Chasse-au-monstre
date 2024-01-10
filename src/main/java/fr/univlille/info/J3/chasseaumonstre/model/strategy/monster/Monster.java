@@ -12,7 +12,6 @@ import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.AStar;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Algorithm;
-import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.DepthFirstSearch;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Dijkstra;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
@@ -37,7 +36,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     private boolean ai;
     private List<ICoordinate> path;
     private int turn;
-    private String algorithm;
+    private Class<? extends Algorithm> algorithm;
 
     public Monster() {
         this.exit = null;
@@ -47,7 +46,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.ai = false;
         this.path = new ArrayList<>();
         this.turn = 0;
-        this.algorithm = "A*";
+        this.algorithm = AStar.class;
     }
 
     /*
@@ -91,11 +90,20 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.ai = ai;
     }
 
-    public void setAlgorithm(String algorithm) {
+    public void setAlgorithm(Class<? extends Algorithm> algorithm) {
         this.algorithm = algorithm;
     }
 
-    public String getAlgorithm() {
+    @SuppressWarnings("unchecked")
+    public void setAlgorithm(String algorithm){
+        try {
+            this.algorithm = (Class<? extends Algorithm>) Class.forName("fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm." + algorithm);
+        } catch (ClassNotFoundException e) {
+            this.algorithm = AStar.class;
+        }
+    }
+
+    public Class<? extends Algorithm> getAlgorithm() {
         return this.algorithm;
     }
 
@@ -108,25 +116,14 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      */
     private void executeAlgorithm() {
         Algorithm algorithm;
-        switch (this.algorithm) {
-            case "dijkstra":
-                algorithm = new Dijkstra(this.entry, this.exit, this.maze);
-                this.path = algorithm.execute();
-                break;
-            case "A*":
-                algorithm = new AStar(this.entry, this.exit, this.maze);
-                this.path = algorithm.execute();
-                break;
-            case "dfs":
-                algorithm = new DepthFirstSearch(this.entry, this.exit, this.maze);
-                this.path = algorithm.execute();
-
-            default:
-                algorithm = new AStar(this.entry, this.exit, this.maze);
-                this.path = algorithm.execute();
-                break;
-
+        try {
+            algorithm = this.algorithm.getConstructor(ICoordinate.class, ICoordinate.class, boolean[][].class)
+                    .newInstance(this.entry, this.exit, this.maze);
+        } catch (Exception e) {
+            algorithm = new AStar(this.entry, this.exit, this.maze);
         }
+        this.path = algorithm.execute();
+        System.out.println(algorithm.getClass().getSimpleName() + " - Chemin trouvé : " + algorithm.getTime() + "ms");
     }
 
     /*
@@ -270,6 +267,9 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      */
     public int getVisitedTurn(int row, int col) {
         try {
+            if (visitedTurn[row][col] == null) {
+                return -1;
+            }
             return visitedTurn[row][col];
         } catch (ArrayIndexOutOfBoundsException e) {
             return -1;
@@ -357,10 +357,10 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.coord = (Coordinate) ois.readObject();
         this.maze = (boolean[][]) ois.readObject();
         this.visitedTurn = (Integer[][]) ois.readObject();
-        this.algorithm = (String) ois.readObject();
         this.ai = (boolean) ois.readObject();
         this.path = (List<ICoordinate>) ois.readObject();
         this.turn = (int) ois.readObject();
+        this.algorithm = (Class<? extends Algorithm>) ois.readObject();
     }
 
     /*
