@@ -215,7 +215,7 @@ public abstract class MHPlayerController {
     protected abstract void wallAlert(int cellX, int cellY);
 
     /*
-     * Retourne au menu principal
+     * Affiche l'écran de fin de partie lorsque l'alerte est fermée
      */
     protected abstract void alertOnClose();
 }

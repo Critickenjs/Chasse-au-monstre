@@ -221,7 +221,7 @@ public class MHMonsterController extends MHPlayerController {
     }
 
     /*
-     * Retourne au menu principal lorsque la fenêtre est fermée
+     * Affiche l'écran de fin de partie lorsque l'alerte est fermée
      */
     protected void alertOnClose() {
         gameEndView.render();
