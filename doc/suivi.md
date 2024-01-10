@@ -242,3 +242,9 @@
 **Atilla Tas** :
 - Aucune contribution enregistrée cette semaine.
 
+## Semaine 54
+
+8 Janvier - 14 Janvier
+
+**Karim Aoulad-Tayab** :
+- Aucune contribution enregistrée cette semaine.
