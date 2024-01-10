@@ -52,7 +52,7 @@ public class AStar implements Algorithm {
      */
     @Override
     public List<ICoordinate> execute() {
-        if (entry == null || exit == null || maze == null) {
+        if (entry == null || exit == null || maze == null || !maze[entry.getRow()][entry.getCol()] || !maze[exit.getRow()][exit.getCol()]) {
             return null;
         }
         time = System.currentTimeMillis();

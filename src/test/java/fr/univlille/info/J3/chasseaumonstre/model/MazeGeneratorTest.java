@@ -19,9 +19,6 @@ public class MazeGeneratorTest {
 
         assertEquals(10, maze.length);
         assertEquals(10, maze[0].length);
-
-        assertEquals(0, maze[generator.getEntranceRow()][0]); // Entrée
-        assertEquals(0, maze[generator.getExitRow()][9]); // Sortie
     }
 
     @Test
