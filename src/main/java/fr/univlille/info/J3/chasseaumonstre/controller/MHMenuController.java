@@ -1,5 +1,6 @@
 package fr.univlille.info.J3.chasseaumonstre.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -19,8 +20,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
+import fr.univlille.info.J3.chasseaumonstre.server.UtilsServer;
 import fr.univlille.info.J3.chasseaumonstre.views.GameEndView;
 import fr.univlille.info.J3.chasseaumonstre.views.JVJView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHAIView;
@@ -44,6 +47,8 @@ public class MHMenuController {
     @FXML
     private Button jvjBtn;
     @FXML
+    private Button pvpBtn;
+    @FXML
     private Button cviBtn;
     @FXML
     private Button mviBtn;
@@ -58,12 +63,12 @@ public class MHMenuController {
     private MonsterHunterModel model;
     private MHHunterView hunterView;
     private MHMonsterView monsterView;
+    private Socket socket;
     private GameEndView gameEndView;
 
     public MHMenuController(Stage stage, MonsterHunterModel model) {
         this.stage = stage;
         this.model = model;
-        this.jvjBtn = new Button();
     }
 
     public MonsterHunterModel getModel() {
@@ -258,18 +263,41 @@ public class MHMenuController {
         fovSettings.setAlignment(Pos.CENTER_LEFT);
         vbox.setSpacing(10);
 
-        Scene scene = new Scene(vbox, 450, 250);
+        Scene scene = new Scene(vbox, 450, 210);
         stageParameter.setScene(scene);
         stageParameter.setResizable(false);
         stageParameter.initOwner(this.stage);
         stageParameter.initModality(Modality.WINDOW_MODAL);
-
+        stageParameter.setScene(scene);
+        stageParameter.setResizable(false);
         stageParameter.show();
     }
 
     @FXML
     private void onQuit() {
         this.stage.close();
+    }
+
+    /**
+     * Synchroniser les pseudos, la liste des observateurs (pour le Monstre et le
+     * Chasseur) des utilisateurs sur chaque client
+     * 
+     * @param role
+     * @param currentClientUsername
+     */
+    private void synchronize(String role, String currentClientUsername) {
+        try {
+            UtilsServer.send(this.socket, this.model);
+            this.model = (MonsterHunterModel) UtilsServer.receive(socket);
+            if (role.equals("Monster"))
+                this.model.setMonsterName(currentClientUsername);
+            else
+                this.model.setHunterName(currentClientUsername);
+            this.model.getMonster().attach(this.model);
+            this.model.getHunter().attach(this.model);
+        } catch (ClassNotFoundException | IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
     private void startGame(boolean hunterAI, boolean monsterAI) {
@@ -321,8 +349,115 @@ public class MHMenuController {
         } else {
             this.hunterView.render();
         }
-        stage.setFullScreen(true);
-        stage.setFullScreenExitHint("");
+    }
+
+    @FXML
+    private void onPVPMulti() {
+        Stage stageMulti = new Stage();
+        VBox vbox = new VBox();
+
+        HBox hbox = new HBox();
+        Label label = new Label("Nom du joueur");
+        TextField nom_joueur = new TextField();
+        hbox.getChildren().addAll(label, nom_joueur);
+        HBox.setMargin(label, new Insets(10, 10, 10, 10));
+        HBox.setMargin(nom_joueur, new Insets(10, 10, 10, 10));
+
+        HBox hbox2 = new HBox();
+        Label label2 = new Label("ip:port");
+        TextField ip = new TextField();
+        hbox2.getChildren().addAll(label2, ip);
+        HBox.setMargin(label2, new Insets(10, 10, 10, 10));
+        HBox.setMargin(ip, new Insets(10, 10, 10, 64));
+
+        Button button = new Button("Se connecter au lobby");
+        button.setStyle("-fx-background-color: lightgrey;");
+        VBox.setMargin(button, new Insets(10, 10, 10, 10));
+
+        button.setOnAction(e -> {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setHeaderText(null);
+            error.setTitle("Erreur");
+
+            Alert success = new Alert(Alert.AlertType.INFORMATION);
+            success.setHeaderText(null);
+            success.setContentText("Vous êtes connecté avec succès au serveur");
+            success.setTitle("En attente que le serveur lance la partie...");
+
+            String username = nom_joueur.getText();
+            String address = ip.getText();
+
+            if (!username.equals("")) {
+                if (!address.equals("")) {
+                    if (UtilsController.checkAddressSyntax(address)) {
+                        String[] addr = address.split(":");
+                        if (addr[1].equals("8080")) {
+                            try {
+                                int port = Integer.parseInt(addr[1]);
+                                this.socket = new Socket(addr[0], port);
+                                Thread t = new Thread(() -> {
+                                    try {
+                                        String msg = (String) UtilsServer.receive(this.socket);
+                                        this.model = (MonsterHunterModel) UtilsServer.receive(this.socket);
+
+                                        Platform.runLater(() -> {
+                                            success.close();
+                                            stageMulti.close();
+
+                                            if (msg.equals("Monster")) {
+                                                this.model.setMonsterName(username);
+                                                this.synchronize("Monster", username);
+                                                MHMonsterController mc = new MHMonsterController(this.stage, this.model,
+                                                        this.socket);
+                                                this.monsterView = new MHMonsterView(this.stage, mc);
+                                                mc.setMonsterView(this.monsterView);
+                                                mc.setHunterView(this.hunterView);
+                                                this.monsterView.render();
+                                            } else {
+                                                this.model.setHunterName(username);
+                                                this.synchronize("Hunter", username);
+                                                MHHunterController hc = new MHHunterController(this.stage, this.model,
+                                                        this.socket);
+                                                this.hunterView = new MHHunterView(this.stage, hc);
+                                                hc.setHunterView(this.hunterView);
+                                                hc.setMonsterView(this.monsterView);
+                                                this.hunterView.render();
+                                            }
+                                        });
+                                    } catch (ClassNotFoundException | IOException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                });
+                                t.start();
+                                success.showAndWait();
+                            } catch (NumberFormatException | IOException e2) {
+                                System.out.println(e);
+                            }
+                        } else {
+                            error.setContentText("Le port ne correspond à celui du serveur");
+                            error.showAndWait();
+                        }
+                    } else {
+                        error.setContentText("Le format de l'adresse est incorrecte");
+                        error.showAndWait();
+                    }
+                } else {
+                    error.setContentText("Veuillez vérifier que le champ 'ip:port' a été rempli");
+                    error.showAndWait();
+                }
+            } else {
+                error.setContentText("Veuillez vérifier que le champ 'nom d'utilisateur' a été rempli");
+                error.showAndWait();
+            }
+        });
+
+        vbox.getChildren().addAll(hbox, hbox2, button);
+        stageMulti.setTitle("Connexion à un serveur");
+        stage.setResizable(false);
+        stageMulti.initOwner(this.stage);
+        stageMulti.initModality(Modality.WINDOW_MODAL);
+        stageMulti.setScene(new Scene(vbox, 350, 140));
+        stageMulti.show();
     }
 
     /*
@@ -331,6 +466,7 @@ public class MHMenuController {
      */
     public void initialize() {
         UtilsController.hovereffect(jvjBtn);
+        UtilsController.hovereffect(pvpBtn);
         UtilsController.hovereffect(cviBtn);
         UtilsController.hovereffect(mviBtn);
         UtilsController.hovereffect(iviBtn);

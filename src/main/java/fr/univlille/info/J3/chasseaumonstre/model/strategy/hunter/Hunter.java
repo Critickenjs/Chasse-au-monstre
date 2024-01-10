@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
@@ -59,6 +60,14 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
      */
     public void initialize(int row, int col) {
         this.shootLocations = new boolean[row][col];
+    }
+
+    public List<Observer> attachedObservers() {
+        return this.attached;
+    }
+
+    public boolean[][] getShootLocations() {
+        return this.shootLocations;
     }
 
     public String getName() {
@@ -205,12 +214,17 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         oos.writeObject(this.name);
         oos.writeObject(this.visited);
         oos.writeObject(this.visitedTurn);
+        oos.writeObject(this.ai);
+        oos.writeObject(this.neighboursCellsExploration);
     }
 
+    @SuppressWarnings("unchecked")
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
         this.shootLocations = (boolean[][])ois.readObject();
         this.name = (String)ois.readObject();
         this.visited = (boolean[][])ois.readObject();
         this.visitedTurn = (int[][])ois.readObject();
+        this.ai = (boolean)ois.readObject();
+        this.neighboursCellsExploration = (Stack<ICoordinate>)ois.readObject();
     }
 }

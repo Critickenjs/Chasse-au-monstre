@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.*;
-import SubjectObserver.Subject;
+import java.util.ArrayList;
+import java.util.List;
+import SubjectObserver.*;
 import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
@@ -56,6 +57,10 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     public Monster(boolean[][] locations) {
         this();
         initialize(locations);
+    }
+
+    public List<Observer> attachedObservers() {
+        return this.attached;
     }
 
     /*
@@ -141,8 +146,8 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         return entry;
     }
 
-    public boolean[][] getVisited() {
-        return null;
+    public Integer[][] getVisitedTurn() {
+        return this.visitedTurn;
     }
 
     /*
@@ -339,9 +344,12 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         oos.writeObject(this.coord);
         oos.writeObject(this.maze);
         oos.writeObject(this.visitedTurn);
+        oos.writeObject(this.ai);
+        oos.writeObject(path);
+        oos.writeObject(this.turn);
         oos.writeObject(this.algorithm);
     }
-    
+
     @SuppressWarnings("unchecked")
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
         this.exit = (Coordinate) ois.readObject();
@@ -349,7 +357,10 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.coord = (Coordinate) ois.readObject();
         this.maze = (boolean[][]) ois.readObject();
         this.visitedTurn = (Integer[][]) ois.readObject();
-        this.algorithm = (Class<Algorithm>) ois.readObject();
+        this.ai = (boolean) ois.readObject();
+        this.path = (List<ICoordinate>) ois.readObject();
+        this.turn = (int) ois.readObject();
+        this.algorithm = (Class<? extends Algorithm>) ois.readObject();
     }
 
     /*

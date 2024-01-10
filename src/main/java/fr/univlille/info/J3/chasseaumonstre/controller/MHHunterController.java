@@ -1,8 +1,13 @@
 package fr.univlille.info.J3.chasseaumonstre.controller;
 
+import java.io.IOException;
+import java.net.Socket;
+
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
+import fr.univlille.info.J3.chasseaumonstre.server.UtilsServer;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -26,8 +31,12 @@ public class MHHunterController extends MHPlayerController {
 
     private boolean shot;
 
+    public MHHunterController(Stage stage, MonsterHunterModel model, Socket socket) {
+        super(stage, model, socket);
+    }
+
     public MHHunterController(Stage stage, MonsterHunterModel model) {
-        super(stage, model);
+        this(stage, model, null);
     }
 
     /*
@@ -36,6 +45,32 @@ public class MHHunterController extends MHPlayerController {
     public void initialize() {
         this.characterName.setText("Le Chasseur \n" + (this.model.getHunter().isAi() ? "IA" : this.model.getHunterName()));
         this.alertHistory.setVvalue(1.0);
+        if(this.socket != null) {
+            Thread t = new Thread(() ->  {
+                try {
+					Object obj;
+                    while(true) {
+                        obj = UtilsServer.receive(socket);
+						if(obj.getClass() == MonsterHunterModel.class) {
+			                this.shot = false;
+							model = (MonsterHunterModel)obj;
+							model.getMonster().attach(model);
+							model.getHunter().attach(model);
+							Platform.runLater(() -> {
+								this.characterName.setText("À vous de jouer : \n Le Chasseur \n" + model.getHunterName());
+								hunterView.update();
+							});
+						} else if(obj.getClass() == String.class) {
+							if(((String)obj).equals("LOST"))
+								Platform.runLater(() -> { monsterWinAlert(); });
+						}
+                    }
+                } catch (ClassNotFoundException | IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            t.start();
+        }
     }
 
     public MonsterHunterModel getModel() {
@@ -59,8 +94,19 @@ public class MHHunterController extends MHPlayerController {
         if (model.getMonster().isAi()) {
             this.model.getMonster().play();
             this.hunterView.render();
+            model.nextTurn();
+        } else if(this.socket != null) {
+            try {
+                this.skipTurn.setDisable(false);
+                model.nextTurn();
+                UtilsServer.send(this.socket, this.model);
+                this.characterName.setText("En attente du \n prochain coup...");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             this.monsterView.render();
+            model.nextTurn();
         }
     }
 
@@ -82,6 +128,10 @@ public class MHHunterController extends MHPlayerController {
         if (hit) {
             monsterAlert(shotX, shotY);
             this.updateHistory();
+            try {
+                UtilsServer.send(this.socket, "LOST");
+            } catch(IOException e) {}
+            hunterWinAlert();
         } else if (isWall) {
             wallAlert(shotX, shotY);
             this.updateHistory();
@@ -147,7 +197,7 @@ public class MHHunterController extends MHPlayerController {
      */
     public void hunterWinAlert() {
         UtilsController.playSound(UtilsController.MONSTERKILL_SOUND_PATH, VOLUME);
-        this.winAlert.setTitle("Victoire du CHASSEUR");
+        this.winAlert.setTitle("Victoire du CHASSEUR " + this.model.getHunterName());
         this.winAlert.setHeaderText(null);
         this.winAlert.setContentText("Le Chasseur a abattu le Monstre. Le Chasseur gagne !");
         this.winAlert.showAndWait();
@@ -159,7 +209,7 @@ public class MHHunterController extends MHPlayerController {
      * Alerte le joueur que le monstre a atteint la sortie et qu'il a gagné
      */
     public void monsterWinAlert() {
-        this.winAlert.setTitle("Victoire du MONSTRE");
+        this.winAlert.setTitle("Victoire du MONSTRE" + this.model.getMonsterName());
         this.winAlert.setHeaderText(null);
         this.winAlert.setContentText("Le Monstre a atteint la sortie du Labyrinthe. Le Monstre gagne !");
         this.winAlert.showAndWait();
