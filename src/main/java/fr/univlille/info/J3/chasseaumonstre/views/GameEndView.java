@@ -17,17 +17,36 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+/**
+ * La classe représentant la vue de l'écran de fin de jeu
+ * 
+ * @see GameEndController
+ * @author Anas Ouhdda
+ * @author Atilla Tas
+ * @author Karim Aoulad-Tayab
+ * @author Selim Hamza
+ * @author Yliess El Atifi
+ */
 public class GameEndView {
     private Stage stage;
     private GameEndController controller;
     private GridPane hunterMaze, monsterMaze;
     private List<Label> hunterHistory, monsterHistory;
 
+
+    /**
+     *
+     * @param stage      La fenêtre de l'application.
+     * @param controller Le contrôleur associé à cette vue.
+     */
     public GameEndView(Stage stage, GameEndController controller) {
         this.stage = stage;
         this.controller = controller;
     }
 
+    /**
+     * Affichee l'écran de fin de jeu.
+     */
     public void render() {
         try {
             FXMLLoader loader = new FXMLLoader(new URL("file", "", UtilsView.FXML_LOCATION + "GameEndView.fxml"));
@@ -67,6 +86,12 @@ public class GameEndView {
         this.monsterHistory = history;
     }
 
+
+    /**
+     * Redimensionne le contenu du labyrinthe.
+     *
+     * @param maze Le labyrinthe à redimensionner.
+     */
     private void resizeMazeContent(GridPane maze) {
         for (Node child : maze.getChildren()) {
             if (child instanceof StackPane) {
@@ -85,6 +110,12 @@ public class GameEndView {
         maze.setDisable(true);
     }
 
+    /**
+     * Ajoute l'historique à la vue.
+     *
+     * @param alerts        La liste des alertes (actions).
+     * @param contentAlerts Le conteneur d'affichage des alertes.
+     */
     private void addHistory(List<Label> alerts, VBox contentAlerts) {
         if (alerts != null) {
             for (Label action : alerts) {
