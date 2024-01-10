@@ -246,5 +246,10 @@
 
 8 Janvier - 14 Janvier
 
+**Selim Hamza** :
+- Ajout de tests pour augmenter le coverage (package `algorithm` et `strategy`)
+- Refactoring de l'attribut d'algorithme *(Class remplace le type String)*
+- Correction de bugs des algorithmes
+
 **Karim Aoulad-Tayab** :
 - Aucune contribution enregistrée cette semaine.
