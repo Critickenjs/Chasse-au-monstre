@@ -104,11 +104,9 @@ public class MHHunterController extends MHPlayerController {
         if (model.getMonster().isAi()) {
             this.model.getMonster().play();
             this.hunterView.render();
-            model.nextTurn();
-        } else if (this.socket != null) {
+        } else if(this.socket != null) {
             try {
                 this.skipTurn.setDisable(false);
-                model.nextTurn();
                 UtilsServer.send(this.socket, this.model);
                 this.characterName.setText("En attente du \n prochain coup...");
             } catch (IOException e) {
@@ -116,7 +114,6 @@ public class MHHunterController extends MHPlayerController {
             }
         } else {
             this.monsterView.render();
-            model.nextTurn();
         }
     }
 

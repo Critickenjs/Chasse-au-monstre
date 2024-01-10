@@ -10,6 +10,11 @@ Jeu vidéo graphique basé sur JavaFX, où l'on incarne un chasseur ou un monstr
 | TAS Atilla |
 | HAMZA Sélim|
 
+### Sommaire
+
+- [Livrable 1](#livrable-1)
+- [Livrable 2](#livrable-2)
+
 #### Lancement de l'application
 
 Décompressez le fichier 'ChasseAuMonstre-V2.zip' (dernière version du jeu) dans le répertoire 'releases' et à l'intérieur du fichier décompressé éxecutez cette commande:
@@ -29,3 +34,17 @@ javadoc -private -author -d doc/chasseaumonstre -cp src/main/resources/cam-playe
 UML
 
 ![uml](doc/livrable-1/rapports/img/Diagramme_de_classes.png)
+
+## Livrable 2
+
+Consignes pour utiliser le mode multi:
+
+- Lancer le serveur MonsterHunterServer au préalable
+- Appuyer sur le bouton 'Multijoueur' lors du lancement du jeu
+- Écrire le nom du joueur A
+- Pour l'ip il y a 2 situations possibles:
+    - En localhost (boucle locale): **127.0.0.1:8080** (port en écoute par le serveur)
+    - En local (dans le réseau local): **[ipv4_de_la_machine]:8080**
+    - À distance (la machine hébergeant le serveur doit configurer un serveur dédié/VPS ou tout simplement faire une redirection de ports à configurer via le routeur) : **[ip_public]:8080**
+
+![example_multi](example_multi.png)
