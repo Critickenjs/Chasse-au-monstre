@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+@SuppressWarnings("unused")
 public class GameEndController {
     @FXML
     private VBox contentHunterMaze, contentMonsterMaze;
