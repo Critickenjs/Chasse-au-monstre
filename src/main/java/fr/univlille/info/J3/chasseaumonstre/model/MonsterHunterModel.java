@@ -224,9 +224,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
                 this.notifyObservers(monster);
             } else {
                 this.notifyObservers(coordinates);
-                if (monster.isAi()) {
-                    nextTurn();
-                }
+                nextTurn();
             }
         } else {
             if (coordinates.equals(getMonster().getCoord())) {

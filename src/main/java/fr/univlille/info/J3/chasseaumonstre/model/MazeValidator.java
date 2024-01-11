@@ -23,7 +23,9 @@ public class MazeValidator {
      * Constructeur de MazeValidator
      * 
      * @param width la largeur du labyrinthe
+     * 
      * @param height la hauteur du labyrinthe
+     * 
      * @param maze le labyrinthe généré
      */
     public MazeValidator(MazeGenerator mazeGenerator) {
@@ -42,6 +44,7 @@ public class MazeValidator {
     private Coordinate getEntrance() {
         return this.mazeGenerator.getEntranceCoordinate();
     }
+
     private Coordinate getExit() {
         return this.mazeGenerator.getExitCoordinate();
     }
@@ -49,7 +52,8 @@ public class MazeValidator {
     /*
      * Vérifie si le labyrinthe contient un chemin entre l'entrée et la sortie
      * 
-     * @return true si le labyrinthe contient un chemin entre l'entrée et la sortie, false sinon
+     * @return true si le labyrinthe contient un chemin entre l'entrée et la sortie,
+     * false sinon
      */
     public boolean isValid() {
         return isValid(maze, getEntrance(), getExit());
@@ -60,13 +64,11 @@ public class MazeValidator {
     }
 
     public static boolean isValid(boolean[][] maze, Coordinate entrance, Coordinate exit) {
+
         List<ICoordinate> astar = new AStar(entrance, exit, maze).execute();
-        if(astar == null) {
+        if (astar == null) {
             return false;
         }
         return true;
     }
 }
-
-
-

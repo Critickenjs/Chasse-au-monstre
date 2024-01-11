@@ -80,7 +80,6 @@ public class MHAIController extends MHPlayerController {
             skipTurn.setDisable(true);
             handleAction(getModel().getHunter(), this.model.getHunter().play());
             handleAction(getModel().getMonster(), this.model.getMonster().play());
-            this.model.nextTurn();
             skipTurn.setDisable(false);
         } 
     }
