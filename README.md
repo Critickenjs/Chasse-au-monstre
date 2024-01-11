@@ -29,6 +29,21 @@ java --module-path [CHEMIN_ABSOLU_VERS_LE_DOSSIER_LIB_DE_JAVAFX] --add-modules j
 javadoc -private -author -d doc/chasseaumonstre -cp src/main/resources/cam-player-api-base.jar:src/main/resources/junit-platform-console-standalone-1.10.0.jar --module-path [CHEMIN_VERS_LE_DOSSIER_LIB_DU_SDK_JAVAFX] --add-modules javafx.controls,javafx.fxml,javafx.media -sourcepath src/main/java -docletpath src/main/resources/umldoclet-2.1.0.jar -doclet nl.talsmasoftware.umldoclet.UMLDoclet -subpackages chasseaumonstre
 ```
 
+#### Importer des algorithmes
+
+Vous pouvez importer autant d'algorithmes que vous le souhaitez en modifiant le fichier [`App.java`](./src/main/java/fr/univlille/info/J3/chasseaumonstre/App.java) :
+
+```java
+public class App extends Application {
+    public final static Preferences PREFERENCES = Preferences.userNodeForPackage(App.class);
+    private final String ICON_URL = "https://4.bp.blogspot.com/-boWx8QCf9bA/UYrk_pyI0aI/AAAAAAAAAoo/936FQO4QlNQ/s1600/dj.png";
+    public final static Class<? extends Algorithm> DEFAULT_ALGORITHM = AStar.class;
+    public final static List<Class<? extends Algorithm>> ALGORITHMS = Arrays.asList(
+        AStar.class, Dijkstra.class, DepthFirstSearch.class // Ajouter ici les nouveaux algorithmes du monstre
+    );
+    ...
+```
+
 ## Livrable 1
 
 UML

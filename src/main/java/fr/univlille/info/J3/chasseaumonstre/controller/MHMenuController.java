@@ -21,6 +21,8 @@ import javafx.geometry.Pos;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+
+import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.server.UtilsServer;
@@ -175,7 +177,7 @@ public class MHMenuController {
         Label algorithmLabel = new Label("Algorithme :");
         ComboBox<String> algorithmComboBox = new ComboBox<>();
         aiSettings.getChildren().addAll(algorithmLabel, algorithmComboBox);
-        algorithmComboBox.getItems().addAll("AStar", "Dijkstra", "DepthFirstSearch");
+        algorithmComboBox.getItems().addAll(App.ALGORITHMS_MONSTER.stream().map(Class::getSimpleName).toArray(String[]::new));
         algorithmComboBox.setValue(model.getMonster().getAlgorithm().getSimpleName());
 
         button.setOnAction(e -> {
