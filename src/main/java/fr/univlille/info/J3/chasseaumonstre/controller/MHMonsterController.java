@@ -193,7 +193,7 @@ public class MHMonsterController extends MHPlayerController {
             }
             return CellInfo.EXIT;
         } else {
-            if (advance(moveX, moveY) && this.socket != null) {
+            if (advance(moveX, moveY)) {
                 UtilsController.playSound(UtilsController.STEPS_SOUND_PATH, VOLUME);
                 pathAlert(moveX, moveY);
                 this.updateHistory();
