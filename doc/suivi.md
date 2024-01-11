@@ -268,6 +268,7 @@
 
 - Ajout de conditions manquantes dans les algorithmes
 - Création de tests pour le DFS et l'objet Node
+- Restructuration/refactoring du système d'import/choix d'algorithme
 
 **Selim Hamza** :
 

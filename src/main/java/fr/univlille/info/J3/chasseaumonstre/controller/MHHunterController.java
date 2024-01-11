@@ -42,7 +42,7 @@ public class MHHunterController extends MHPlayerController {
         this(stage, model, null);
     }
 
-    /*
+    /**
      * Initialise le contrôleur, affiche le nom du chasseur et initialise la zone
      */
     public void initialize() {
@@ -95,7 +95,7 @@ public class MHHunterController extends MHPlayerController {
         this.maze = maze;
     }
 
-    /*
+    /**
      * Gère le clic sur le bouton "Passer le tour"
      */
     @FXML
@@ -117,7 +117,7 @@ public class MHHunterController extends MHPlayerController {
         }
     }
 
-    /*
+    /**
      * Gère les tirs du chasseur
      * 
      * @param shotX : la coordonnée X de la cellule visée
@@ -157,7 +157,7 @@ public class MHHunterController extends MHPlayerController {
         return hit;
     }
 
-    /*
+    /**
      * Savoir si le chasseur a tiré
      * 
      * @return true si le chasseur a tiré, false sinon
@@ -166,7 +166,7 @@ public class MHHunterController extends MHPlayerController {
         return shot;
     }
 
-    /*
+    /**
      * Alerte le joueur que la cellule visée est vide
      * 
      * @param cellX : la coordonnée X de la cellule visée
@@ -180,7 +180,7 @@ public class MHHunterController extends MHPlayerController {
         this.alertHeader.setTextFill(Color.ORANGE);
     }
 
-    /*
+    /**
      * Alerte le joueur que la cellule visée est un mur
      * 
      * @param cellX : la coordonnée X de la cellule visée
@@ -194,7 +194,7 @@ public class MHHunterController extends MHPlayerController {
         this.alertHeader.setTextFill(Color.RED);
     }
 
-    /*
+    /**
      * Alerte le joueur que la cellule visée est le monstre
      * 
      * @param cellX : la coordonnée X de la cellule visée
@@ -208,7 +208,7 @@ public class MHHunterController extends MHPlayerController {
         this.alertHeader.setTextFill(Color.GREEN);
     }
 
-    /*
+    /**
      * Alerte le joueur que le monstre a été tué et qu'il a gagné
      */
     public void hunterWinAlert() {
@@ -221,7 +221,7 @@ public class MHHunterController extends MHPlayerController {
         alertOnClose();
     }
 
-    /*
+    /**
      * Alerte le joueur que le monstre a atteint la sortie et qu'il a gagné
      */
     public void monsterWinAlert() {
@@ -233,7 +233,7 @@ public class MHHunterController extends MHPlayerController {
         alertOnClose();
     }
 
-    /*
+    /**
      * Retourne au menu principal lorsque la fenêtre est fermée
      */
     protected void alertOnClose() {

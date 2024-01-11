@@ -9,6 +9,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Classe représentant la vue du menu principal
+ * 
+ * @param stage : la fenêtre principale
+ * @param controller : le contrôleur
+ * @see MHMenuController
+ * @autor Anas Ouhdda
+ * @autor Atilla Tas
+ * @autor Karim Aoulad-Tayab
+ * @autor Selim Hamza
+ * @autor Yliess El Atifi
+ */
 public class MHMenuView {
     private static final String FXML_LOCATION = System.getProperty("user.dir") + File.separator + "src" + File.separator
             + "main" + File.separator + "resources" + File.separator + "maquette" + File.separator;

@@ -7,7 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-/*
+/**
  * Classe utilitaire pour les contrôleurs
  * 
  * @author Anas Ouhdda
@@ -30,7 +30,7 @@ public class UtilsController {
     public static final String MUSIC2_SOUND_PATH = SOUND_PATH + "music2.mp3";
 
 
-    /*
+    /**
      * Joue un son
      * 
      * @param SOUND : le chemin du son à jouer
@@ -51,6 +51,12 @@ public class UtilsController {
         }
     }
 
+    /**
+     * Joue un son
+     * 
+     * @param SOUND : le chemin du son à jouer
+     * @return true si le son a été joué, false sinon
+     */
     public static boolean playBackgroundMusicOnRepeat() {
         try {
             Media sound1 = new Media(new File(MUSIC_SOUND_PATH).toURI().toString());
@@ -77,6 +83,12 @@ public class UtilsController {
         }
     }
 
+    /**
+     * Vérifie la syntaxe d'une adresse ip
+     * 
+     * @param address : l'adresse à vérifier
+     * @return true si l'adresse est correcte, false sinon
+     */
     public static boolean checkAddressSyntax(String address) {
         String[] addressElems = address.split(":");
         // Vérifier que l'addresse contient une ip et un port
@@ -104,7 +116,7 @@ public class UtilsController {
         return true;
     }
 
-    /*
+    /**
      * Ajoute un effet de survol à un bouton
      * 
      * @param btn : le bouton à modifier

@@ -20,7 +20,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-/*
+/**
  * Classe représentant la vue du Chasseur
  * 
  * @param stage : la fenêtre principale
@@ -51,7 +51,7 @@ public class MHAIView implements Observer {
         this.controller.getModel().attach(this);
     }
 
-    /*
+    /**
      * Afficher la vue du Chasseur dans le stage
      */
     public void render() {
@@ -119,7 +119,7 @@ public class MHAIView implements Observer {
         }
     }
 
-    /*
+    /**
      * Connaitre si une cellule est sur le bord du labyrinthe
      * 
      * @param x la ligne de la cellule
@@ -135,7 +135,7 @@ public class MHAIView implements Observer {
         return maze;
     }
 
-    /*
+    /**
      * Met à jour la vue
      */
     public void update() {
@@ -148,7 +148,7 @@ public class MHAIView implements Observer {
         this.update();
     }
 
-    /*
+    /**
      * Reçoit une notification du modèle principal,
      * obj étant soit des coordonnées, soit une stratégie.
      * Si obj est une stratégie, on affiche une alerte de victoire.

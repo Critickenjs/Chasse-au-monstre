@@ -9,7 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/*
+/**
  * Classe représentant la vue du jeu Joueur contre Joueur
  * où les joueurs peuvent choisir leurs noms
  * 
