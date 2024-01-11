@@ -53,6 +53,7 @@ Pour le chasseur :
 ```java
 public class Hunter extends Subject implements IHunterStrategy, Serializable {
     private static final Class<? extends IHunterStrategy> DEFAULT_ALGORITHM = RandomControlled.class; // Remplacer par le nouvel algorithme
+    ...
 ```
 
 ## Livrable 1
@@ -73,4 +74,4 @@ Consignes pour utiliser le mode multi:
     - En local (dans le réseau local): **[ipv4_de_la_machine]:8080**
     - À distance (la machine hébergeant le serveur doit configurer un serveur dédié/VPS ou tout simplement faire une redirection de ports à configurer via le routeur) : **[ip_public]:8080**
 
-![example_multi](example_multi.png)
+![example_multi](doc/livrable-3/img/example_multi.png)
