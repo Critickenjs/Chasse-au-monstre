@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-/*
+/**
  * Classe représentant un contrôleur du joueur chasseur
  * 
  * @param stage : la fenêtre principale
@@ -104,7 +104,7 @@ public class MHHunterController extends MHPlayerController {
         if (model.getMonster().isAi()) {
             this.model.getMonster().play();
             this.hunterView.render();
-        } else if(this.socket != null) {
+        } else if (this.socket != null) {
             try {
                 this.skipTurn.setDisable(false);
                 UtilsServer.send(this.socket, this.model);

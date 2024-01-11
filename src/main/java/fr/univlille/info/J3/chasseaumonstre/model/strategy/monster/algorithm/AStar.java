@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
-/*
+/**
  * Algorithme A* pour la recherche de chemin
  * 
  * @see Algorithm
@@ -27,7 +27,7 @@ public class AStar extends MonsterAlgorithm {
         super(entry, exit, maze);
     }
 
-    /*
+    /**
      * Execute l'algorithme A*
      * 
      * @return la liste des coordonnées du chemin
@@ -81,7 +81,7 @@ public class AStar extends MonsterAlgorithm {
         return null;
     }
 
-    /*
+    /**
      * Calcule le coût heuristique
      * 
      * @param a la coordonnée a

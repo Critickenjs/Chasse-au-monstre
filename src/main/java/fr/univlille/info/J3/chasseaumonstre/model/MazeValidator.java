@@ -4,8 +4,9 @@ import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.ASt
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
-/*
- * MazeValidator valide un labyrinthe généré, s'il contient bien un chemin entre l'entrée et la sortie
+/**
+ * MazeValidator valide un labyrinthe généré, s'il contient bien un chemin entre
+ * l'entrée et la sortie
  * 
  * @see MazeGenerator
  * @author Anas Ouhdda
@@ -18,14 +19,14 @@ public class MazeValidator {
     private int[][] maze;
     private MazeGenerator mazeGenerator;
 
-    /*
+    /**
      * Constructeur de MazeValidator
      * 
-     * @param width la largeur du labyrinthe
+     * @param width  la largeur du labyrinthe
      * 
      * @param height la hauteur du labyrinthe
      * 
-     * @param maze le labyrinthe généré
+     * @param maze   le labyrinthe généré
      */
     public MazeValidator(MazeGenerator mazeGenerator) {
         this.maze = mazeGenerator.getMaze();
@@ -48,11 +49,12 @@ public class MazeValidator {
         return this.mazeGenerator.getExitCoordinate();
     }
 
-    /*
-     * Vérifie si le labyrinthe contient un chemin entre l'entrée et la sortie
+    /**
+     * Vérifie si le labyrinthe contient un chemin entre l'entrée et la sortie avec
+     * l'algorithme A*
      * 
      * @return true si le labyrinthe contient un chemin entre l'entrée et la sortie,
-     * false sinon
+     *         false sinon
      */
     public boolean isValid() {
         return isValid(maze, getEntrance(), getExit());

@@ -23,8 +23,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-/*
- * Classe abstraite représentant un contrôleur de joueur 
+/**
+ * Classe abstraite représentant un contrôleur de joueur
  * 
  * @param stage : la fenêtre principale
  * @param model : le modèle
@@ -82,7 +82,7 @@ public abstract class MHPlayerController {
         this.socket = socket;
     }
 
-    /*
+    /**
      * Attache les contrôleurs au modèle
      */
     private void attachControllersToModel() {
@@ -92,7 +92,7 @@ public abstract class MHPlayerController {
             this.model.attach(this.hunterView);
     }
 
-    /*
+    /**
      * Initialise le contrôleur
      */
     public abstract void initialize();
@@ -112,6 +112,9 @@ public abstract class MHPlayerController {
         }
     }
 
+    /**
+     * permet de mettre pause en pleine partie
+     */
     private void pauseMenu() {
         Stage stagePauseMenu = new Stage();
         stagePauseMenu.initStyle(StageStyle.UTILITY);
@@ -143,7 +146,7 @@ public abstract class MHPlayerController {
         stagePauseMenu.show();
     }
 
-    /*
+    /**
      * Met à jour l'historique des actions
      */
     protected void updateHistory() {
@@ -155,7 +158,7 @@ public abstract class MHPlayerController {
         showHistory();
     }
 
-    /*
+    /**
      * Définit la vue du monstre
      * 
      * @param monsterView : la vue
@@ -164,7 +167,7 @@ public abstract class MHPlayerController {
         this.monsterView = monsterView;
     }
 
-    /*
+    /**
      * Définit la vue du chasseur
      * 
      * @param hunterView : la vue
@@ -173,7 +176,7 @@ public abstract class MHPlayerController {
         this.hunterView = hunterView;
     }
 
-    /*
+    /**
      * Affiche l'historique des actions
      */
     public void showHistory() {
@@ -184,23 +187,23 @@ public abstract class MHPlayerController {
         }
     }
 
-    /*
+    /**
      * Gère le clic sur le bouton "Passer le tour"
      */
     @FXML
     public abstract void onSkipTurn();
 
-    /*
+    /**
      * Alerte le joueur touchant une case vide
      */
     protected abstract void pathAlert(int cellX, int cellY);
 
-    /*
+    /**
      * Alerte le joueur touchant un mûr
      */
     protected abstract void wallAlert(int cellX, int cellY);
 
-    /*
+    /**
      * Retourne au menu principal
      */
     protected abstract void alertOnClose();
