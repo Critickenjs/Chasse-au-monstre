@@ -15,7 +15,7 @@ import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.hunter.Hunter;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.Monster;
 
-/*
+/**
  * MonsterHunterModel représente le modèle, qui se charge du déroulement du jeu
  * 
  * @author Anas Ouhdda
@@ -34,7 +34,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
     private Hunter hunter;
     private Coordinate entrance, exit;
 
-    /*
+    /**
      * Constructeur de MonsterHunterModel
      */
     public MonsterHunterModel() {
@@ -126,7 +126,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         this.hunter.initialize(new boolean[getWidth()][getHeight()]);
     }
 
-    /*
+    /**
      * Génère un labyrinthe aléatoirement validé par MazeValidator
      * 
      * @see MazeValidator
@@ -169,7 +169,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
         this.turn++;
     }
 
-    /*
+    /**
      * Importe un labyrinthe depuis un fichier
      */
     public void importMaze(File file) throws NumberFormatException, IOException {
@@ -202,7 +202,7 @@ public class MonsterHunterModel extends Subject implements Serializable, Observe
 
     }
 
-    /*
+    /**
      * Notification reçue par Monster ou Hunter, qui notifie les vues
      * avec les coordonnées du joueur qui a joué, ou le joueur qui a gagné
      * 

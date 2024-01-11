@@ -21,6 +21,8 @@ import javafx.geometry.Pos;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+
+import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.server.UtilsServer;
@@ -29,7 +31,7 @@ import fr.univlille.info.J3.chasseaumonstre.views.MHAIView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHHunterView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
 
-/*
+/**
  * Classe représentant le contrôleur du menu principal
  * 
  * @param stage : la fenêtre principale
@@ -73,7 +75,7 @@ public class MHMenuController {
         return this.model;
     }
 
-    /*
+    /**
      * Gère le clic sur le bouton "Jouer contre joueur", lance la vue JVJ pour
      * choisir les noms des joueurs
      */
@@ -87,7 +89,7 @@ public class MHMenuController {
         });
     }
 
-    /*
+    /**
      * Gère le clic sur le bouton "Chasseur contre IA"
      */
     @FXML
@@ -97,7 +99,7 @@ public class MHMenuController {
         });
     }
 
-    /*
+    /**
      * Gère le clic sur le bouton "Monstre contre IA"
      */
     @FXML
@@ -107,7 +109,7 @@ public class MHMenuController {
         });
     }
 
-    /*
+    /**
      * Gère le clic sur le bouton "IA contre IA"
      */
     @FXML
@@ -117,6 +119,9 @@ public class MHMenuController {
         });
     }
 
+    /**
+     * Génére un labyrinthe d'un fichier importé
+     */
     private void loadLabyrinth() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Charger un labyrinthe");
@@ -133,6 +138,10 @@ public class MHMenuController {
         }
     }
 
+    /**
+     * Ouvre une nouvelle fenêtre pour permettre à l'utilisateur de modifier les
+     * paramètres du jeu
+     */
     @FXML
     private void onParameter() {
         Stage stageParameter = new Stage();
@@ -175,8 +184,8 @@ public class MHMenuController {
         Label algorithmLabel = new Label("Algorithme :");
         ComboBox<String> algorithmComboBox = new ComboBox<>();
         aiSettings.getChildren().addAll(algorithmLabel, algorithmComboBox);
-        algorithmComboBox.getItems().addAll("AStar", "Dijkstra", "DepthFirstSearch");
-        algorithmComboBox.setValue(model.getMonster().getAlgorithm().getSimpleName());
+        algorithmComboBox.getItems().addAll(App.ALGORITHMS_MONSTER.stream().map(Class::getSimpleName).toArray(String[]::new));
+        algorithmComboBox.setValue(model.getMonster().getAlgorithmClass().getSimpleName());
 
         button.setOnAction(e -> {
             if (!width.getText().equals("") && height.getText().equals("")) {
@@ -298,6 +307,15 @@ public class MHMenuController {
         }
     }
 
+    /**
+     * Démarre le jeu avec les configurations d'IA spécifiées pour le monstre et le
+     * chasseur.
+     *
+     * @param hunterAI  Défini à true si le chasseur est contrôlé par l'IA, false
+     *                  sinon.
+     * @param monsterAI Défini à true si le monstre est contrôlé par l'IA, false
+     *                  sinon.
+     */
     private void startGame(boolean hunterAI, boolean monsterAI) {
         MHMonsterController mc = null;
         MHHunterController hc = null;
@@ -340,6 +358,11 @@ public class MHMenuController {
         }
     }
 
+    /**
+     * bouton "PvP Multijoueur". Ouvre une connexion à un lobby de jeu
+     * avec un nom d'utilisateur et une adresse de serveur spécifiés par
+     * l'utilisateur.
+     */
     @FXML
     private void onPVPMulti() {
         Stage stageMulti = new Stage();

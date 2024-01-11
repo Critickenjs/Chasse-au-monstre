@@ -3,7 +3,7 @@ package fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm;
 import java.util.*;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
-/*
+/**
  * Algorithme de Dijkstra pour la recherche de chemin
  * 
  * @see Algorithm
@@ -13,40 +13,23 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @autor Selim Hamza
  * @autor Yliess El Atifi
  */
-public class Dijkstra implements Algorithm {
-    private final ICoordinate entry;
-    private final ICoordinate exit;
-    private final boolean[][] maze;
-    private double time;
+public class Dijkstra extends MonsterAlgorithm {
+
+    public Dijkstra(ICoordinate entry, ICoordinate exit) {
+        this(entry, exit, null);
+    }
 
     public Dijkstra(ICoordinate entry, ICoordinate exit, boolean[][] maze) {
-        this.entry = entry;
-        this.exit = exit;
-        this.maze = maze;
+        super(entry, exit, maze);
     }
 
-    @Override
-    public ICoordinate getEntry() {
-        return entry;
-    }
-
-    @Override
-    public ICoordinate getExit() {
-        return exit;
-    }
-
-    @Override
-    public boolean[][] getMaze() {
-        return maze;
-    }
-
-    /*
+    /**
      * Exécute l'algorithme de Dijkstra
      * 
      * @return la liste des coordonnées du chemin
      */
     @Override
-    public List<ICoordinate> execute() {
+    protected List<ICoordinate> execute() {
         if (entry == null || exit == null || maze == null || !maze[entry.getRow()][entry.getCol()]
                 || !maze[exit.getRow()][exit.getCol()]) {
             return null;
@@ -91,10 +74,5 @@ public class Dijkstra implements Algorithm {
 
         time = System.currentTimeMillis() - time;
         return null;
-    }
-
-    @Override
-    public double getTime() {
-        return time;
     }
 }

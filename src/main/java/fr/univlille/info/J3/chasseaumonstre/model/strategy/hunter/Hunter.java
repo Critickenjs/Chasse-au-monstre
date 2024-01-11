@@ -9,7 +9,6 @@ import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
@@ -17,7 +16,7 @@ import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
-/*
+/**
  * Réprésente le chasseur et sa stratégie
  * 
  * @see IHunterStrategy
@@ -34,9 +33,20 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
     private int[][] visitedTurn;
     private boolean ai;
     private Stack<ICoordinate> neighboursCellsExploration;
+    private Class<? extends IHunterStrategy> algorithmClass;
+    private IHunterStrategy algorithm;
+
+    /**
+     * Constructeur de Hunter
+     * 
+     * @param locations les coordonnées des tirs du chasseur
+     */
+    public Hunter() {
+        // TODO : Ajouter la stratégie par défaut
+    }
 
     /*
-     * Constructeur de Hunter
+     * Initialisation des coordonnées des tirs du chasseur
      * 
      * @param locations les coordonnées des tirs du chasseur
      */
@@ -52,7 +62,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         this.neighboursCellsExploration = new Stack<>();
     }
 
-    /*
+    /**
      * Constructeur de Hunter, qui initialise les coordonnées des tirs du chasseur
      * 
      * @param row la ligne de la cellule
@@ -78,7 +88,25 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         this.name = name;
     }
 
-    /*
+    public void setAlgorithm(Class<? extends IHunterStrategy> algorithm) {
+        this.algorithmClass = algorithm;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setAlgorithm(String algorithm) {
+        try {
+            this.algorithmClass = (Class<? extends IHunterStrategy>) Class.forName("fr.univlille.info.J3.chasseaumonstre.model.strategy.hunter.algorithm." + algorithm);
+        } catch (ClassNotFoundException e) {
+            // TODO : Définir un comportement par défaut
+            // this.algorithmClass = 
+        }
+    }
+
+    public Class<? extends IHunterStrategy> getAlgorithmClass() {
+        return this.algorithmClass;
+    }
+
+    /**
      * Connaitre si une cellule a été tirée
      * 
      * @param x la ligne de la cellule
@@ -89,7 +117,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         return this.shootLocations[x][y];
     }
 
-    /*
+    /**
      * Effectue un tir sur une cellule et en informe le modèle principal
      * 
      * @param x la ligne de la cellule
@@ -113,40 +141,42 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         Integer x = coordinate.getCol();
         Integer y = coordinate.getRow();
         // ---
-        coordinates.add(new Coordinate(y,x-1));
-        coordinates.add(new Coordinate(y,x+1));
+        coordinates.add(new Coordinate(y, x - 1));
+        coordinates.add(new Coordinate(y, x + 1));
         // ---
-        coordinates.add(new Coordinate(y-1,x-1));
-        coordinates.add(new Coordinate(y-1,x));
-        coordinates.add(new Coordinate(y-1,x+1));
+        coordinates.add(new Coordinate(y - 1, x - 1));
+        coordinates.add(new Coordinate(y - 1, x));
+        coordinates.add(new Coordinate(y - 1, x + 1));
         // ---
-        coordinates.add(new Coordinate(y+1,x-1));
-        coordinates.add(new Coordinate(y+1,x));
-        coordinates.add(new Coordinate(y+1,x+1));
+        coordinates.add(new Coordinate(y + 1, x - 1));
+        coordinates.add(new Coordinate(y + 1, x));
+        coordinates.add(new Coordinate(y + 1, x + 1));
         Iterator<ICoordinate> it = coordinates.iterator();
         ICoordinate c;
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             c = it.next();
-            if(!((c.getCol() >= 0 && c.getCol() < this.visited[0].length) && (c.getRow() >= 0 && c.getRow() < this.visited.length)))
+            if (!((c.getCol() >= 0 && c.getCol() < this.visited[0].length)
+                    && (c.getRow() >= 0 && c.getRow() < this.visited.length)))
                 it.remove();
         }
         return coordinates;
     }
 
-    /*
+    /**
      * Genere coordonnées d'une case aleatoirement
      * Verifie si elle a déja été ciblé
-     * Tire dessus si non 
+     * Tire dessus si non
      * Retourne les coordonnées de la case tirée
      */
     @Override
     public ICoordinate play() {
+        // TODO : Remplacer par l'algorithme du chasseur
         ICoordinate coordinate;
-        if(!this.neighboursCellsExploration.isEmpty()) {
+        if (!this.neighboursCellsExploration.isEmpty()) {
             coordinate = this.neighboursCellsExploration.pop();
             List<ICoordinate> neighbours = this.getNeighbours(coordinate);
-            for(ICoordinate c : neighbours) {
-                if(!this.hasShot(c.getRow(), c.getCol()) && this.isVisited(c.getRow(), c.getCol())) {
+            for (ICoordinate c : neighbours) {
+                if (!this.hasShot(c.getRow(), c.getCol()) && this.isVisited(c.getRow(), c.getCol())) {
                     this.shoot(c.getRow(), c.getCol());
                     this.neighboursCellsExploration.push(c);
                     return c;
@@ -154,8 +184,9 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
             }
         }
         Random r = new Random();
-        ICoordinate shuffleCoordinate = new Coordinate(r.nextInt(this.visited.length), r.nextInt(this.visited[0].length));
-        while(this.hasShot(shuffleCoordinate.getRow(), shuffleCoordinate.getCol())) {
+        ICoordinate shuffleCoordinate = new Coordinate(r.nextInt(this.visited.length),
+                r.nextInt(this.visited[0].length));
+        while (this.hasShot(shuffleCoordinate.getRow(), shuffleCoordinate.getCol())) {
             shuffleCoordinate = new Coordinate(r.nextInt(this.visited.length), r.nextInt(this.visited[0].length));
         }
         this.shoot(shuffleCoordinate.getRow(), shuffleCoordinate.getCol());
@@ -163,7 +194,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         return shuffleCoordinate;
     }
 
-    /*
+    /**
      * Met à jour les coordonnées des tirs du chasseur
      * 
      * @param event l'événement qui se produit sur une cellule
@@ -174,7 +205,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         this.shoot(coord.getRow(), coord.getCol());
     }
 
-    /*
+    /**
      * Connaitre si une cellule a été visitée
      * 
      * @param x la ligne de la cellule
@@ -185,7 +216,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         return visited[x][y];
     }
 
-    /*
+    /**
      * Connaitre à quel tour une cellule a été visitée
      * 
      * @param x la ligne de la cellule
@@ -196,12 +227,12 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         return visitedTurn[x][y];
     }
 
-    /*
+    /**
      * Met à jour la cellule visitée
      * 
      * @param cellX la ligne de la cellule
      * @param cellY la colonne de la cellule
-     * @param turn le tour auquel la cellule a été visitée
+     * @param turn  le tour auquel la cellule a été visitée
      */
     public void setVisited(int cellX, int cellY, int turn) {
         this.visited[cellX][cellY] = true;
@@ -220,11 +251,11 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
 
     @SuppressWarnings("unchecked")
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-        this.shootLocations = (boolean[][])ois.readObject();
-        this.name = (String)ois.readObject();
-        this.visited = (boolean[][])ois.readObject();
-        this.visitedTurn = (int[][])ois.readObject();
-        this.ai = (boolean)ois.readObject();
-        this.neighboursCellsExploration = (Stack<ICoordinate>)ois.readObject();
+        this.shootLocations = (boolean[][]) ois.readObject();
+        this.name = (String) ois.readObject();
+        this.visited = (boolean[][]) ois.readObject();
+        this.visitedTurn = (int[][]) ois.readObject();
+        this.ai = (boolean) ois.readObject();
+        this.neighboursCellsExploration = (Stack<ICoordinate>) ois.readObject();
     }
 }
