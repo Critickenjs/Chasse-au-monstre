@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
 /*
@@ -18,31 +17,14 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @autor Selim Hamza
  * @autor Yliess El Atifi
  */
-public class AStar implements MonsterAlgorithm {
-    ICoordinate entry;
-    ICoordinate exit;
-    boolean[][] maze;
-    double time;
+public class AStar extends MonsterAlgorithm {
+
+    public AStar(ICoordinate entry, ICoordinate exit) {
+        this(entry, exit, null);
+    }
 
     public AStar(ICoordinate entry, ICoordinate exit, boolean[][] maze) {
-        this.entry = entry;
-        this.exit = exit;
-        this.maze = maze;
-    }
-
-    @Override
-    public ICoordinate getEntry() {
-        return entry;
-    }
-
-    @Override
-    public ICoordinate getExit() {
-        return exit;
-    }
-
-    @Override
-    public boolean[][] getMaze() {
-        return maze;
+        super(entry, exit, maze);
     }
 
     /*
@@ -51,7 +33,7 @@ public class AStar implements MonsterAlgorithm {
      * @return la liste des coordonnées du chemin
      */
     @Override
-    public List<ICoordinate> execute() {
+    protected List<ICoordinate> execute() {
         if (entry == null || exit == null || maze == null || !maze[entry.getRow()][entry.getCol()]
                 || !maze[exit.getRow()][exit.getCol()]) {
             return null;
@@ -111,10 +93,5 @@ public class AStar implements MonsterAlgorithm {
     public int heuristicCost(ICoordinate a, ICoordinate b) {
         // Heuristique : distance de Manhattan entre les deux points
         return Math.abs(a.getRow() - b.getRow()) + Math.abs(a.getCol() - b.getCol());
-    }
-
-    @Override
-    public double getTime() {
-        return time;
     }
 }
