@@ -51,7 +51,8 @@ public class MazeValidator {
     }
 
     /**
-     * Vérifie si le labyrinthe contient un chemin entre l'entrée et la sortie
+     * Vérifie si le labyrinthe contient un chemin entre l'entrée et la sortie avec
+     * l'algorithme A*
      * 
      * @return true si le labyrinthe contient un chemin entre l'entrée et la sortie,
      *         false sinon

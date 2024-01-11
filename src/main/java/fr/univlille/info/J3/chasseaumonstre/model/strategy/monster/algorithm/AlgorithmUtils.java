@@ -7,7 +7,7 @@ import java.util.Map;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
-/*
+/**
  * AlgorithmUtils contient des méthodes utiles pour les algorithmes
  * 
  * @autor Anas Ouhdda
@@ -16,12 +16,12 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @autor Selim Hamza
  * @autor Yliess El Atifi
  */
-public class AlgorithmUtils {    
-    /*
+public class AlgorithmUtils {
+    /**
      * Reconstruit le chemin
      * 
      * @param cameFrom la map des coordonnées
-     * @param current la coordonnée courante
+     * @param current  la coordonnée courante
      * @return la liste des coordonnées du chemin
      */
     public static List<ICoordinate> reconstructPath(Map<ICoordinate, Node> cameFrom, Node current) {
@@ -32,11 +32,11 @@ public class AlgorithmUtils {
             current = cameFrom.get(current.getCoordinate());
             totalPath.add(0, current.getCoordinate());
         }
-        
+
         return totalPath;
     }
 
-    /*
+    /**
      * Retourne les voisins d'une coordonnée
      * 
      * @param current la coordonnée courante

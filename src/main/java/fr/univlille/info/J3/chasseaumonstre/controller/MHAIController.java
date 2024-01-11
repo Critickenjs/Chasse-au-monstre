@@ -12,7 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/*
+/**
  * Classe représentant un contrôleur du joueur chasseur
  * 
  * @param stage : la fenêtre principale
@@ -33,20 +33,28 @@ public class MHAIController extends MHPlayerController {
     public MHAIController(Stage stage, MonsterHunterModel model) {
         super(stage, model, null);
     }
-    
+
     /*
-    * Initialise le contrôleur, affiche le nom du chasseur et initialise la zone
-    */
+     * Initialise le contrôleur, affiche le nom du chasseur et initialise la zone
+     */
     public void initialize() {
         this.characterName.setText("IA vs IA");
         this.alertHistory.setVvalue(1.0);
         skipTurn.setDisable(true);
         Thread t = new Thread(() -> {
-            while(!this.finished) {
+            while (!this.finished) {
                 handleAction(this.getModel().getHunter(), this.model.getHunter().play());
-                try { Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 handleAction(this.getModel().getMonster(), this.model.getMonster().play());
-                try { Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
         t.start();
@@ -82,9 +90,9 @@ public class MHAIController extends MHPlayerController {
             handleAction(getModel().getHunter(), this.model.getHunter().play());
             handleAction(getModel().getMonster(), this.model.getMonster().play());
             skipTurn.setDisable(false);
-        } 
+        }
     }
-    
+
     /*
      * Alerte le joueur que le monstre a été tué et que le chasseur a gagné
      */
@@ -125,24 +133,28 @@ public class MHAIController extends MHPlayerController {
      * Alerte lorsque la case touchée est un chemin (vide car IA)
      */
     public void pathAlert(int x, int y) {
-        
+
     }
 
-    /*
+    /**
      * Gère l'action des joueurs
      * 
-     * @param subj : le joueur qui a joué
+     * @param subj       : le joueur qui a joué
      * @param coordinate : la case touchée
      */
     public void handleAction(Subject subj, ICoordinate coordinate) {
         if (subj.equals(this.model.getMonster())) {
-            Platform.runLater(() -> {view.update();});
+            Platform.runLater(() -> {
+                view.update();
+            });
             if (coordinate.equals(model.getExit())) {
                 this.finished = true;
                 monsterWinAlert();
             }
         } else {
-            Platform.runLater(() -> {view.update();});
+            Platform.runLater(() -> {
+                view.update();
+            });
             if (coordinate.equals(model.getMonster().getCoord())) {
                 this.finished = true;
                 hunterWinAlert();

@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-/*
+/**
  * Contrôleur de la vue JvJ, menu permettant de choisir les noms des joueurs
  * 
  * @see chasseaumonstre.views.JVJView
@@ -52,7 +52,7 @@ public class JVJController {
         this.monsterAI = monsterAI;
     }
 
-    /*
+    /**
      * Configure la partie, les vues/contrôleurs et lance la partie en affichant la
      * vue du chasseur.
      * 
