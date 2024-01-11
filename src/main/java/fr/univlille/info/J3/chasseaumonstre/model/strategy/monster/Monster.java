@@ -86,15 +86,14 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.ai = ai;
     }
 
-    public void setAlgorithm(Class<? extends MonsterAlgorithm> algorithm) {
+    public void setAlgorithm(Class<? extends IMonsterStrategy> algorithm) {
         this.algorithmClass = algorithm;
     }
 
     @SuppressWarnings("unchecked")
     public void setAlgorithm(String algorithm) {
         try {
-            this.algorithmClass = (Class<? extends MonsterAlgorithm>) Class
-                    .forName("fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm." + algorithm);
+            this.algorithmClass = (Class<? extends IMonsterStrategy>) Class.forName("fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm." + algorithm);
         } catch (ClassNotFoundException e) {
             this.algorithmClass = AStar.class;
         }
@@ -276,7 +275,6 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      */
     @Override
     public ICoordinate play() {
-        System.out.println(algorithm.getClass().getSimpleName());
         ICoordinate next = algorithm.play();
         if (next != null) {
             setCoord(next.getRow(), next.getCol(), turn++);

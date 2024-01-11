@@ -9,7 +9,6 @@ import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
@@ -34,9 +33,20 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
     private int[][] visitedTurn;
     private boolean ai;
     private Stack<ICoordinate> neighboursCellsExploration;
+    private Class<? extends IHunterStrategy> algorithmClass;
+    private IHunterStrategy algorithm;
 
     /**
      * Constructeur de Hunter
+     * 
+     * @param locations les coordonnées des tirs du chasseur
+     */
+    public Hunter() {
+        // TODO : Ajouter la stratégie par défaut
+    }
+
+    /*
+     * Initialisation des coordonnées des tirs du chasseur
      * 
      * @param locations les coordonnées des tirs du chasseur
      */
@@ -76,6 +86,24 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setAlgorithm(Class<? extends IHunterStrategy> algorithm) {
+        this.algorithmClass = algorithm;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setAlgorithm(String algorithm) {
+        try {
+            this.algorithmClass = (Class<? extends IHunterStrategy>) Class.forName("fr.univlille.info.J3.chasseaumonstre.model.strategy.hunter.algorithm." + algorithm);
+        } catch (ClassNotFoundException e) {
+            // TODO : Définir un comportement par défaut
+            // this.algorithmClass = 
+        }
+    }
+
+    public Class<? extends IHunterStrategy> getAlgorithmClass() {
+        return this.algorithmClass;
     }
 
     /**
@@ -142,6 +170,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
      */
     @Override
     public ICoordinate play() {
+        // TODO : Remplacer par l'algorithme du chasseur
         ICoordinate coordinate;
         if (!this.neighboursCellsExploration.isEmpty()) {
             coordinate = this.neighboursCellsExploration.pop();
