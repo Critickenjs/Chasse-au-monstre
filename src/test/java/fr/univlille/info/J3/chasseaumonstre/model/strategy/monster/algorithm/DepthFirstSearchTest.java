@@ -11,7 +11,7 @@ import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 
 public class DepthFirstSearchTest {
     private boolean[][] map;
-    private Algorithm dfs, astar, dijkstra;
+    private MonsterAlgorithm dfs, astar, dijkstra;
     private ICoordinate entry, exit;
     private ICoordinate wrongEntry;
 
