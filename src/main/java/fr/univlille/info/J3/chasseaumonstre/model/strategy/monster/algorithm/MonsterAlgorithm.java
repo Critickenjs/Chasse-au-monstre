@@ -7,7 +7,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
 /*
- * Algorithm représente l'algorithme de recherche de chemin
+ * MonsterAlgorithm représente l'algorithme de recherche de chemin
  * 
  * @see AStar
  * @autor Anas Ouhdda
@@ -76,6 +76,11 @@ public abstract class MonsterAlgorithm implements IMonsterStrategy {
         // TODO Auto-generated method stub
     }
 
+    /*
+     * Initialise l'algorithme
+     * 
+     * @param maze le labyrinthe
+     */
     public void initialize(boolean[][] maze) {
         this.maze = maze;
     }
