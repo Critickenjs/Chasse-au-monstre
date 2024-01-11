@@ -34,7 +34,7 @@ public class MHAIController extends MHPlayerController {
         super(stage, model, null);
     }
 
-    /*
+    /**
      * Initialise le contrôleur, affiche le nom du chasseur et initialise la zone
      */
     public void initialize() {
@@ -80,7 +80,7 @@ public class MHAIController extends MHPlayerController {
         this.maze = maze;
     }
 
-    /*
+    /**
      * Gère le clic sur le bouton "Passer le tour"
      */
     @FXML
@@ -93,7 +93,7 @@ public class MHAIController extends MHPlayerController {
         }
     }
 
-    /*
+    /**
      * Alerte le joueur que le monstre a été tué et que le chasseur a gagné
      */
     public void hunterWinAlert() {
@@ -108,7 +108,7 @@ public class MHAIController extends MHPlayerController {
         });
     }
 
-    /*
+    /**
      * Alerte le joueur que le monstre a atteint la sortie et a gagné
      */
     public void monsterWinAlert() {
@@ -122,14 +122,14 @@ public class MHAIController extends MHPlayerController {
         });
     }
 
-    /*
+    /**
      * Alerte lorsque la case touchée est un mur (vide car IA)
      */
     public void wallAlert(int x, int y) {
 
     }
 
-    /*
+    /**
      * Alerte lorsque la case touchée est un chemin (vide car IA)
      */
     public void pathAlert(int x, int y) {
@@ -162,7 +162,7 @@ public class MHAIController extends MHPlayerController {
         }
     }
 
-    /*
+    /**
      * Retourne au menu principal lorsque la fenêtre est fermée
      */
     protected void alertOnClose() {

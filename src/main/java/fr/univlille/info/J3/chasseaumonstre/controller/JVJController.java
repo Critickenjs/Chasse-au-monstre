@@ -89,7 +89,7 @@ public class JVJController {
         }
     }
 
-    /*
+    /**
      * Lors d'un clic souris sur le bouton lancer,
      * vérifie que les noms des joueurs sont renseignés et lance la partie.
      */
@@ -101,7 +101,7 @@ public class JVJController {
         });
     }
 
-    /*
+    /**
      * Lors d'un appui sur la touche entrée,
      * Vérifie que les noms des joueurs sont renseignés et lance la partie.
      */
@@ -124,7 +124,7 @@ public class JVJController {
         new MHMenuView(stage, new MHMenuController(stage, model));
     }
 
-    /*
+    /**
      * Initialise les effets de survol des boutons
      */
     public void initialize() {

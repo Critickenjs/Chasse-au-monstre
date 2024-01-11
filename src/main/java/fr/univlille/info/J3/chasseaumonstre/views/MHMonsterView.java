@@ -22,7 +22,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-/*
+/**
  * Classe représentant la vue du Monstre
  * 
  * @param stage : la fenêtre principale
@@ -55,7 +55,7 @@ public class MHMonsterView implements Observer {
         this.controller.setVue(this);
     }
 
-    /*
+    /**
      * Afficher la vue du Monstre dans le stage
      */
     public void render() {
@@ -139,7 +139,7 @@ public class MHMonsterView implements Observer {
         }
     }
 
-    /*
+    /**
      * Mettre à jour la vue
      */
     public void update() {
@@ -152,7 +152,7 @@ public class MHMonsterView implements Observer {
         this.update();
     }
 
-    /*
+    /**
      * Reçoit une notification du modèle principal,
      * obj étant soit des coordonnées, soit une stratégie.
      * Si obj est une stratégie, on affiche une alerte de victoire.
