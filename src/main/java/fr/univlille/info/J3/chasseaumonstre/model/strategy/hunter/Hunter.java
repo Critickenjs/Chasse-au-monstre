@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Random;
 import java.util.Stack;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.hunter.algorithm.RandomControlled;
 import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
@@ -27,6 +25,8 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @author Yliess El Atifi
  */
 public class Hunter extends Subject implements IHunterStrategy, Serializable {
+    private static final Class<? extends IHunterStrategy> DEFAULT_ALGORITHM = RandomControlled.class;
+
     private boolean[][] shootLocations;
     private String name;
     private boolean[][] visited;
@@ -42,7 +42,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
      * @param locations les coordonnées des tirs du chasseur
      */
     public Hunter() {
-        // TODO : Ajouter la stratégie par défaut
+        this.algorithmClass = DEFAULT_ALGORITHM;
     }
 
     /*
@@ -95,10 +95,10 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
     @SuppressWarnings("unchecked")
     public void setAlgorithm(String algorithm) {
         try {
-            this.algorithmClass = (Class<? extends IHunterStrategy>) Class.forName("fr.univlille.info.J3.chasseaumonstre.model.strategy.hunter.algorithm." + algorithm);
+            this.algorithmClass = (Class<? extends IHunterStrategy>) Class
+                    .forName("fr.univlille.info.J3.chasseaumonstre.model.strategy.hunter.algorithm." + algorithm);
         } catch (ClassNotFoundException e) {
-            // TODO : Définir un comportement par défaut
-            // this.algorithmClass = 
+            this.algorithmClass = DEFAULT_ALGORITHM;
         }
     }
 
@@ -133,33 +133,25 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
     }
 
     public void setAi(boolean ai) {
+        if (ai && (algorithm == null)) {
+            this.executeAlgorithm();
+        }
         this.ai = ai;
     }
 
-    private List<ICoordinate> getNeighbours(ICoordinate coordinate) {
-        List<ICoordinate> coordinates = new ArrayList<>();
-        Integer x = coordinate.getCol();
-        Integer y = coordinate.getRow();
-        // ---
-        coordinates.add(new Coordinate(y, x - 1));
-        coordinates.add(new Coordinate(y, x + 1));
-        // ---
-        coordinates.add(new Coordinate(y - 1, x - 1));
-        coordinates.add(new Coordinate(y - 1, x));
-        coordinates.add(new Coordinate(y - 1, x + 1));
-        // ---
-        coordinates.add(new Coordinate(y + 1, x - 1));
-        coordinates.add(new Coordinate(y + 1, x));
-        coordinates.add(new Coordinate(y + 1, x + 1));
-        Iterator<ICoordinate> it = coordinates.iterator();
-        ICoordinate c;
-        while (it.hasNext()) {
-            c = it.next();
-            if (!((c.getCol() >= 0 && c.getCol() < this.visited[0].length)
-                    && (c.getRow() >= 0 && c.getRow() < this.visited.length)))
-                it.remove();
+    /**
+     * Exécute l'algorithme de recherche de chemin
+     * 
+     * @see IHunterStrategy
+     */
+    private void executeAlgorithm() {
+        try {
+            algorithm = this.algorithmClass.getConstructor()
+                    .newInstance();
+        } catch (Exception e) {
+            algorithm = new RandomControlled();
         }
-        return coordinates;
+        algorithm.initialize(this.shootLocations.length, this.shootLocations[0].length);
     }
 
     /**
@@ -170,28 +162,9 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
      */
     @Override
     public ICoordinate play() {
-        // TODO : Remplacer par l'algorithme du chasseur
-        ICoordinate coordinate;
-        if (!this.neighboursCellsExploration.isEmpty()) {
-            coordinate = this.neighboursCellsExploration.pop();
-            List<ICoordinate> neighbours = this.getNeighbours(coordinate);
-            for (ICoordinate c : neighbours) {
-                if (!this.hasShot(c.getRow(), c.getCol()) && this.isVisited(c.getRow(), c.getCol())) {
-                    this.shoot(c.getRow(), c.getCol());
-                    this.neighboursCellsExploration.push(c);
-                    return c;
-                }
-            }
-        }
-        Random r = new Random();
-        ICoordinate shuffleCoordinate = new Coordinate(r.nextInt(this.visited.length),
-                r.nextInt(this.visited[0].length));
-        while (this.hasShot(shuffleCoordinate.getRow(), shuffleCoordinate.getCol())) {
-            shuffleCoordinate = new Coordinate(r.nextInt(this.visited.length), r.nextInt(this.visited[0].length));
-        }
-        this.shoot(shuffleCoordinate.getRow(), shuffleCoordinate.getCol());
-        this.neighboursCellsExploration.push(shuffleCoordinate);
-        return shuffleCoordinate;
+        ICoordinate coordinate = algorithm.play();
+        this.shoot(coordinate.getRow(), coordinate.getCol());
+        return coordinate;
     }
 
     /**

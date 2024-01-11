@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-/*
+/**
  * Classe utile pour le serveur
  * 
  * @autor Anas Ouhdda
@@ -18,6 +18,7 @@ public class UtilsServer {
 
     /**
      * Reçoit un objet sérialisé du socket et le retourner
+     * 
      * @param socket
      * @return L'objet sérialisé
      * @throws ClassNotFoundException
@@ -27,9 +28,10 @@ public class UtilsServer {
         ObjectInputStream oos = new ObjectInputStream(socket.getInputStream());
         return oos.readObject();
     }
-   
+
     /**
      * Envoie un objet vers la socket
+     * 
      * @param socket
      * @param data
      * @throws IOException

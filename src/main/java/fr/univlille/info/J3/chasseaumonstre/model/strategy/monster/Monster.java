@@ -25,6 +25,8 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @author Yliess El Atifi
  */
 public class Monster extends Subject implements IMonsterStrategy, Serializable {
+    private final static Class<? extends IMonsterStrategy> DEFAULT_ALGORITHM = AStar.class;
+
     private Coordinate exit;
     private Coordinate entry;
     private Coordinate coord;
@@ -42,7 +44,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.visitedTurn = null;
         this.ai = false;
         this.turn = 0;
-        this.algorithmClass = AStar.class;
+        this.algorithmClass = DEFAULT_ALGORITHM;
     }
 
     /**
@@ -95,7 +97,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         try {
             this.algorithmClass = (Class<? extends IMonsterStrategy>) Class.forName("fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm." + algorithm);
         } catch (ClassNotFoundException e) {
-            this.algorithmClass = AStar.class;
+            this.algorithmClass = DEFAULT_ALGORITHM;
         }
     }
 
@@ -106,7 +108,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     /**
      * Exécute l'algorithme de recherche de chemin
      * 
-     * @see Algorithm
+     * @see MonsterAlgorithm
      * 
      * @see AStar
      */

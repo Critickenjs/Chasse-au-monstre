@@ -35,15 +35,24 @@ javadoc -private -author -d doc/chasseaumonstre -cp src/main/resources/cam-playe
 
 Vous pouvez importer autant d'algorithmes que vous le souhaitez en modifiant le fichier [`App.java`](./src/main/java/fr/univlille/info/J3/chasseaumonstre/App.java) :
 
+Pour le monstre :
+
 ```java
 public class App extends Application {
     public final static Preferences PREFERENCES = Preferences.userNodeForPackage(App.class);
     private final String ICON_URL = "https://4.bp.blogspot.com/-boWx8QCf9bA/UYrk_pyI0aI/AAAAAAAAAoo/936FQO4QlNQ/s1600/dj.png";
-    public final static Class<? extends Algorithm> DEFAULT_ALGORITHM = AStar.class;
-    public final static List<Class<? extends Algorithm>> ALGORITHMS = Arrays.asList(
+
+    public final static List<Class<? extends IMonsterStrategy>> ALGORITHMS_MONSTER = Arrays.asList(
         AStar.class, Dijkstra.class, DepthFirstSearch.class // Ajouter ici les nouveaux algorithmes du monstre
     );
     ...
+```
+
+Pour le chasseur :
+
+```java
+public class Hunter extends Subject implements IHunterStrategy, Serializable {
+    private static final Class<? extends IHunterStrategy> DEFAULT_ALGORITHM = RandomControlled.class; // Remplacer par le nouvel algorithme
 ```
 
 ## Livrable 1
