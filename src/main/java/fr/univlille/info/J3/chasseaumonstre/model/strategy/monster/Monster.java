@@ -11,7 +11,7 @@ import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.AStar;
-import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Algorithm;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.MonsterAlgorithm;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.DepthFirstSearch;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Dijkstra;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
@@ -37,7 +37,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     private boolean ai;
     private List<ICoordinate> path;
     private int turn;
-    private Class<? extends Algorithm> algorithm;
+    private Class<? extends MonsterAlgorithm> algorithm;
 
     public Monster() {
         this.exit = null;
@@ -91,21 +91,21 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.ai = ai;
     }
 
-    public void setAlgorithm(Class<? extends Algorithm> algorithm) {
+    public void setAlgorithm(Class<? extends MonsterAlgorithm> algorithm) {
         this.algorithm = algorithm;
     }
 
     @SuppressWarnings("unchecked")
     public void setAlgorithm(String algorithm) {
         try {
-            this.algorithm = (Class<? extends Algorithm>) Class
+            this.algorithm = (Class<? extends MonsterAlgorithm>) Class
                     .forName("fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm." + algorithm);
         } catch (ClassNotFoundException e) {
             this.algorithm = AStar.class;
         }
     }
 
-    public Class<? extends Algorithm> getAlgorithm() {
+    public Class<? extends MonsterAlgorithm> getAlgorithm() {
         return this.algorithm;
     }
 
@@ -117,7 +117,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * @see AStar
      */
     private void executeAlgorithm() {
-        Algorithm algorithm;
+        MonsterAlgorithm algorithm;
         try {
             algorithm = this.algorithm.getConstructor(ICoordinate.class, ICoordinate.class, boolean[][].class)
                     .newInstance(this.entry, this.exit, this.maze);
@@ -362,7 +362,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.ai = (boolean) ois.readObject();
         this.path = (List<ICoordinate>) ois.readObject();
         this.turn = (int) ois.readObject();
-        this.algorithm = (Class<? extends Algorithm>) ois.readObject();
+        this.algorithm = (Class<? extends MonsterAlgorithm>) ois.readObject();
     }
 
     /*
@@ -379,7 +379,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         monster.setEntry(model.getEntrance());
         monster.setExit(model.getExit());
 
-        Algorithm algorithm = new Dijkstra(monster.getEntry(), monster.getExit(), maze);
+        MonsterAlgorithm algorithm = new Dijkstra(monster.getEntry(), monster.getExit(), maze);
         List<ICoordinate> path = algorithm.execute();
 
         if (path != null) {

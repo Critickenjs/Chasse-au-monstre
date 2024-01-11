@@ -5,7 +5,7 @@ import java.util.List;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 
-public class DepthFirstSearch implements Algorithm {
+public class DepthFirstSearch implements MonsterAlgorithm {
     ICoordinate entry;
     ICoordinate exit;
     boolean[][] maze;

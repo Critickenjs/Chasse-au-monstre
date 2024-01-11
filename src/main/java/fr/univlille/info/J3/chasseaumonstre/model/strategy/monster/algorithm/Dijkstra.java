@@ -13,7 +13,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @autor Selim Hamza
  * @autor Yliess El Atifi
  */
-public class Dijkstra implements Algorithm {
+public class Dijkstra implements MonsterAlgorithm {
     private final ICoordinate entry;
     private final ICoordinate exit;
     private final boolean[][] maze;

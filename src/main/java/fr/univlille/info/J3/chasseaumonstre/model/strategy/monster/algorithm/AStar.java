@@ -18,7 +18,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @autor Selim Hamza
  * @autor Yliess El Atifi
  */
-public class AStar implements Algorithm {
+public class AStar implements MonsterAlgorithm {
     ICoordinate entry;
     ICoordinate exit;
     boolean[][] maze;
