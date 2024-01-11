@@ -12,19 +12,28 @@ import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
 public class RandomControlled implements IHunterStrategy {
-    private int arg0;
-    private int arg1;
     private Stack<ICoordinate> neighboursCellsExploration;
     private boolean[][] visited;
     private boolean[][] shoot;
 
+    public RandomControlled() {
+    }
+
+    /*
+     * Constructeur de RandomControlled
+     * 
+     * @param rows la longueur du labyrinthe
+     * @param columns la largeur du labyrinthe
+     */
+    public RandomControlled(int rows, int columns) {
+        this.initialize(rows, columns);
+    }
+
     @Override
-    public void initialize(int arg0, int arg1) {
-        this.arg0 = arg0;
-        this.arg1 = arg1;
+    public void initialize(int rows, int columns) {
         this.neighboursCellsExploration = new Stack<>();
-        this.visited = new boolean[arg0][arg1];
-        this.shoot = new boolean[arg0][arg1];
+        this.visited = new boolean[rows][columns];
+        this.shoot = new boolean[rows][columns];
 
     }
 

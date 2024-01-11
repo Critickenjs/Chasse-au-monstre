@@ -4,11 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Random;
 import java.util.Stack;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
@@ -28,6 +25,8 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @author Yliess El Atifi
  */
 public class Hunter extends Subject implements IHunterStrategy, Serializable {
+    private static final Class<? extends IHunterStrategy> DEFAULT_ALGORITHM = RandomControlled.class;
+
     private boolean[][] shootLocations;
     private String name;
     private boolean[][] visited;
@@ -43,7 +42,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
      * @param locations les coordonnées des tirs du chasseur
      */
     public Hunter() {
-        // TODO : Ajouter la stratégie par défaut
+        this.algorithmClass = DEFAULT_ALGORITHM;
     }
 
     /*
@@ -99,8 +98,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
             this.algorithmClass = (Class<? extends IHunterStrategy>) Class
                     .forName("fr.univlille.info.J3.chasseaumonstre.model.strategy.hunter.algorithm." + algorithm);
         } catch (ClassNotFoundException e) {
-            // TODO : Définir un comportement par défaut
-            // this.algorithmClass =
+            this.algorithmClass = DEFAULT_ALGORITHM;
         }
     }
 
@@ -135,7 +133,25 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
     }
 
     public void setAi(boolean ai) {
+        if (ai && (algorithm == null)) {
+            this.executeAlgorithm();
+        }
         this.ai = ai;
+    }
+
+    /**
+     * Exécute l'algorithme de recherche de chemin
+     * 
+     * @see IHunterStrategy
+     */
+    private void executeAlgorithm() {
+        try {
+            algorithm = this.algorithmClass.getConstructor()
+                    .newInstance();
+        } catch (Exception e) {
+            algorithm = new RandomControlled();
+        }
+        algorithm.initialize(this.shootLocations.length, this.shootLocations[0].length);
     }
 
     /**
@@ -146,9 +162,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
      */
     @Override
     public ICoordinate play() {
-        RandomControlled rc = new RandomControlled();
-        rc.initialize(this.shootLocations.length, this.shootLocations[0].length);
-        ICoordinate coordinate = rc.play();
+        ICoordinate coordinate = algorithm.play();
         this.shoot(coordinate.getRow(), coordinate.getCol());
         return coordinate;
     }
