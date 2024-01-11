@@ -21,6 +21,7 @@ import javafx.stage.Stage;
  * La classe représentant la vue de l'écran de fin de jeu
  * 
  * @see GameEndController
+ * 
  * @author Anas Ouhdda
  * @author Atilla Tas
  * @author Karim Aoulad-Tayab
@@ -35,7 +36,6 @@ public class GameEndView {
 
 
     /**
-     *
      * @param stage      La fenêtre de l'application.
      * @param controller Le contrôleur associé à cette vue.
      */
@@ -73,7 +73,8 @@ public class GameEndView {
 
             stage.setTitle("Chasse au monstre");
             stage.setScene(scene);
-            stage.centerOnScreen();
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,8 +112,8 @@ public class GameEndView {
                 if (rectangleNode instanceof Rectangle) {
                     Rectangle rectangle = (Rectangle) rectangleNode;
 
-                    rectangle.setWidth(330 / controller.getModel().getWidth());
-                    rectangle.setHeight(300 / controller.getModel().getHeight());
+                    rectangle.setWidth(410 / controller.getModel().getWidth());
+                    rectangle.setHeight(450 / controller.getModel().getHeight());
                 }
             }
         }
