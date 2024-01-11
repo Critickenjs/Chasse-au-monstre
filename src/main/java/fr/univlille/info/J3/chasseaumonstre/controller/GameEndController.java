@@ -1,5 +1,6 @@
 package fr.univlille.info.J3.chasseaumonstre.controller;
 
+import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.views.GameEndView;
@@ -92,7 +93,12 @@ public class GameEndController {
      */
     @FXML
     private void onBtnMainMenu() {
-        new MHMenuView(stage, new MHMenuController(stage, model));
+        try {
+            this.stage.close();
+            new App().start(new Stage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void initialize() {
