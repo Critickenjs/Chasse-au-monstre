@@ -472,7 +472,7 @@ public class MHMenuController {
         stageMulti.show();
     }
 
-    /*
+    /**
      * Initialise le contrôleur, affiche le fond d'écran et initialise le style des
      * boutons
      */

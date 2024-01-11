@@ -19,7 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-/*
+/**
  * Classe représentant la vue du Chasseur
  * 
  * @param stage : la fenêtre principale
@@ -45,7 +45,7 @@ public class MHHunterView implements Observer {
         this.controller.getModel().attach(this);
     }
 
-    /*
+    /**
      * Afficher la vue du Chasseur dans le stage
      */
     public void render() {
@@ -126,7 +126,7 @@ public class MHHunterView implements Observer {
         }
     }
 
-    /*
+    /**
      * Connaitre si une cellule est sur le bord du labyrinthe
      * 
      * @param x la ligne de la cellule
@@ -142,7 +142,7 @@ public class MHHunterView implements Observer {
         return maze;
     }
 
-    /*
+    /**
      * Met à jour la vue
      */
     public void update() {
@@ -155,7 +155,7 @@ public class MHHunterView implements Observer {
         this.update();
     }
 
-    /*
+    /**
      * Reçoit une notification du modèle principal, par défaut MHMonsterView implémente cette méthode,
      * sauf si le monstre est une IA.
      * Si l'objet est une stratégie, on affiche une alerte de victoire.

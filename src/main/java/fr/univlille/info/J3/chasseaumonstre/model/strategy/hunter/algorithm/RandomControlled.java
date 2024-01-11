@@ -19,7 +19,7 @@ public class RandomControlled implements IHunterStrategy {
     public RandomControlled() {
     }
 
-    /*
+    /**
      * Constructeur de RandomControlled
      * 
      * @param rows la longueur du labyrinthe
