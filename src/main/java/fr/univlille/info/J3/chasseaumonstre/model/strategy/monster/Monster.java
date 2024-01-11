@@ -4,16 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import SubjectObserver.*;
 import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
-import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.AStar;
-import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Algorithm;
-import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.DepthFirstSearch;
-import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.Dijkstra;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.MonsterAlgorithm;
 import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
@@ -35,9 +31,9 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     private boolean[][] maze;
     private Integer[][] visitedTurn;
     private boolean ai;
-    private List<ICoordinate> path;
     private int turn;
-    private Class<? extends Algorithm> algorithm;
+    private Class<? extends IMonsterStrategy> algorithmClass;
+    private IMonsterStrategy algorithm;
 
     public Monster() {
         this.exit = null;
@@ -45,9 +41,8 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.coord = null;
         this.visitedTurn = null;
         this.ai = false;
-        this.path = new ArrayList<>();
         this.turn = 0;
-        this.algorithm = AStar.class;
+        this.algorithmClass = AStar.class;
     }
 
     /**
@@ -85,28 +80,27 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
     }
 
     public void setAi(boolean ai) {
-        if (ai && (this.path == null || this.path.isEmpty())) {
+        if (ai && (algorithm == null)) {
             this.executeAlgorithm();
         }
         this.ai = ai;
     }
 
-    public void setAlgorithm(Class<? extends Algorithm> algorithm) {
-        this.algorithm = algorithm;
+    public void setAlgorithm(Class<? extends IMonsterStrategy> algorithm) {
+        this.algorithmClass = algorithm;
     }
 
     @SuppressWarnings("unchecked")
     public void setAlgorithm(String algorithm) {
         try {
-            this.algorithm = (Class<? extends Algorithm>) Class
-                    .forName("fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm." + algorithm);
+            this.algorithmClass = (Class<? extends IMonsterStrategy>) Class.forName("fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm." + algorithm);
         } catch (ClassNotFoundException e) {
-            this.algorithm = AStar.class;
+            this.algorithmClass = AStar.class;
         }
     }
 
-    public Class<? extends Algorithm> getAlgorithm() {
-        return this.algorithm;
+    public Class<? extends IMonsterStrategy> getAlgorithmClass() {
+        return this.algorithmClass;
     }
 
     /**
@@ -117,15 +111,13 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      * @see AStar
      */
     private void executeAlgorithm() {
-        Algorithm algorithm;
         try {
-            algorithm = this.algorithm.getConstructor(ICoordinate.class, ICoordinate.class, boolean[][].class)
+            algorithm = this.algorithmClass.getConstructor(ICoordinate.class, ICoordinate.class, boolean[][].class)
                     .newInstance(this.entry, this.exit, this.maze);
         } catch (Exception e) {
             algorithm = new AStar(this.entry, this.exit, this.maze);
         }
-        this.path = algorithm.execute();
-        System.out.println(algorithm.getClass().getSimpleName() + " - Chemin trouvé : " + algorithm.getTime() + "ms");
+        algorithm.initialize(this.maze);
     }
 
     /**
@@ -283,16 +275,11 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      */
     @Override
     public ICoordinate play() {
-        if (this.ai) {
-            if (this.path != null && !this.path.isEmpty()) {
-                ICoordinate move = this.path.get(0);
-                this.path.remove(move);
-                this.setCoord(move.getRow(), move.getCol(), this.turn++);
-                return new Coordinate(move);
-
-            }
+        ICoordinate next = algorithm.play();
+        if (next != null) {
+            setCoord(next.getRow(), next.getCol(), turn++);
         }
-        return null;
+        return next;
     }
 
     /**
@@ -347,8 +334,8 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         oos.writeObject(this.maze);
         oos.writeObject(this.visitedTurn);
         oos.writeObject(this.ai);
-        oos.writeObject(path);
         oos.writeObject(this.turn);
+        oos.writeObject(this.algorithmClass);
         oos.writeObject(this.algorithm);
     }
 
@@ -360,50 +347,8 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.maze = (boolean[][]) ois.readObject();
         this.visitedTurn = (Integer[][]) ois.readObject();
         this.ai = (boolean) ois.readObject();
-        this.path = (List<ICoordinate>) ois.readObject();
         this.turn = (int) ois.readObject();
-        this.algorithm = (Class<? extends Algorithm>) ois.readObject();
-    }
-
-    /**
-     * Test d'exécution de l'algorithme de recherche de chemin avec représentation
-     * en ligne de commande
-     */
-    public static void main(String[] args) {
-        MonsterHunterModel model = new MonsterHunterModel();
-        Monster monster = model.getMonster();
-        model.initialize();
-        boolean[][] maze = model.getMaze();
-        monster.initialize(maze);
-
-        monster.setEntry(model.getEntrance());
-        monster.setExit(model.getExit());
-
-        Algorithm algorithm = new Dijkstra(monster.getEntry(), monster.getExit(), maze);
-        List<ICoordinate> path = algorithm.execute();
-
-        if (path != null) {
-            System.out.println("DIJKSTRA - Chemin trouvé : " + algorithm.getTime() + "ms");
-        } else {
-            System.out.println("DIJKSTRA - Aucun chemin trouvé. " + algorithm.getTime() + "ms");
-        }
-
-        algorithm = new AStar(monster.getEntry(), monster.getExit(), maze);
-        path = algorithm.execute();
-
-        if (path != null) {
-            System.out.println("ASTAR\t - Chemin trouvé : " + algorithm.getTime() + "ms");
-        } else {
-            System.out.println("ASTAR\t - Aucun chemin trouvé. " + algorithm.getTime() + "ms");
-        }
-
-        algorithm = new DepthFirstSearch(monster.getEntry(), monster.getExit(), maze);
-        path = algorithm.execute();
-
-        if (path != null) {
-            System.out.println("DFS\t - Chemin trouvé : " + algorithm.getTime() + "ms");
-        } else {
-            System.out.println("DFS\t - Aucun chemin trouvé. " + algorithm.getTime() + "ms");
-        }
+        this.algorithmClass = (Class<? extends MonsterAlgorithm>) ois.readObject();
+        this.algorithm = (IMonsterStrategy) ois.readObject();
     }
 }

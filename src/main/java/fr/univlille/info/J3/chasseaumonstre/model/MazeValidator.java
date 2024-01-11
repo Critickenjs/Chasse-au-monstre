@@ -1,8 +1,7 @@
 package fr.univlille.info.J3.chasseaumonstre.model;
 
-import java.util.List;
-
 import fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm.AStar;
+import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
 /**
@@ -67,8 +66,10 @@ public class MazeValidator {
 
     public static boolean isValid(boolean[][] maze, Coordinate entrance, Coordinate exit) {
 
-        List<ICoordinate> astar = new AStar(entrance, exit, maze).execute();
-        if (astar == null) {
+        IMonsterStrategy astar = new AStar(entrance, exit, maze);
+        astar.initialize(maze);
+        ICoordinate next = astar.play();
+        if (next == null) {
             return false;
         }
         return true;

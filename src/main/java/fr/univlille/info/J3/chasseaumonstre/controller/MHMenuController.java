@@ -21,6 +21,8 @@ import javafx.geometry.Pos;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+
+import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.controller.utils.UtilsController;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.server.UtilsServer;
@@ -182,8 +184,8 @@ public class MHMenuController {
         Label algorithmLabel = new Label("Algorithme :");
         ComboBox<String> algorithmComboBox = new ComboBox<>();
         aiSettings.getChildren().addAll(algorithmLabel, algorithmComboBox);
-        algorithmComboBox.getItems().addAll("AStar", "Dijkstra", "DepthFirstSearch");
-        algorithmComboBox.setValue(model.getMonster().getAlgorithm().getSimpleName());
+        algorithmComboBox.getItems().addAll(App.ALGORITHMS_MONSTER.stream().map(Class::getSimpleName).toArray(String[]::new));
+        algorithmComboBox.setValue(model.getMonster().getAlgorithmClass().getSimpleName());
 
         button.setOnAction(e -> {
             if (!width.getText().equals("") && height.getText().equals("")) {
@@ -358,8 +360,8 @@ public class MHMenuController {
 
     /**
      * bouton "PvP Multijoueur". Ouvre une connexion à un lobby de jeu
-     * avec un nom d'utilisateur et une adresse de serveur spécifiés par
-     * l'utilisateur.
+     * avec un nom d'utilisateur et une adresse de serveur spécifiée par
+     * l'utilisateur. Affiche la vue correspondante selon le rôle du client attribué aléatoirement par le serveur
      */
     @FXML
     private void onPVPMulti() {
@@ -407,16 +409,16 @@ public class MHMenuController {
                                 this.socket = new Socket(addr[0], port);
                                 Thread t = new Thread(() -> {
                                     try {
-                                        String msg = (String) UtilsServer.receive(this.socket);
+                                        String role = (String) UtilsServer.receive(this.socket);
                                         this.model = (MonsterHunterModel) UtilsServer.receive(this.socket);
 
                                         Platform.runLater(() -> {
                                             success.close();
                                             stageMulti.close();
 
-                                            if (msg.equals("Monster")) {
+                                            if (role.equals("Monster")) {
                                                 this.model.setMonsterName(username);
-                                                this.synchronize("Monster", username);
+                                                this.synchronize(role, username);
                                                 MHMonsterController mc = new MHMonsterController(this.stage, this.model,
                                                         this.socket);
                                                 this.monsterView = new MHMonsterView(this.stage, mc);
@@ -425,7 +427,7 @@ public class MHMenuController {
                                                 this.monsterView.render();
                                             } else {
                                                 this.model.setHunterName(username);
-                                                this.synchronize("Hunter", username);
+                                                this.synchronize(role, username);
                                                 MHHunterController hc = new MHHunterController(this.stage, this.model,
                                                         this.socket);
                                                 this.hunterView = new MHHunterView(this.stage, hc);

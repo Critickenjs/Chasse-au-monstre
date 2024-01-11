@@ -19,43 +19,19 @@ import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
  * @author Yliess El Atifi
  * @see Algorithm
  */
-public class DepthFirstSearch implements Algorithm {
-    ICoordinate entry;
-    ICoordinate exit;
-    boolean[][] maze;
-    double time;
+public class DepthFirstSearch extends MonsterAlgorithm {
+
+    public DepthFirstSearch(ICoordinate entry, ICoordinate exit) {
+        this(entry, exit, null);
+    }
 
     public DepthFirstSearch(ICoordinate entry, ICoordinate exit, boolean[][] maze) {
-        this.entry = entry;
-        this.exit = exit;
-        this.maze = maze;
+        super(entry, exit, maze);
     }
 
     @Override
-    public ICoordinate getEntry() {
-        return entry;
-    }
-
-    @Override
-    public ICoordinate getExit() {
-        return exit;
-    }
-
-    @Override
-    public boolean[][] getMaze() {
-        return maze;
-    }
-
-    /**
-     * Execute l'algorithme A*
-     * 
-     * @return la liste des coordonnées du chemin
-     */
-
-    @Override
-    public List<ICoordinate> execute() {
-        if (entry == null || exit == null || maze == null || !maze[entry.getRow()][entry.getCol()]
-                || !maze[exit.getRow()][exit.getCol()]) {
+    protected List<ICoordinate> execute() {
+        if (entry == null || exit == null || maze == null || !maze[entry.getRow()][entry.getCol()] || !maze[exit.getRow()][exit.getCol()]) {
             return null;
         }
         time = System.currentTimeMillis();
@@ -104,10 +80,5 @@ public class DepthFirstSearch implements Algorithm {
 
         path.remove(path.size() - 1);
         return false;
-    }
-
-    @Override
-    public double getTime() {
-        return time;
     }
 }
