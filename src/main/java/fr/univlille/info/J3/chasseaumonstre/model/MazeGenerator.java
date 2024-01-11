@@ -3,7 +3,9 @@ package fr.univlille.info.J3.chasseaumonstre.model;
 import java.util.Random;
 import java.util.Stack;
 
-/*
+import fr.univlille.iutinfo.cam.player.perception.ICellEvent.CellInfo;
+
+/**
  * MazeGenerator génère un labyrinthe aléatoirement, validé par MazeValidator
  * 
  * @see CellInfo
@@ -22,10 +24,10 @@ public class MazeGenerator {
     private Coordinate entranceCoordinate;
     private Coordinate exitCoordinate;
 
-    /*
+    /**
      * Constructeur de MazeGenerator
      * 
-     * @param width la largeur du labyrinthe
+     * @param width  la largeur du labyrinthe
      * 
      * @param height la hauteur du labyrinthe
      */
@@ -48,10 +50,12 @@ public class MazeGenerator {
         return this.maze;
     }
 
-    /*
+    /**
      * Génère un labyrinthe aléatoirement (tableau d'entiers) avec une entrée et une
      * sortie
      * avec un pourcentage d'obstacles
+     * 
+     * @param obstacle le pourcentage d'obstacles
      */
     public void generatePlateau(int obstacle) {
 
@@ -67,6 +71,9 @@ public class MazeGenerator {
 
     }
 
+    /**
+     * Générent les entrées et les sorties du labyrinthe
+     */
     private void generateEntanceAndExit() {
         int entrancex;
         int exitx;
@@ -82,6 +89,20 @@ public class MazeGenerator {
         this.maze[entranceCoordinate.getRow()][entranceCoordinate.getCol()] = 0;
         this.maze[exitCoordinate.getRow()][exitCoordinate.getCol()] = 0;
     }
+
+    /**
+     * Exécute un algorithme de recherche en profondeur pour générer un chemin dans
+     * un labyrinthe.
+     * 
+     * L'algorithme commence à l'entrée du labyrinthe et explore les cellules
+     * voisines
+     * jusqu'à ce qu'il atteigne la sortie ou que toutes les cellules aient été
+     * visitées. Il utilise une pile pour garder une trace
+     * de la position actuelle et revient en arrière si nécessaire.
+     * 
+     * @throws ArrayIndexOutOfBoundsException si les coordonnées de l'entrée ou de
+     *                                        la sortie sont hors limites.
+     */
 
     public void dfs() {
         boolean[][] visited = new boolean[maze.length][maze[0].length];
@@ -153,7 +174,7 @@ public class MazeGenerator {
         return toBoolean(maze);
     }
 
-    /*
+    /**
      * Convertit le labyrinthe en un tableau de booléens
      * 
      * @return le labyrinthe converti

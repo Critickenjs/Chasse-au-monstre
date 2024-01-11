@@ -23,7 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-/*
+/**
  * Classe abstraite représentant un contrôleur du joueur monstre
  * 
  * @param stage : la fenêtre principale
@@ -52,7 +52,7 @@ public class MHMonsterController extends MHPlayerController {
         this(stage, model, null);
     }
 
-    /*
+    /**
      * Initialise le contrôleur, affiche le nom du monstre et initialise la zone
      */
     public void initialize() {
@@ -112,7 +112,7 @@ public class MHMonsterController extends MHPlayerController {
         return this.contentV;
     }
 
-    /*
+    /**
      * Définit la vue à contrôler
      * 
      * @param monsterView : la vue
@@ -121,7 +121,7 @@ public class MHMonsterController extends MHPlayerController {
         this.monsterView = monsterView;
     }
 
-    /*
+    /**
      * Gère le clic sur le bouton "Passer le tour"
      */
     @FXML
@@ -130,9 +130,9 @@ public class MHMonsterController extends MHPlayerController {
         if (model.getHunter().isAi()) {
             this.model.getHunter().play();
             this.monsterView.render();
-        } else if(this.socket != null) {
+        } else if (this.socket != null) {
             try {
-				this.skipTurn.setDisable(false);
+                this.skipTurn.setDisable(false);
                 UtilsServer.send(this.socket, this.model);
                 this.characterName.setText("En attente du \n prochain coup...");
             } catch (IOException e) {
@@ -143,7 +143,7 @@ public class MHMonsterController extends MHPlayerController {
         }
     }
 
-    /*
+    /**
      * Fait avancer le monstre
      * 
      * @param moveX : la coordonnée X de la case visée
@@ -154,13 +154,6 @@ public class MHMonsterController extends MHPlayerController {
      */
     private boolean advance(int moveX, int moveY) {
         if (model.getMonster().estAdjacente(moveX, moveY)) {
-            /*
-             * -----> Décommenter pour ne plus pouvoir revenir sur ses pas
-             * if (model.getMonster().isVisited(moveX, moveY)) {
-             * visitedAlert(moveX, moveY);
-             * return false;
-             * }
-             */
             moved = true;
             skipTurn.setDisable(false);
             model.getMonster().setCoord(moveX, moveY, model.getTurn());
@@ -172,7 +165,7 @@ public class MHMonsterController extends MHPlayerController {
         return moved;
     }
 
-    /*
+    /**
      * Gère le déplacement du monstre
      * 
      * @param moveX : la coordonnée X de la case de destination
@@ -213,7 +206,7 @@ public class MHMonsterController extends MHPlayerController {
         return moved;
     }
 
-    /*
+    /**
      * Alerte le joueur que la case visée est vide
      * 
      * @param cellX : la coordonnée X de la case visée
@@ -226,7 +219,7 @@ public class MHMonsterController extends MHPlayerController {
         this.alertHeader.setTextFill(Color.BLUE);
     }
 
-    /*
+    /**
      * Alerte le joueur que la case visée est un mur
      * 
      * @param cellX : la coordonnée X de la case visée
@@ -239,22 +232,7 @@ public class MHMonsterController extends MHPlayerController {
         this.alertHeader.setTextFill(Color.RED);
     }
 
-    /*
-     * -----> Décommenter pour ne plus pouvoir revenir sur ses pas
-     * Alerte le joueur que la case visée a déjà été visitée
-     * 
-     * @param cellX : la coordonnée X de la case visée
-     * 
-     * @param cellY : la coordonnée Y de la case visée
-     * 
-     * private void visitedAlert(int cellX, int cellY) {
-     * this.alertHeader.setText("Vous avez déjà marché sur cette case.");
-     * this.alertBody.setText("Coordonnées: (" + cellX + ", " + cellY + ")");
-     * this.alertHeader.setTextFill(Color.ORANGE);
-     * }
-     */
-
-    /*
+    /**
      * Alerte le joueur que la case visée est trop loin
      * 
      * @param cellX : la coordonnée X de la case visée
@@ -267,7 +245,7 @@ public class MHMonsterController extends MHPlayerController {
         this.alertHeader.setTextFill(Color.ORANGE);
     }
 
-    /*
+    /**
      * Alerte le joueur qu'il a atteint la sortie et a gagné
      */
     public void monsterWinAlert() {
@@ -279,7 +257,7 @@ public class MHMonsterController extends MHPlayerController {
         alertOnClose();
     }
 
-    /*
+    /**
      * Alerte le joueur qu'il a été tué et que le chasseur a gagné
      */
     public void hunterWinAlert() {
@@ -292,14 +270,14 @@ public class MHMonsterController extends MHPlayerController {
         alertOnClose();
     }
 
-    /*
+    /**
      * Affiche l'écran de fin de partie lorsque l'alerte est fermée
      */
     protected void alertOnClose() {
         gameEndView.render();
     }
 
-    /*
+    /**
      * Gère les mouvements via les touches ZQSD
      */
     public void keyPressedOnScene(Scene scene) {

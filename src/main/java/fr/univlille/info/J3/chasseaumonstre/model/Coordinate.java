@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
-/*
+/**
  * Coordinate représente les coordonnées d'une cellule
  * 
  * @see ICoordinate
@@ -21,13 +21,13 @@ public class Coordinate implements ICoordinate, Serializable {
     private Integer row;
     private Integer col;
 
-    /*
+    /**
      * Constructeur de Coordinate
      * 
      * @param row la ligne de la cellule
      * @param col la colonne de la cellule
      */
-    public Coordinate(Integer row, Integer col){
+    public Coordinate(Integer row, Integer col) {
         this.row = row;
         this.col = col;
     }
@@ -64,7 +64,7 @@ public class Coordinate implements ICoordinate, Serializable {
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-        this.row = (Integer)ois.readObject();
-        this.col = (Integer)ois.readObject();
+        this.row = (Integer) ois.readObject();
+        this.col = (Integer) ois.readObject();
     }
 }
