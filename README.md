@@ -17,7 +17,7 @@ Jeu vidéo graphique basé sur JavaFX (17.0.2), où l'on incarne un chasseur ou 
 
 #### Lancement de l'application
 
-Décompressez le fichier 'ChasseAuMonstre-V2.zip' (dernière version du jeu) dans le répertoire 'releases' et à l'intérieur du fichier décompressé éxecutez cette commande:
+Décompressez le fichier 'ChasseAuMonstre-V3.zip' (dernière version du jeu) dans le répertoire 'releases' et à l'intérieur du fichier décompressé éxecutez cette commande:
 
 ```
 java --module-path [CHEMIN_ABSOLU_VERS_LE_DOSSIER_LIB_DE_JAVAFX] --add-modules javafx.controls,javafx.fxml,javafx.media -jar ChasseAuMonstre.jar
@@ -66,7 +66,7 @@ UML
 
 Consignes pour utiliser le mode multi:
 
-- Lancer le serveur MonsterHunterServer au préalable
+- Lancer le serveur [MonsterHunterServer](./src/main/java/fr/univlille/info/J3/chasseaumonstre/server/MonsterHunterServer.java) au préalable
 - Appuyer sur le bouton 'Multijoueur' lors du lancement du jeu
 - Écrire le nom du joueur A
 - Pour l'ip il y a 2 situations possibles:
