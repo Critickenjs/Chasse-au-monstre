@@ -276,7 +276,6 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
      */
     @Override
     public ICoordinate play() {
-        System.out.println(algorithm.getClass().getSimpleName());
         ICoordinate next = algorithm.play();
         if (next != null) {
             setCoord(next.getRow(), next.getCol(), turn++);
