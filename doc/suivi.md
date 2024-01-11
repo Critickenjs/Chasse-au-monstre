@@ -283,3 +283,8 @@
 
 - enrichessement de la javadoc
 - modification de l'algo hunter et fix algo monster
+
+**Atilla Tas** :
+
+- Ecran de fin de partie fonctionel pour le mode de jeu "Joueur contre Joueur"
+- Ecran de fin de partie disponible pour : les modes de jeu (mvi / cvi) mais encore des bugs : la vue de fin bascule sur la vue de pleine partie (pas tout le temps), le mode de jeu IA vs IA mais aucun contenu de présent.
