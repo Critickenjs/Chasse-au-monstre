@@ -23,10 +23,12 @@ Décompressez le fichier 'ChasseAuMonstre-V2.zip' (dernière version du jeu) dan
 java --module-path [CHEMIN_ABSOLU_VERS_LE_DOSSIER_LIB_DE_JAVAFX] --add-modules javafx.controls,javafx.fxml,javafx.media -jar ChasseAuMonstre.jar
 ```
 
-#### Consigne de compilation de la doc (+ UML)
+#### Consigne de compilation de la doc
+
+Ouvrir le fichier 'doc/livrable-1/chasseaumonstre/chasseaumonstre/package-summary.html'
 
 ```
-javadoc -private -author -d doc/chasseaumonstre -cp src/main/resources/cam-player-api-base.jar:src/main/resources/junit-platform-console-standalone-1.10.0.jar --module-path [CHEMIN_VERS_LE_DOSSIER_LIB_DU_SDK_JAVAFX] --add-modules javafx.controls,javafx.fxml,javafx.media -sourcepath src/main/java -docletpath src/main/resources/umldoclet-2.1.0.jar -doclet nl.talsmasoftware.umldoclet.UMLDoclet -subpackages chasseaumonstre
+javadoc -private -author -d doc/chasseaumonstre -cp src/main/resources/cam-player-api-base.jar:src/main/resources/junit-platform-console-standalone-1.10.0.jar --module-path [CHEMIN_VERS_LE_DOSSIER_LIB_DU_SDK_JAVAFX] --add-modules javafx.controls,javafx.fxml,javafx.media -subpackages chasseaumonstre
 ```
 
 #### Importer des algorithmes
