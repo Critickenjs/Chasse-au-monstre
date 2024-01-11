@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" prefWidth="1226.0" style="-fx-background-image: url('https://w.forfun.com/fetch/0b/0bba8be96df7a066bcd536a7bdb5eef6.jpeg'); -fx-background-position: center; -fx-background-repeat: no-repeat; -fx-background-size: cover;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" prefWidth="1226.0" style="-fx-background-image: url('https://w.forfun.com/fetch/0b/0bba8be96df7a066bcd536a7bdb5eef6.jpeg'); -fx-background-position: center; -fx-background-repeat: no-repeat; -fx-background-size: cover;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <StackPane fx:id="container" prefHeight="600.0" prefWidth="1080.0" style="-fx-background-repeat: no-repeat; -fx-background-size: cover;">
          <children>
