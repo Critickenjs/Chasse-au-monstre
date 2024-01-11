@@ -45,7 +45,7 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         this.algorithmClass = DEFAULT_ALGORITHM;
     }
 
-    /*
+    /**
      * Initialisation des coordonnées des tirs du chasseur
      * 
      * @param locations les coordonnées des tirs du chasseur
