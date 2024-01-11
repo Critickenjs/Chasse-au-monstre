@@ -13,6 +13,7 @@ import java.util.Iterator;
 import SubjectObserver.Observer;
 import SubjectObserver.Subject;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
+import fr.univlille.info.J3.chasseaumonstre.model.strategy.hunter.algorithm.RandomControlled;
 import fr.univlille.iutinfo.cam.player.hunter.IHunterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
@@ -108,32 +109,6 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
         this.ai = ai;
     }
 
-    private List<ICoordinate> getNeighbours(ICoordinate coordinate) {
-        List<ICoordinate> coordinates = new ArrayList<>();
-        Integer x = coordinate.getCol();
-        Integer y = coordinate.getRow();
-        // ---
-        coordinates.add(new Coordinate(y, x - 1));
-        coordinates.add(new Coordinate(y, x + 1));
-        // ---
-        coordinates.add(new Coordinate(y - 1, x - 1));
-        coordinates.add(new Coordinate(y - 1, x));
-        coordinates.add(new Coordinate(y - 1, x + 1));
-        // ---
-        coordinates.add(new Coordinate(y + 1, x - 1));
-        coordinates.add(new Coordinate(y + 1, x));
-        coordinates.add(new Coordinate(y + 1, x + 1));
-        Iterator<ICoordinate> it = coordinates.iterator();
-        ICoordinate c;
-        while (it.hasNext()) {
-            c = it.next();
-            if (!((c.getCol() >= 0 && c.getCol() < this.visited[0].length)
-                    && (c.getRow() >= 0 && c.getRow() < this.visited.length)))
-                it.remove();
-        }
-        return coordinates;
-    }
-
     /**
      * Genere coordonnées d'une case aleatoirement
      * Verifie si elle a déja été ciblé
@@ -142,27 +117,11 @@ public class Hunter extends Subject implements IHunterStrategy, Serializable {
      */
     @Override
     public ICoordinate play() {
-        ICoordinate coordinate;
-        if (!this.neighboursCellsExploration.isEmpty()) {
-            coordinate = this.neighboursCellsExploration.pop();
-            List<ICoordinate> neighbours = this.getNeighbours(coordinate);
-            for (ICoordinate c : neighbours) {
-                if (!this.hasShot(c.getRow(), c.getCol()) && this.isVisited(c.getRow(), c.getCol())) {
-                    this.shoot(c.getRow(), c.getCol());
-                    this.neighboursCellsExploration.push(c);
-                    return c;
-                }
-            }
-        }
-        Random r = new Random();
-        ICoordinate shuffleCoordinate = new Coordinate(r.nextInt(this.visited.length),
-                r.nextInt(this.visited[0].length));
-        while (this.hasShot(shuffleCoordinate.getRow(), shuffleCoordinate.getCol())) {
-            shuffleCoordinate = new Coordinate(r.nextInt(this.visited.length), r.nextInt(this.visited[0].length));
-        }
-        this.shoot(shuffleCoordinate.getRow(), shuffleCoordinate.getCol());
-        this.neighboursCellsExploration.push(shuffleCoordinate);
-        return shuffleCoordinate;
+        RandomControlled rc = new RandomControlled();
+        rc.initialize(this.shootLocations.length, this.shootLocations[0].length);
+        ICoordinate coordinate = rc.play();
+        this.shoot(coordinate.getRow(), coordinate.getCol());
+        return coordinate;
     }
 
     /**
