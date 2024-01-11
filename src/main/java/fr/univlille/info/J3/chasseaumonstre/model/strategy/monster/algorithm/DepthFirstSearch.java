@@ -5,6 +5,20 @@ import java.util.List;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 import fr.univlille.info.J3.chasseaumonstre.model.Coordinate;
 
+/**
+ * DepthFirstSearch est une implémentation de l'interface Algorithm utilisant la
+ * recherche en profondeur (DFS) pour la recherche de chemin dans un labyrinthe.
+ * Elle explore le labyrinthe du point d'entrée au point de sortie, tentant de
+ * trouver un chemin valide.
+ * Si un chemin valide est trouvé, il est retourné ; sinon, null est retourné.
+ *
+ * @author Anas Ouhdda
+ * @author Atilla Tas
+ * @author Karim Aoulad-Tayab
+ * @author Selim Hamza
+ * @author Yliess El Atifi
+ * @see Algorithm
+ */
 public class DepthFirstSearch implements Algorithm {
     ICoordinate entry;
     ICoordinate exit;
@@ -32,9 +46,16 @@ public class DepthFirstSearch implements Algorithm {
         return maze;
     }
 
+    /**
+     * Execute l'algorithme A*
+     * 
+     * @return la liste des coordonnées du chemin
+     */
+
     @Override
     public List<ICoordinate> execute() {
-        if (entry == null || exit == null || maze == null || !maze[entry.getRow()][entry.getCol()] || !maze[exit.getRow()][exit.getCol()]) {
+        if (entry == null || exit == null || maze == null || !maze[entry.getRow()][entry.getCol()]
+                || !maze[exit.getRow()][exit.getCol()]) {
             return null;
         }
         time = System.currentTimeMillis();
@@ -51,6 +72,14 @@ public class DepthFirstSearch implements Algorithm {
         return null;
     }
 
+    /**
+     * Méthode auxiliaire récursive pour l'algorithme de recherche en profondeur.
+     *
+     * @param current La coordonnée actuelle en cours d'exploration.
+     * @param path    Le chemin actuel en cours de construction.
+     * @param visited Tableau indiquant les cellules déjà visitées.
+     * @return True si un chemin valide est trouvé, sinon False.
+     */
     private boolean dfs(ICoordinate current, List<ICoordinate> path, boolean[][] visited) {
         int row = current.getRow();
         int col = current.getCol();

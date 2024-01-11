@@ -18,7 +18,7 @@ import fr.univlille.iutinfo.cam.player.monster.IMonsterStrategy;
 import fr.univlille.iutinfo.cam.player.perception.ICellEvent;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
-/*
+/**
  * Réprésente le monstre et sa stratégie
  * 
  * @see IMonsterStrategy
@@ -27,7 +27,7 @@ import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
  * @author Karim Aoulad-Tayab
  * @author Selim Hamza
  * @author Yliess El Atifi
-*/
+ */
 public class Monster extends Subject implements IMonsterStrategy, Serializable {
     private Coordinate exit;
     private Coordinate entry;
@@ -50,7 +50,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.algorithm = AStar.class;
     }
 
-    /*
+    /**
      * Constructeur de Monster
      * 
      * @param locations les coordonnées des cellules visitées par le monstre
@@ -64,7 +64,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         return this.attached;
     }
 
-    /*
+    /**
      * Constructeur de Monster
      * 
      * @param row la ligne de la cellule
@@ -109,7 +109,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         return this.algorithm;
     }
 
-    /*
+    /**
      * Exécute l'algorithme de recherche de chemin
      * 
      * @see Algorithm
@@ -128,7 +128,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         System.out.println(algorithm.getClass().getSimpleName() + " - Chemin trouvé : " + algorithm.getTime() + "ms");
     }
 
-    /*
+    /**
      * Définit la sortie du labyrinthe dans la mémoire du monstre
      * 
      * @param row la ligne de la cellule
@@ -152,7 +152,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         return this.visitedTurn;
     }
 
-    /*
+    /**
      * Définit l'entrée du labyrinthe dans la mémoire du monstre
      * 
      * @param row la ligne de la cellule
@@ -172,13 +172,13 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         return coord;
     }
 
-    /*
+    /**
      * Définit les coordonnées actuelles du monstre dans sa mémoire, et notifie le
      * modèle principal
      * 
-     * @param row la ligne de la cellule
+     * @param row  la ligne de la cellule
      * 
-     * @param col la colonne de la cellule
+     * @param col  la colonne de la cellule
      * 
      * @param turn le tour auquel le monstre a visité la cellule
      * 
@@ -192,7 +192,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.notifyObservers(coord);
     }
 
-    /*
+    /**
      * Définit les coordonnées actuelles du monstre dans sa mémoire
      * 
      * @param row la ligne de la cellule
@@ -208,7 +208,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         }
     }
 
-    /*
+    /**
      * Vérifie si le monstre est adjacent à une cellule
      * 
      * @param x1 la ligne de la cellule
@@ -224,7 +224,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         return (diffX == 1 && diffY == 0) || (diffX == 0 && diffY == 1);
     }
 
-    /*
+    /**
      * Vérifie si le monstre la case est visible par le monstre (distance)
      * 
      * @param x la ligne de la cellule
@@ -240,7 +240,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         return (diffX <= getFov() && diffY <= getFov());
     }
 
-    /*
+    /**
      * Définit que le monstre a déjà visité une cellule
      * 
      * @param row la ligne de la cellule
@@ -258,7 +258,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         }
     }
 
-    /*
+    /**
      * Connaitre à quel tour une cellule a été visitée
      * 
      * @param row la ligne de la cellule
@@ -278,7 +278,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         }
     }
 
-    /*
+    /**
      * Joue un tour du monstre si celui-ci est dirigé par IA
      */
     @Override
@@ -295,7 +295,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         return null;
     }
 
-    /*
+    /**
      * Met à jour la mémoire du monstre
      * 
      * @param event l'événement qui se produit sur une cellule
@@ -319,7 +319,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         visitedTurn[row][col] = turn;
     }
 
-    /*
+    /**
      * Connaitre le champ de vision du monstre
      * 
      * @return le champ de vision du monstre
@@ -328,7 +328,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         return App.PREFERENCES.getInt("monsterFov", 2);
     }
 
-    /*
+    /**
      * Définit le champ de vision du monstre
      * 
      * @param fov le champ de vision du monstre
@@ -365,7 +365,7 @@ public class Monster extends Subject implements IMonsterStrategy, Serializable {
         this.algorithm = (Class<? extends Algorithm>) ois.readObject();
     }
 
-    /*
+    /**
      * Test d'exécution de l'algorithme de recherche de chemin avec représentation
      * en ligne de commande
      */

@@ -131,9 +131,9 @@ public class MHMonsterController extends MHPlayerController {
         if (model.getHunter().isAi()) {
             this.model.getHunter().play();
             this.monsterView.render();
-        } else if(this.socket != null) {
+        } else if (this.socket != null) {
             try {
-				this.skipTurn.setDisable(false);
+                this.skipTurn.setDisable(false);
                 UtilsServer.send(this.socket, this.model);
                 this.characterName.setText("En attente du \n prochain coup...");
             } catch (IOException e) {
@@ -239,21 +239,6 @@ public class MHMonsterController extends MHPlayerController {
         this.alertBody.setText("Coordonnées: (" + cellX + ", " + cellY + ")");
         this.alertHeader.setTextFill(Color.RED);
     }
-
-    /*
-     * -----> Décommenter pour ne plus pouvoir revenir sur ses pas
-     * Alerte le joueur que la case visée a déjà été visitée
-     * 
-     * @param cellX : la coordonnée X de la case visée
-     * 
-     * @param cellY : la coordonnée Y de la case visée
-     * 
-     * private void visitedAlert(int cellX, int cellY) {
-     * this.alertHeader.setText("Vous avez déjà marché sur cette case.");
-     * this.alertBody.setText("Coordonnées: (" + cellX + ", " + cellY + ")");
-     * this.alertHeader.setTextFill(Color.ORANGE);
-     * }
-     */
 
     /*
      * Alerte le joueur que la case visée est trop loin

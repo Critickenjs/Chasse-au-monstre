@@ -3,7 +3,7 @@ package fr.univlille.info.J3.chasseaumonstre.model.strategy.monster.algorithm;
 import java.util.*;
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
-/*
+/**
  * Algorithme de Dijkstra pour la recherche de chemin
  * 
  * @see Algorithm
@@ -40,7 +40,7 @@ public class Dijkstra implements Algorithm {
         return maze;
     }
 
-    /*
+    /**
      * Exécute l'algorithme de Dijkstra
      * 
      * @return la liste des coordonnées du chemin

@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 
 import fr.univlille.iutinfo.cam.player.perception.ICoordinate;
 
-/*
+/**
  * Algorithme A* pour la recherche de chemin
  * 
  * @see Algorithm
@@ -45,7 +45,7 @@ public class AStar implements Algorithm {
         return maze;
     }
 
-    /*
+    /**
      * Execute l'algorithme A*
      * 
      * @return la liste des coordonnées du chemin
@@ -99,7 +99,7 @@ public class AStar implements Algorithm {
         return null;
     }
 
-    /*
+    /**
      * Calcule le coût heuristique
      * 
      * @param a la coordonnée a

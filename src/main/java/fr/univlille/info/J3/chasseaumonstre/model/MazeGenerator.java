@@ -3,7 +3,7 @@ package fr.univlille.info.J3.chasseaumonstre.model;
 import java.util.Random;
 import java.util.Stack;
 
-/*
+/**
  * MazeGenerator génère un labyrinthe aléatoirement, validé par MazeValidator
  * 
  * @see CellInfo
@@ -22,10 +22,10 @@ public class MazeGenerator {
     private Coordinate entranceCoordinate;
     private Coordinate exitCoordinate;
 
-    /*
+    /**
      * Constructeur de MazeGenerator
      * 
-     * @param width la largeur du labyrinthe
+     * @param width  la largeur du labyrinthe
      * 
      * @param height la hauteur du labyrinthe
      */
@@ -48,10 +48,12 @@ public class MazeGenerator {
         return this.maze;
     }
 
-    /*
+    /**
      * Génère un labyrinthe aléatoirement (tableau d'entiers) avec une entrée et une
      * sortie
      * avec un pourcentage d'obstacles
+     * 
+     * @param obstacle le pourcentage d'obstacles
      */
     public void generatePlateau(int obstacle) {
 
@@ -153,7 +155,7 @@ public class MazeGenerator {
         return toBoolean(maze);
     }
 
-    /*
+    /**
      * Convertit le labyrinthe en un tableau de booléens
      * 
      * @return le labyrinthe converti

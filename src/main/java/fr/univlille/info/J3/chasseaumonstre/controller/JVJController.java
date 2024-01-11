@@ -77,10 +77,10 @@ public class JVJController {
         hc.setMonsterView(monsterView);
         mc.setMonsterView(monsterView);
         model.initialize();
-        if (monsterAI){
+        if (monsterAI) {
             model.getMonster().setAi(monsterAI);
             this.hunterView.render();
-        } else if (hunterAI){
+        } else if (hunterAI) {
             model.getHunter().setAi(hunterAI);
             model.getHunter().play();
             this.monsterView.render();
@@ -96,33 +96,10 @@ public class JVJController {
     @FXML
     private void startGameButton() {
         startGameButton.setOnMouseClicked(e -> {
-                startGame();
-            
+            startGame();
+
         });
     }
-
-    /*
-     * Vérifie que les noms des joueurs sont renseignés
-     * 
-     * @return true si les noms sont renseignés, false sinon
-     */
-    /* 
-     private boolean arePlayerNamesSet() {
-        if (j1.getText().isEmpty()) {
-            j1.setStyle("-fx-border-color: red");
-            return false;
-        }
-        j1.setStyle("-fx-border-color: none");
-
-        if (j2.getText().isEmpty()) {
-            j2.setStyle("-fx-border-color: red");
-            return false;
-        }
-        j2.setStyle("-fx-border-color: none");
-
-        return true;
-    }
-    */
 
     /*
      * Lors d'un appui sur la touche entrée,
@@ -132,8 +109,8 @@ public class JVJController {
     private void startGame(KeyEvent event) {
         switch (event.getCode()) {
             case ENTER:
-                    startGame();
-                
+                startGame();
+
                 break;
             case BACK_SPACE:
                 returnToMenu();
