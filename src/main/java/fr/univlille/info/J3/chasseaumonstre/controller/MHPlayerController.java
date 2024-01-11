@@ -4,10 +4,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.univlille.info.J3.chasseaumonstre.App;
 import fr.univlille.info.J3.chasseaumonstre.model.MonsterHunterModel;
 import fr.univlille.info.J3.chasseaumonstre.views.GameEndView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHHunterView;
-import fr.univlille.info.J3.chasseaumonstre.views.MHMenuView;
 import fr.univlille.info.J3.chasseaumonstre.views.MHMonsterView;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -141,8 +141,12 @@ public abstract class MHPlayerController {
         });
 
         backtoMenu.setOnAction(e -> {
-            stagePauseMenu.close();
-            new MHMenuView(stage, new MHMenuController(stage, model));
+            this.stage.close();
+            try {
+                new App().start(new Stage());
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         });
 
         vbox.getChildren().addAll(title, resume, backtoMenu);
