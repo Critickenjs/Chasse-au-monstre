@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: fr.univlille.info.J3.chasseaumonstre.server.MonsterHunterServer
+Class-Path: . src/main/resources/cam-player-api-base.jar src/main/resources/SubjectObserver.jar
