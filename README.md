@@ -8,12 +8,14 @@ Jeu vidéo graphique basé sur JavaFX (17.0.2), où l'on incarne un chasseur ou 
 | AOULAD-TAYAB Karim | 
 | OUHDDA Anas |
 | TAS Atilla |
-| HAMZA Sélim|
+| HAMZA Sélim |
 
 ### Sommaire
 
 - [Livrable 1](#livrable-1)
 - [Livrable 2](#livrable-2)
+
+> Le rendu d'algo se trouve dans le répertoire 'doc'
 
 #### Lancement de l'application
 
