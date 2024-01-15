@@ -1,15 +1,6 @@
-# Rapport sur la partie algorithmique du projet 'Chasse Au Monstre'
-
 Ce rapport est effectué dans le cadre de la ressource 'Dev efficace' de S3, ce rapport présente les élements algorithmiques utilisés pour notre projet 'Chasse au Monstre'.
 
-### Sommaire
-- [Construction du labyrinthe](#construction-du-labyrinthe)
-- La stratégie IA
-    - [La stratégie IA du Monstre](#la-stratégie-ia-du-monstre)
-    - [La stratégie IA du Chasseur](#la-stratégie-ia-du-chasseur)
-- [Recul sur les algorithmes utilisés](#recul-sur-les-algorithmes-utilisés)
-
-## Construction du Labyrinthe
+# Construction du Labyrinthe
 
 La labyrinthe est généré de manière aléatoire à l'aide de cette la classe [MazeGenerator](https://gitlab.univ-lille.fr/sae302/2023/J3_SAE3A/-/blob/main/src/main/java/fr/univlille/info/J3/chasseaumonstre/model/MazeGenerator.java?ref_type=heads), ce labyrinthe doit être validé avec la classe [MazeValidator](https://gitlab.univ-lille.fr/sae302/2023/J3_SAE3A/-/blob/main/src/main/java/fr/univlille/info/J3/chasseaumonstre/model/MazeValidator.java?ref_type=heads) (en on reparlera plus tard dans le [dernier chapitre](#recul-sur-les-algorithmes-utilisés)...).
 
@@ -45,20 +36,18 @@ Donc si on n'a pas atteint la sortie (générée précédemment), on continue la
 
 Avant de choisir dfs, nous avions une variante très lente (en prenant en compte tout l'over-head de JavaFX) que nous avons dû remplacer, pour cela nous avons testé ce [site](https://ninhache.fr/MazeThings/) fait par un ancien de l'IUT qui simule quelques algorithmes de génération et de résolution de chemin en Javascript, et nous avons remarqué que dfs était plutôt performant pour la génération après plusieurs tests, nous avons donc utilisé cet algorithme et l'éxecution dans notre jeu était bel et bien plus rapide par rapport à avant.
 
-## IA
-
-### La stratégie IA du Monstre
+# La stratégie IA du Monstre
 
 La stratégie IA du Monstre fait parti du modèle du jeu, et utilise l'algorithme A*, son implémentation se trouve dans la classe [AStar](https://gitlab.univ-lille.fr/sae302/2023/J3_SAE3A/-/blob/main/src/main/java/fr/univlille/info/J3/chasseaumonstre/model/strategy/monster/algorithm/AStar.java?ref_type=heads) dans la méthode ``execute()``.
 
 A* introduit 2 nouveautés par rapport à Dijkstra, car en effet cet algorithme est une extension de ce fameux algorithme de recherche de chemin:
 - **L'introduction d'une heuristique**
     
-    Cet algorithme introduit une estimation du point actuel vers la sortie, il existe plusieurs heuristiques qui sont plus ou moins efficaces, selon la contexte certains seront plus efficaces, par exemple: la **distance de Manhattan** est utilisé pour les déplacements horizontaux et verticaux principalement donc idéal pour un labyrinthe (donc idéal pour notre cas). Cette estimation est très utile car elle permet de mieux orienter son choix de chemin même sur un point assez eloigné de la sortie, le but étant de ne pas sur-estimer, ni sous-estimer la valeur de cette heuristique pour avoir un résultat optimal.
+> Cet algorithme introduit une estimation du point actuel vers la sortie, il existe plusieurs heuristiques qui sont plus ou moins efficaces, selon la contexte certains seront plus efficaces, par exemple: la **distance de Manhattan** est utilisé pour les déplacements horizontaux et verticaux principalement donc idéal pour un labyrinthe (donc idéal pour notre cas). Cette estimation est très utile car elle permet de mieux orienter son choix de chemin même sur un point assez eloigné de la sortie, le but étant de ne pas sur-estimer, ni sous-estimer la valeur de cette heuristique pour avoir un résultat optimal.
 
 - **Choix de la structure de données ?**
 
-    Contrairement à Dijktra, ici on utilise une file qui se trie suivant un critère particulier, celui de l'heuristique la plus faible. La priorité sera toujours à la cellule ayant la plus faible heuristique car cela veut dire qu'elle est fondamentalement proche de la sortie. On implémente également une Map pour stocker la distance "réelle" de chaque noeud (càd la distance d'une cellule par rapport à l'entrée).
+> Contrairement à Dijktra, ici on utilise une file qui se trie suivant un critère particulier, celui de l'heuristique la plus faible. La priorité sera toujours à la cellule ayant la plus faible heuristique car cela veut dire qu'elle est fondamentalement proche de la sortie. On implémente également une Map pour stocker la distance "réelle" de chaque noeud (càd la distance d'une cellule par rapport à l'entrée).
 
 Mais comment fonctionne cette le parcours ? A* commence par un point d'entrée (l'entrée du labyrinthe qui a été générée précédemment) et on assigne la distance réelle pour chaque cellule en lui ajoutant l'heuristique pour une meilleur estimation. Et l'exploration sera donc pilotée par la file de priorité qui choisera toujours les meilleurs cellules pour obtenir le chemin le plus court.
 
@@ -66,7 +55,7 @@ Mais comment fonctionne cette le parcours ? A* commence par un point d'entrée (
 
 Parmi tous les algorithmes qui existent, c'est incontestablement le plus efficace que ce soit en compléxité temporelle qui est O(|E|), cela correspond au nombre de fois (un nombre constant) qu'on parcourera les arêtes. Mais c'est également celui qui trouve rapidement le plus court chemin.
 
-### La stratégie IA du Chasseur
+# La stratégie IA du Chasseur
 
 La stratégie IA du Chasseur fait également parti du modèle du jeu implémentée dans la classe [RandomControlled](https://gitlab.univ-lille.fr/sae302/2023/J3_SAE3A/-/blob/main/src/main/java/fr/univlille/info/J3/chasseaumonstre/model/strategy/hunter/algorithm/RandomControlled.java?ref_type=heads). Le chasseur adopte une stratégie pour tirer sur les cases du labyrinthe. La stratégie actuelle consiste à explorer les cases voisines d'une case déjà visitée. Si le monstre a traversé l'une de ces cases voisines, le chasseur tire sur cette case. Sinon, le chasseur choisit une case aléatoire non encore explorée.
 
@@ -78,7 +67,7 @@ Sans surprise, la structure de données est une stack car l'algorithme utilisé 
 
 Cela dépend de la taille du labyrinthe, cependant il aura la même complexité qu'un dfs classique voir même pire car cela dépend un peu de la "chance" du chasseur IA qui pourra tomber sur une case déjà visitée du monstre après avoir tiré aléatoirement, donc cela reste tout de même de l'aléatoire mais contrôlé un minimum de sorte à ce qu'il y ait un minimum de compétitivité dans les parties.
 
-## Recul sur les algorithmes utilisés
+# Recul sur les algorithmes utilisés
 
 **Un MazeValidator de trop ?**
 
