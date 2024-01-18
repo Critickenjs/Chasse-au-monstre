@@ -366,6 +366,7 @@ public class MHMenuController {
     @FXML
     private void onPVPMulti() {
         Stage stageMulti = new Stage();
+        stageMulti.initStyle(StageStyle.UTILITY);
         VBox vbox = new VBox();
 
         HBox hbox = new HBox();
